@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "trainval_net.py", line 27, in <module>
+    from roi_data_layer.roidb import combined_roidb
+  File "/home/jason/faster-rcnn.pytorch-1.0/lib/roi_data_layer/roidb.py", line 9, in <module>
+    from datasets.factory import get_imdb
+  File "/home/jason/faster-rcnn.pytorch-1.0/lib/datasets/factory.py", line 14, in <module>
+    from datasets.pascal_voc import pascal_voc
+  File "/home/jason/faster-rcnn.pytorch-1.0/lib/datasets/pascal_voc.py", line 23, in <module>
+    from .imdb import imdb
+ImportError: cannot import name 'imdb'
+Traceback (most recent call last):
+  File "trainval_net.py", line 27, in <module>
+    from roi_data_layer.roidb import combined_roidb
+  File "/home/jason/faster-rcnn.pytorch-1.0/lib/roi_data_layer/roidb.py", line 9, in <module>
+    from datasets.factory import get_imdb
+  File "/home/jason/faster-rcnn.pytorch-1.0/lib/datasets/factory.py", line 14, in <module>
+    from datasets.pascal_voc import pascal_voc
+  File "/home/jason/faster-rcnn.pytorch-1.0/lib/datasets/pascal_voc.py", line 23, in <module>
+    from .imdb import imdb
+ImportError: cannot import name 'imdb'
