@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=1 python3 test_net.py --dataset pascal_voc  --net res50 --checksession 1 --checkepoch 20 --checkpoint 1588 --cuda

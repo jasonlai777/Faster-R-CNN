@@ -1,4 +1,4 @@
-"""Transform a roidb into a trainable roidb by adding a bunch of metadata."""
+"""Transform a  into a trainable roidb by adding a bunch of metadata."""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -22,11 +22,12 @@ def prepare_roidb(imdb):
   if not (imdb.name.startswith('coco')):
     sizes = [PIL.Image.open(imdb.image_path_at(i)).size
          for i in range(imdb.num_images)]
-         
+  #print(len(imdb.image_index))       
   for i in range(len(imdb.image_index)):
     roidb[i]['img_id'] = imdb.image_id_at(i)
     roidb[i]['image'] = imdb.image_path_at(i)
     if not (imdb.name.startswith('coco')):
+      #print(i)
       roidb[i]['width'] = sizes[i][0]
       roidb[i]['height'] = sizes[i][1]
     # need gt_overlaps as a dense array for argmax
@@ -77,6 +78,7 @@ def filter_roidb(roidb):
     print('before filtering, there are %d images...' % (len(roidb)))
     i = 0
     while i < len(roidb):
+      #print(roidb[i]['boxes'])
       if len(roidb[i]['boxes']) == 0:
         del roidb[i]
         i -= 1
@@ -89,12 +91,24 @@ def combined_roidb(imdb_names, training=True):
   """
   Combine multiple roidbs
   """
-
+  #cfg.TRAIN.USE_FLIPPED = False##########################for gradcam
   def get_training_roidb(imdb):
     """Returns a roidb (Region of Interest database) for use in training."""
     if cfg.TRAIN.USE_FLIPPED:
       print('Appending horizontally-flipped training examples...')
       imdb.append_flipped_images()
+      print('done')
+    if cfg.TRAIN.USE_VERTICAL_FLIPPED:
+      print('Appending vertically-flipped training examples...')
+      imdb.append_vertical_flipped_images()
+      print('done')
+    if cfg.TRAIN.BRIGHTNESS_CHANGE:
+      print('Appending brightness-changed training examples...')
+      imdb.append_brightness_change_images()
+      print('done')
+    if cfg.TRAIN.ROTATE_90:
+      print('Appending rotation-90 training examples...')
+      imdb.append_rotate_90_images()
       print('done')
 
     print('Preparing training data...')
@@ -112,10 +126,10 @@ def combined_roidb(imdb_names, training=True):
     print('Set proposal method: {:s}'.format(cfg.TRAIN.PROPOSAL_METHOD))
     roidb = get_training_roidb(imdb)
     return roidb
-
+  print(imdb_names.split('+'))
   roidbs = [get_roidb(s) for s in imdb_names.split('+')]
   roidb = roidbs[0]
-
+  #print(roidb)
   if len(roidbs) > 1:
     for r in roidbs[1:]:
       roidb.extend(r)

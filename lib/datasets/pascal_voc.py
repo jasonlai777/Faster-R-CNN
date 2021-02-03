@@ -24,6 +24,9 @@ from .imdb import imdb
 from .imdb import ROOT_DIR
 from . import ds_utils
 from .voc_eval import voc_eval
+import pylab as pl
+import matplotlib.pyplot as plt
+import matplotlib as mpl
 
 # TODO: make fast_rcnn irrelevant
 # >>>> obsolete, because it depends on sth outside of this project
@@ -37,6 +40,7 @@ except NameError:
 # <<<< obsolete
 
 
+
 class pascal_voc(imdb):
     def __init__(self, image_set, year, devkit_path=None):
         imdb.__init__(self, 'voc_' + year + '_' + image_set)
@@ -45,14 +49,27 @@ class pascal_voc(imdb):
         self._devkit_path = self._get_default_path() if devkit_path is None \
             else devkit_path
         self._data_path = os.path.join(self._devkit_path, 'VOC' + self._year)
+        
         self._classes = ('__background__',  # always index 0
-                         'aeroplane', 'bicycle', 'bird', 'boat',
-                         'bottle', 'bus', 'car', 'cat', 'chair',
-                         'cow', 'diningtable', 'dog', 'horse',
-                         'motorbike', 'person', 'pottedplant',
-                         'sheep', 'sofa', 'train', 'tvmonitor')
+                         'A.bes(H)','A.bes(T)','A.bes','A.bic(H)','A.bic(T)','A.bic',
+                         'A.fuj(H)','A.fuj(T)','A.fuj','B.xyl(H)','B.xyl(T)','B.xyl',
+                         'C.ele(H)','C.ele(T)','C.ele','M.ent(H)','M.ent(T)','M.ent',
+                         'M.gra(H)','M.gra(T)','M.gra','M.inc(H)','M.inc(T)','M.inc',
+                         'P.cof(H)','P.cof(T)','P.cof','P.vul(H)','P.vul(T)','P.vul',
+                         'P.spe(H)','P.spe(T)','P.spe','H.sp(H)','H.sp(T)','H.sp',
+                         'M.ams(H)' ,'M.ams(T)','M.ams'                    
+                         )###################
+        '''
+        self._classes = ('__background__',  # always index 0
+                         'A.bes(H)','A.bes(T)','A.bes','A.bic(H)','A.bic(T)','A.bic',
+                         'A.fuj(H)','A.fuj(T)','A.fuj','B.xyl(H)','B.xyl(T)','B.xyl',
+                         'C.ele(H)','C.ele(T)','C.ele','M.ent(H)','M.ent(T)','M.ent',
+                         'M.gra(H)','M.gra(T)','M.gra','M.inc(H)','M.inc(T)','M.inc',
+                         'P.cof(H)','P.cof(T)','P.cof','P.vul(H)','P.vul(T)','P.vul',
+                         'P.spe(H)','P.spe(T)','P.spe')
+        '''
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
-        self._image_ext = '.jpg'
+        self._image_ext = '.JPG'
         self._image_index = self._load_image_set_index()
         # Default to roidb handler
         # self._roidb_handler = self.selective_search_roidb
@@ -89,8 +106,8 @@ class pascal_voc(imdb):
         """
         Construct an image path from the image's "index" identifier.
         """
-        image_path = os.path.join(self._data_path, 'JPEGImages',
-                                  index + self._image_ext)
+        image_path = os.path.join(self._data_path, 'JPEGImages',index + self._image_ext)
+        #image_path = os.path.join("./Grad-CAM.pytorch/examples", index + self._image_ext)#######for grad cam
         assert os.path.exists(image_path), \
             'Path does not exist: {}'.format(image_path)
         return image_path
@@ -100,13 +117,14 @@ class pascal_voc(imdb):
         Load the indexes listed in this dataset's image set file.
         """
         # Example path to image set file:
-        # self._devkit_path + /VOCdevkit2007/VOC2007/ImageSets/Main/val.txt
-        image_set_file = os.path.join(self._data_path, 'ImageSets', 'Main',
-                                      self._image_set + '.txt')
+        #self._devkit_path + /VOCdevkit2007/VOC2007/ImageSets/Main/val.txt
+        image_set_file = os.path.join(self._data_path, 'ImageSets', 'Main',self._image_set + '.txt')
+        #image_set_file = os.path.join("./Grad-CAM.pytorch/test_gradcam.txt")#######for grad cam
         assert os.path.exists(image_set_file), \
             'Path does not exist: {}'.format(image_set_file)
         with open(image_set_file) as f:
             image_index = [x.strip() for x in f.readlines()]
+            #print(len(image_index))
         return image_index
 
     def _get_default_path(self):
@@ -210,6 +228,23 @@ class pascal_voc(imdb):
         filename = os.path.join(self._data_path, 'Annotations', index + '.xml')
         tree = ET.parse(filename)
         objs = tree.findall('object')
+        '''
+        temp_objs = []
+        for obj in objs:
+            if obj.find('name').text.strip()=='A.bes(H)'  or obj.find('name').text.strip()== 'A.bes(T)' or\
+             obj.find('name').text.strip()=='A.bic(H)' or obj.find('name').text.strip()== 'A.bic(T)' or\
+             obj.find('name').text.strip()=='A.fuj(H)' or obj.find('name').text.strip()== 'A.fuj(T)' or\
+             obj.find('name').text.strip()=='B.xyl(H)' or obj.find('name').text.strip()== 'B.xyl(T)'or\
+             obj.find('name').text.strip()=='C.ele(H)' or obj.find('name').text.strip()== 'C.ele(T)'or\
+             obj.find('name').text.strip()== 'M.ent(H)' or obj.find('name').text.strip()== 'M.ent(T)'or\
+             obj.find('name').text.strip()== 'M.gra(H)' or obj.find('name').text.strip()== 'M.gra(T)'or\
+             obj.find('name').text.strip()== 'M.inc(H)' or obj.find('name').text.strip()== 'M.inc(T)'or\
+             obj.find('name').text.strip()== 'P.cof(H)' or obj.find('name').text.strip()== 'P.cof(T)'or\
+             obj.find('name').text.strip()== 'P.spe(H)' or obj.find('name').text.strip()== 'P.spe(T)'or\
+             obj.find('name').text.strip()== 'P.vul(H)' or obj.find('name').text.strip()== 'P.vul(T)':
+               temp_objs.append(obj)
+        objs = temp_objs
+        '''
         # if not self.config['use_diff']:
         #     # Exclude the samples labeled as difficult
         #     non_diff_objs = [
@@ -239,8 +274,8 @@ class pascal_voc(imdb):
             diffc = obj.find('difficult')
             difficult = 0 if diffc == None else int(diffc.text)
             ishards[ix] = difficult
-
-            cls = self._class_to_ind[obj.find('name').text.lower().strip()]
+            
+            cls = self._class_to_ind[obj.find('name').text.strip()]#lower().strip()]
             boxes[ix, :] = [x1, y1, x2, y2]
             gt_classes[ix] = cls
             overlaps[ix, cls] = 1.0
@@ -253,6 +288,9 @@ class pascal_voc(imdb):
                 'gt_ishard': ishards,
                 'gt_overlaps': overlaps,
                 'flipped': False,
+                'vflipped':False,
+                'brightness':False,
+                'rotate90':False,
                 'seg_areas': seg_areas}
 
     def _get_comp_id(self):
@@ -269,7 +307,11 @@ class pascal_voc(imdb):
         path = os.path.join(filedir, filename)
         return path
 
-    def _write_voc_results_file(self, all_boxes):
+    def _write_voc_results_file(self, all_boxes, new_indexes):##########
+        test_with_srgan_flag = True
+        if test_with_srgan_flag == True:
+            self.image_index.extend(new_indexes)
+            print(len(self.image_index))  
         for cls_ind, cls in enumerate(self.classes):
             if cls == '__background__':
                 continue
@@ -277,23 +319,23 @@ class pascal_voc(imdb):
             filename = self._get_voc_results_file_template().format(cls)
             with open(filename, 'wt') as f:
                 for im_ind, index in enumerate(self.image_index):
+                    #print(cls_ind, im_ind)                    
                     dets = all_boxes[cls_ind][im_ind]
                     if dets == []:
                         continue
                     # the VOCdevkit expects 1-based indices
-                    for k in xrange(dets.shape[0]):
+                    for k in range(dets.shape[0]):
                         f.write('{:s} {:.3f} {:.1f} {:.1f} {:.1f} {:.1f}\n'.
                                 format(index, dets[k, -1],
                                        dets[k, 0] + 1, dets[k, 1] + 1,
                                        dets[k, 2] + 1, dets[k, 3] + 1))
-
-    def _do_python_eval(self, output_dir='output'):
+    def _do_python_eval(self, new_indexes, new_gt_boxes, output_dir='output'):###########
         annopath = os.path.join(
             self._devkit_path,
             'VOC' + self._year,
             'Annotations',
             '{:s}.xml')
-        imagesetfile = os.path.join(
+        imagesetfile= os.path.join(
             self._devkit_path,
             'VOC' + self._year,
             'ImageSets',
@@ -301,22 +343,58 @@ class pascal_voc(imdb):
             self._image_set + '.txt')
         cachedir = os.path.join(self._devkit_path, 'annotations_cache')
         aps = []
+        f1s = []
         # The PASCAL VOC metric changed in 2010
         use_07_metric = True if int(self._year) < 2010 else False
         print('VOC07 metric? ' + ('Yes' if use_07_metric else 'No'))
         if not os.path.isdir(output_dir):
             os.mkdir(output_dir)
+        weights = []
         for i, cls in enumerate(self._classes):
             if cls == '__background__':
                 continue
+            #if cls[-1] == ")":
             filename = self._get_voc_results_file_template().format(cls)
-            rec, prec, ap = voc_eval(
-                filename, annopath, imagesetfile, cls, cachedir, ovthresh=0.5,
-                use_07_metric=use_07_metric)
+            detfile = filename.format(cls)
+            with open(detfile, 'r') as f:
+              lines = f.readlines()            
+            splitlines = [x.strip().split(' ') for x in lines]
+            image_ids = [x[0] for x in splitlines]
+            #print(image_ids)
+            weights.append(len(image_ids))
+            rec, prec, ap, f1 = voc_eval(
+              filename, annopath, imagesetfile, cls, cachedir, new_indexes, new_gt_boxes, ovthresh=0.5,
+              use_07_metric=use_07_metric)
+            f1s += [f1]
             aps += [ap]
+            if cls == "H.sp":
+              print(prec, rec)
+            pl.plot(rec, prec, lw=2,
+                    label='{} (AP = {:.4f})'
+                          ''.format(cls, ap))
             print('AP for {} = {:.4f}'.format(cls, ap))
             with open(os.path.join(output_dir, cls + '_pr.pkl'), 'wb') as f:
                 pickle.dump({'rec': rec, 'prec': prec, 'ap': ap}, f)
+                
+        #mpl.rcParams['xtick.direction'] = 'in'
+        #mpl.rcParams['ytick.direction'] = 'in'
+        plt.tick_params(axis= 'x', direction='in', labelsize = 18)
+        plt.tick_params(axis= 'y', direction='in', labelsize = 18)
+        pl.xlabel('Recall', fontsize=18)
+        pl.ylabel('Precision', fontsize=18)
+        plt.grid(False)
+        pl.ylim([0.0, 1.05])
+        pl.xlim([0.0, 1.05])
+        
+        print(weights)
+        #pl.title('mAP = %.4f' % np.average(aps, weights = weights), fontsize=20)
+        pl.title('mAP = %.4f' % np.mean(aps), fontsize=20)
+        pl.legend(loc="best")     
+        plt.show()
+        
+        
+        
+        #print('Mean AP = {:.4f}'.format(np.average(aps, weights = weights)))
         print('Mean AP = {:.4f}'.format(np.mean(aps)))
         print('~~~~~~~~')
         print('Results:')
@@ -324,6 +402,7 @@ class pascal_voc(imdb):
             print('{:.3f}'.format(ap))
         print('{:.3f}'.format(np.mean(aps)))
         print('~~~~~~~~')
+        print("f1-score for all classes: %f"%(np.mean(f1s)))
         print('')
         print('--------------------------------------------------------------')
         print('Results computed with the **unofficial** Python eval code.')
@@ -347,9 +426,9 @@ class pascal_voc(imdb):
         print('Running:\n{}'.format(cmd))
         status = subprocess.call(cmd, shell=True)
 
-    def evaluate_detections(self, all_boxes, output_dir):
-        self._write_voc_results_file(all_boxes)
-        self._do_python_eval(output_dir)
+    def evaluate_detections(self, all_boxes, output_dir, new_indexes, new_gt_boxes):#####new_indexes, new_gt_boxes for srgan
+        self._write_voc_results_file(all_boxes, new_indexes)
+        self._do_python_eval(new_indexes, new_gt_boxes, output_dir)
         if self.config['matlab_eval']:
             self._do_matlab_eval(output_dir)
         if self.config['cleanup']:

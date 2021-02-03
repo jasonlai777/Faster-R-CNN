@@ -50,7 +50,7 @@ def parse_args():
                       default='pascal_voc', type=str)
   parser.add_argument('--cfg', dest='cfg_file',
                       help='optional config file',
-                      default='cfgs/vgg16.yml', type=str)
+                      default='cfgs/res101.yml', type=str)
   parser.add_argument('--net', dest='net',
                       help='vgg16, res50, res101, res152',
                       default='res101', type=str)
@@ -93,6 +93,23 @@ def parse_args():
 lr = cfg.TRAIN.LEARNING_RATE
 momentum = cfg.TRAIN.MOMENTUM
 weight_decay = cfg.TRAIN.WEIGHT_DECAY
+
+def bb_overlap(bb1, bb2):#########################
+  """ check if overlap"""
+  #assert bb1[0] < bb1[2]
+  #assert bb1[1] < bb1[3]
+  #assert bb2[0] < bb2[2]
+  #assert bb2[1] < bb2[3]
+
+  # determine the coordinates of the intersection rectangle
+  x_left = max(bb1[0], bb2[0])
+  y_top = max(bb1[1], bb2[1])
+  x_right = min(bb1[2], bb2[2])
+  y_bottom = min(bb1[3], bb2[3])
+
+  if x_right < x_left or y_bottom < y_top:
+    return False
+  return True 
 
 if __name__ == '__main__':
 
@@ -189,7 +206,7 @@ if __name__ == '__main__':
   im_info = Variable(im_info)
   num_boxes = Variable(num_boxes)
   gt_boxes = Variable(gt_boxes)
-
+  print(cfg.CUDA)
   if args.cuda:
     cfg.CUDA = True
 
@@ -202,7 +219,7 @@ if __name__ == '__main__':
   vis = args.vis
 
   if vis:
-    thresh = 0.05
+    thresh = 0.0
   else:
     thresh = 0.0
 
@@ -210,7 +227,6 @@ if __name__ == '__main__':
   num_images = len(imdb.image_index)
   all_boxes = [[[] for _ in xrange(num_images)]
                for _ in xrange(imdb.num_classes)]
-
   output_dir = get_output_dir(imdb, save_name)
   dataset = roibatchLoader(roidb, ratio_list, ratio_index, 1, \
                         imdb.num_classes, training=False, normalize = False)
@@ -234,6 +250,7 @@ if __name__ == '__main__':
               gt_boxes.resize_(data[2].size()).copy_(data[2])
               num_boxes.resize_(data[3].size()).copy_(data[3])
 
+
       det_tic = time.time()
       rois, cls_prob, bbox_pred, \
       rpn_loss_cls, rpn_loss_box, \
@@ -242,7 +259,9 @@ if __name__ == '__main__':
 
       scores = cls_prob.data
       boxes = rois.data[:, :, 1:5]
-
+      #print(scores.shape)
+      #print(boxes.shape)
+      #exit()
       if cfg.TEST.BBOX_REG:
           # Apply bounding-box regression deltas
           box_deltas = bbox_pred.data
@@ -270,35 +289,93 @@ if __name__ == '__main__':
       det_toc = time.time()
       detect_time = det_toc - det_tic
       misc_tic = time.time()
+      
+      #print(scores.shape)
+      #print(pred_boxes.shape)
+      new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()##############################
+      new_scores = torch.cuda.FloatTensor(300,40).zero_()
+      for k in range(13):
+        b = torch.cat((pred_boxes[:,12*k+4:12*k+8],pred_boxes[:,12*k+8:12*k+12]),0)
+        s = torch.cat((scores[:,3*k+1],scores[:,3*k+2]),0)
+        keep = nms(b, s, 0.2)
+        #new head class
+        idx = [g for g in range(len(keep)) if keep[g] <300]
+        new_pred_boxes[:len(keep[idx]),12*k+4:12*k+8] = b[keep[idx]]
+        new_scores[:len(keep[idx]),3*k+1] = s[keep[idx]]
+        #new tail class
+        idx = [g for g in range(len(keep)) if keep[g] >=300]
+        new_pred_boxes[:len(keep[idx]),12*k+8:12*k+12] = b[keep[idx]]
+        new_scores[:len(keep[idx]),3*k+2] = s[keep[idx]]
+        #new full length class = original
+        new_pred_boxes[:,12*k+12:12*k+16] = pred_boxes[:,12*k+12:12*k+16]
+        new_scores[:,3*k+3] = scores[:,3*k+3]
       if vis:
           im = cv2.imread(imdb.image_path_at(i))
           im2show = np.copy(im)
+      
+      
+      #H_classes = [1,4,7,10,13,16,19,22,25,28,31]#########
+      #T_classes = [2,5,8,11,14,17,20,23,26,29,32]
+      #exist_classes = []
+      #exist_dets = []
       for j in xrange(1, imdb.num_classes):
-          inds = torch.nonzero(scores[:,j]>thresh).view(-1)
+          inds = torch.nonzero(new_scores[:,j]>thresh).view(-1)
           # if there is det
           if inds.numel() > 0:
-            cls_scores = scores[:,j][inds]
+            cls_scores = new_scores[:,j][inds]
             _, order = torch.sort(cls_scores, 0, True)
             if args.class_agnostic:
-              cls_boxes = pred_boxes[inds, :]
+              cls_boxes = new_pred_boxes[inds, :]
             else:
-              cls_boxes = pred_boxes[inds][:, j * 4:(j + 1) * 4]
-            
+              cls_boxes = new_pred_boxes[inds][:, j * 4:(j + 1) * 4]
+            #print(cls_boxes.shape)
+            #print(cls_scores.unsqueeze(1).shape)
             cls_dets = torch.cat((cls_boxes, cls_scores.unsqueeze(1)), 1)
             # cls_dets = torch.cat((cls_boxes, cls_scores), 1)
             cls_dets = cls_dets[order]
             keep = nms(cls_boxes[order, :], cls_scores[order], cfg.TEST.NMS)
             cls_dets = cls_dets[keep.view(-1).long()]
+            
+            '''
+            #kkk = [cls_dets.cpu().numpy()[k][-1] for k in range(len(cls_dets.cpu().numpy()))]
+            #print(kkk)            
+            #exit()
+            if j in H_classes:
+              disjoint_class_n = j+1
+            if j in T_classes:
+              disjoint_class_n = j-1
+                          
+            if disjoint_class_n in exist_classes:
+              idx = exist_classes.index(disjoint_class_n)
+              if bb_overlap(exist_dets[idx][0][:4],cls_dets.cpu().numpy()[0][:4]):
+                if exist_dets[idx][0][-1] > cls_dets.cpu().numpy()[0][-1]:
+                  all_boxes[j][i] = empty_array
+                  disjoint_class_n=0
+                  continue
+                else: 
+                  exist_dets[idx] = cls_dets.cpu().numpy()[0]
+                  all_boxes[exist_classes[idx]][i] = empty_array
+                  exist_classes[idx] = j 
+                  disjoint_class_n=0            
+                  continue
+            exist_dets.append(cls_dets.cpu().numpy()[0])
+            exist_classes.append(j)
+            '''
             if vis:
               im2show = vis_detections(im2show, imdb.classes[j], cls_dets.cpu().numpy(), 0.3)
             all_boxes[j][i] = cls_dets.cpu().numpy()
           else:
             all_boxes[j][i] = empty_array
-
+      #print(exist_classes)     
+      #for k, j in enumerate(exist_classes):
+      #  all_boxes[j][i] = exist_dets[k]
+      #print(all_boxes)
+      
       # Limit to max_per_image detections *over all classes*
       if max_per_image > 0:
-          image_scores = np.hstack([all_boxes[j][i][:, -1]
-                                    for j in xrange(1, imdb.num_classes)])
+          #print(all_boxes[3][i][:,-1])
+          image_scores = np.hstack([all_boxes[j][i][:,-1]
+                                    for j in range(1, imdb.num_classes)])
           if len(image_scores) > max_per_image:
               image_thresh = np.sort(image_scores)[-max_per_image]
               for j in xrange(1, imdb.num_classes):
@@ -322,7 +399,9 @@ if __name__ == '__main__':
       pickle.dump(all_boxes, f, pickle.HIGHEST_PROTOCOL)
 
   print('Evaluating detections')
-  imdb.evaluate_detections(all_boxes, output_dir)
-
   end = time.time()
+  new_indexes = []
+  new_gt_boxes = []
+  imdb.evaluate_detections(all_boxes, output_dir, new_indexes, new_gt_boxes)
+  
   print("test time: %0.4fs" % (end - start))

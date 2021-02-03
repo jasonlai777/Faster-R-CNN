@@ -47,16 +47,36 @@ def clip_gradient(model, clip_norm):
         if p.requires_grad and p.grad is not None:
             p.grad.mul_(norm)
 
-def vis_detections(im, class_name, dets, thresh=0.8):
+def vis_detections(im, class_name, dets, img_name, thresh, J):
     """Visual debugging of detections."""
+
+    im_crop =[]
     for i in range(np.minimum(10, dets.shape[0])):
         bbox = tuple(int(np.round(x)) for x in dets[i, :4])
         score = dets[i, -1]
+        #print(class_name, score)
         if score > thresh:
-            cv2.rectangle(im, bbox[0:2], bbox[2:4], (0, 204, 0), 2)
-            cv2.putText(im, '%s: %.3f' % (class_name, score), (bbox[0], bbox[1] + 15), cv2.FONT_HERSHEY_PLAIN,
-                        1.0, (0, 0, 255), thickness=1)
-    return im
+            
+            #im_crop.append(im[bbox[1]:bbox[3],bbox[0]:bbox[2],:].copy())
+            #cv2.imwrite("images/partial_%s_%d.jpg"%(img_name, j), im_crop[j])
+            
+            if class_name[-2]== "H":
+              cv2.rectangle(im, bbox[0:2], bbox[2:4], (240, 20, 15), 5)
+            elif class_name[-2]== "T":
+              cv2.rectangle(im, bbox[0:2], bbox[2:4], (70, 85, 135), 5)
+            else:
+              cv2.rectangle(im, bbox[0:2], bbox[2:4], (0, 0, 250), 5)
+            
+            cv2.rectangle(im, (bbox[0],bbox[1]-4), (bbox[0]+520,bbox[1]-60), (250, 250, 250), -1)
+            cv2.putText(im, '%s: %.3f' % (class_name, score), (bbox[0], bbox[1] - 15), cv2.FONT_HERSHEY_PLAIN,
+                        4, (0, 0, 0), thickness=4)
+            '''
+            cv2.rectangle(im, (10,im.shape[0]-120+J*20), (260,im.shape[0]-90+J*20), (250, 250, 250), -1)
+            cv2.putText(im, '%s: %.3f' % (class_name, score), (10, im.shape[0]-90+20*J), cv2.FONT_HERSHEY_PLAIN,
+                        2, (0, 0, 0), thickness=2)
+            '''
+            J+=1
+    return im , im_crop, J
 
 
 def adjust_learning_rate(optimizer, decay=0.1):

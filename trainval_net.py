@@ -193,11 +193,26 @@ if __name__ == '__main__':
   # train set
   # -- Note: Use validation set and disable the flipped to enable faster loading.
   cfg.TRAIN.USE_FLIPPED = True
+  cfg.TRAIN.USE_VERTICAL_FLIPPED = False
+  cfg.TRAIN.BRIGHTNESS_CHANGE = True
+  cfg.TRAIN.ROTATE_90 = False
   cfg.USE_GPU_NMS = args.cuda
   imdb, roidb, ratio_list, ratio_index = combined_roidb(args.imdb_name)
+  #print(roidb)
+  cfg.TRAIN.USE_FLIPPED = False
+  cfg.TRAIN.USE_VERTICAL_FLIPPED = False
+  cfg.TRAIN.BRIGHTNESS_CHANGE = False
+  cfg.TRAIN.ROTATE_90 = False
+  imdb2, roidb2, ratio_list2, ratio_index2 = combined_roidb(args.imdbval_name)#testing set
+  #print(roidb2)
   train_size = len(roidb)
+  test_size = len(roidb2)
+  
+  
 
   print('{:d} roidb entries'.format(len(roidb)))
+  print('{:d} roidb2 entries'.format(len(roidb2)))
+  #print(roidb[0], roidb2[0])
 
   output_dir = args.save_dir + "/" + args.net + "/" + args.dataset
   if not os.path.exists(output_dir):
@@ -210,12 +225,28 @@ if __name__ == '__main__':
 
   dataloader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size,
                             sampler=sampler_batch, num_workers=args.num_workers)
+                            
+  sampler_batch2 = sampler(test_size, args.batch_size)
+
+  dataset2 = roibatchLoader(roidb2, ratio_list2, ratio_index2, args.batch_size, \
+                           imdb.num_classes, training=True)
+  #print(dataset,dataset2)
+
+  dataloader2 = torch.utils.data.DataLoader(dataset2, batch_size=args.batch_size,
+                            sampler=sampler_batch2, num_workers=args.num_workers)                          
+  
+  
 
   # initilize the tensor holder here.
   im_data = torch.FloatTensor(1)
   im_info = torch.FloatTensor(1)
   num_boxes = torch.LongTensor(1)
   gt_boxes = torch.FloatTensor(1)
+  
+  im_data2 = torch.FloatTensor(1)
+  im_info2 = torch.FloatTensor(1)
+  num_boxes2 = torch.LongTensor(1)
+  gt_boxes2 = torch.FloatTensor(1)
 
   # ship to cuda
   if args.cuda:
@@ -223,12 +254,20 @@ if __name__ == '__main__':
     im_info = im_info.cuda()
     num_boxes = num_boxes.cuda()
     gt_boxes = gt_boxes.cuda()
+    im_data2 = im_data2.cuda()
+    im_info2 = im_info2.cuda()
+    num_boxes2 = num_boxes2.cuda()
+    gt_boxes2 = gt_boxes2.cuda()
 
   # make variable
   im_data = Variable(im_data)
   im_info = Variable(im_info)
   num_boxes = Variable(num_boxes)
   gt_boxes = Variable(gt_boxes)
+  im_data2 = Variable(im_data2)
+  im_info2 = Variable(im_info2)
+  num_boxes2 = Variable(num_boxes2)
+  gt_boxes2 = Variable(gt_boxes2)
 
   if args.cuda:
     cfg.CUDA = True
@@ -290,15 +329,19 @@ if __name__ == '__main__':
     fasterRCNN = nn.DataParallel(fasterRCNN)
 
   iters_per_epoch = int(train_size / args.batch_size)
+  iters_per_epoch_test = int(test_size / args.batch_size)
 
   if args.use_tfboard:
     from tensorboardX import SummaryWriter
     logger = SummaryWriter("logs")
-
+  total_time = 0
   for epoch in range(args.start_epoch, args.max_epochs + 1):
     # setting to train mode
-    fasterRCNN.train()
-    loss_temp = 0
+    
+    training_loss = 0
+    testing_loss = 0
+    training_loss_total = 0
+    testing_loss_total = 0
     start = time.time()
 
     if epoch % (args.lr_decay_step + 1) == 0:
@@ -306,23 +349,53 @@ if __name__ == '__main__':
         lr *= args.lr_decay_gamma
 
     data_iter = iter(dataloader)
+    data_iter2 = iter(dataloader2)
     for step in range(iters_per_epoch):
+      fasterRCNN.train()
       data = next(data_iter)
+      
       with torch.no_grad():
-              im_data.resize_(data[0].size()).copy_(data[0])
-              im_info.resize_(data[1].size()).copy_(data[1])
-              gt_boxes.resize_(data[2].size()).copy_(data[2])
-              num_boxes.resize_(data[3].size()).copy_(data[3])
-
+          im_data.resize_(data[0].size()).copy_(data[0])
+          im_info.resize_(data[1].size()).copy_(data[1])
+          gt_boxes.resize_(data[2].size()).copy_(data[2])
+          num_boxes.resize_(data[3].size()).copy_(data[3])
+      #print(im_data.shape, im_info.shape, gt_boxes.shape, num_boxes.shape)
       fasterRCNN.zero_grad()
       rois, cls_prob, bbox_pred, \
       rpn_loss_cls, rpn_loss_box, \
       RCNN_loss_cls, RCNN_loss_bbox, \
       rois_label = fasterRCNN(im_data, im_info, gt_boxes, num_boxes)
-
+      
+      #print(rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox)
       loss = rpn_loss_cls.mean() + rpn_loss_box.mean() \
            + RCNN_loss_cls.mean() + RCNN_loss_bbox.mean()
-      loss_temp += loss.item()
+      training_loss += loss.item()
+      training_loss_total += loss.item()
+      
+      
+      #print(im_data2.shape, im_info2.shape, gt_boxes2.shape, num_boxes2.shape)
+      if step < iters_per_epoch_test:
+        data2 = next(data_iter2)
+        with torch.no_grad():
+            im_data2.resize_(data2[0].size()).copy_(data2[0])
+            im_info2.resize_(data2[1].size()).copy_(data2[1])
+            gt_boxes2.resize_(data2[2].size()).copy_(data2[2])
+            num_boxes2.resize_(data2[3].size()).copy_(data2[3])
+            #print(im_data2.shape, im_info2.shape, gt_boxes2.shape, num_boxes2.shape, gt_boxes2)
+            #fasterRCNN.eval()
+        
+        rois2, cls_prob2, bbox_pred2, \
+        rpn_loss_cls2, rpn_loss_box2, \
+        RCNN_loss_cls2, RCNN_loss_bbox2, \
+        rois_label2 = fasterRCNN(im_data2, im_info2, gt_boxes2, num_boxes2)
+        #print(rpn_loss_cls2, rpn_loss_box2, RCNN_loss_cls2, RCNN_loss_bbox2)
+        loss2 = rpn_loss_cls2.mean() + rpn_loss_box2.mean() \
+             + RCNN_loss_cls2.mean() + RCNN_loss_bbox2.mean()
+        testing_loss += loss2.item()
+        testing_loss_total += loss2.item()
+      
+      
+      
 
       # backward
       optimizer.zero_grad()
@@ -334,7 +407,7 @@ if __name__ == '__main__':
       if step % args.disp_interval == 0:
         end = time.time()
         if step > 0:
-          loss_temp /= (args.disp_interval + 1)
+          training_loss /=(args.disp_interval + 1)
 
         if args.mGPUs:
           loss_rpn_cls = rpn_loss_cls.mean().item()
@@ -351,35 +424,42 @@ if __name__ == '__main__':
           fg_cnt = torch.sum(rois_label.data.ne(0))
           bg_cnt = rois_label.data.numel() - fg_cnt
 
-        print("[session %d][epoch %2d][iter %4d/%4d] loss: %.4f, lr: %.2e" \
-                                % (args.session, epoch, step, iters_per_epoch, loss_temp, lr))
+        print("[session %d][epoch %2d][iter %4d/%4d] training loss: %.4f,  lr: %.2e" \
+                                % (args.session, epoch, step, iters_per_epoch, training_loss, lr))
         print("\t\t\tfg/bg=(%d/%d), time cost: %f" % (fg_cnt, bg_cnt, end-start))
+        total_time = total_time + end - start
         print("\t\t\trpn_cls: %.4f, rpn_box: %.4f, rcnn_cls: %.4f, rcnn_box %.4f" \
                       % (loss_rpn_cls, loss_rpn_box, loss_rcnn_cls, loss_rcnn_box))
+        
+          
         if args.use_tfboard:
           info = {
-            'loss': loss_temp,
+            'loss': training_loss,
             'loss_rpn_cls': loss_rpn_cls,
             'loss_rpn_box': loss_rpn_box,
             'loss_rcnn_cls': loss_rcnn_cls,
             'loss_rcnn_box': loss_rcnn_box
           }
           logger.add_scalars("logs_s_{}/losses".format(args.session), info, (epoch - 1) * iters_per_epoch + step)
-
-        loss_temp = 0
         start = time.time()
+      if step == iters_per_epoch-1:
+        training_loss_total /= (iters_per_epoch*4)
+        testing_loss_total /= (iters_per_epoch_test*4)
+        print("Epoch %d: Training loss: %.4f, Testing loss: %.4f"%(epoch, training_loss_total, testing_loss_total))
 
-    
-    save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
-    save_checkpoint({
-      'session': args.session,
-      'epoch': epoch + 1,
-      'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
-      'optimizer': optimizer.state_dict(),
-      'pooling_mode': cfg.POOLING_MODE,
-      'class_agnostic': args.class_agnostic,
-    }, save_name)
-    print('save model: {}'.format(save_name))
+      
+    print("total training time: %f" % total_time)
+    if epoch == args.max_epochs:
+      save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
+      save_checkpoint({
+        'session': args.session,
+        'epoch': epoch + 1,
+        'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
+        'optimizer': optimizer.state_dict(),
+        'pooling_mode': cfg.POOLING_MODE,
+        'class_agnostic': args.class_agnostic,
+      }, save_name)
+      print('save model: {}'.format(save_name))
 
   if args.use_tfboard:
     logger.close()

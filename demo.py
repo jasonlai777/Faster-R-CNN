@@ -6,7 +6,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
+import copy
 import _init_paths
 import os
 import sys
@@ -20,7 +20,7 @@ import torch
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.optim as optim
-
+import xml.etree.ElementTree as ET
 import torchvision.transforms as transforms
 import torchvision.datasets as dset
 from scipy.misc import imread
@@ -138,6 +138,98 @@ def _get_image_blob(im):
 
   return blob, np.array(im_scale_factors)
 
+
+def check_overlap(box1, box2):
+  check_x = box1[2] >= box2[0] and box2[2] >= box1[0]
+  check_y = box1[3] >= box2[1] and box2[3] >= box1[1]
+  if check_x and check_y:
+    return True
+  else:
+    return False
+def iou(bb1, bb2):#########################
+  """ check if overlap"""
+  #assert bb1[0] < bb1[2]
+  #assert bb1[1] < bb1[3]
+  #assert bb2[0] < bb2[2]
+  #assert bb2[1] < bb2[3]
+  # determine the coordinates of the intersection rectangle
+  #print(bb1, bb2)
+  
+  x_left = max(bb1[0], bb2[0])
+  y_top = max(bb1[1], bb2[1])
+  x_right = min(bb1[2], bb2[2])
+  y_bottom = min(bb1[3], bb2[3])
+  iw = float(x_right - x_left)
+  ih = float(y_bottom - y_top) 
+  inters = iw * ih
+  #print(type(bb1[0]), type(bb2[0]))
+  # union
+  uni = (float(bb1[2]-bb1[0])*float(bb1[3]-bb1[1]) + float(bb2[2]-bb2[0])*float(bb2[3]-bb2[1]) - inters)
+  overlaps = inters / uni
+  #print(overlaps)
+  return overlaps
+
+def MaximumBox(box1, box2):
+  x1 = min(box1[0],box2[0])
+  y1 = min(box1[1],box2[1])
+  x2 = max(box1[2],box2[2])
+  y2 = max(box1[3],box2[3])
+  return [x1,y1,x2,y2]
+
+def cal_accuracy(data, img_name, mode = "all"):
+  # data = {"class1": [[x1,y1,x2,y2,score],[],...], "class2": [[]..]..} (for all)
+  # data = {"class1": [x1,y1,x2,y2,score], "class2": [], ..} (for full)
+  acc = 0
+  count_full_gt = 0
+  count_all_pdt = 0
+  path_of_xml = "/home/jason/faster-rcnn.pytorch-1.0/data/VOCdevkit2007/VOC2007/Annotations/"
+  filename = os.path.join(path_of_xml, img_name + '.xml')
+  tree = ET.parse(filename)
+  objs = tree.findall('object')
+  num_objs = len(objs)
+  boxes = np.zeros((num_objs, 4), dtype=np.uint16)
+  gt_classes = [None]*(num_objs)
+  for ix, obj in enumerate(objs):
+    bbox = obj.find('bndbox')
+    # Make pixel indexes 0-based
+    x1 = float(bbox.find('xmin').text) - 1
+    y1 = float(bbox.find('ymin').text) - 1
+    x2 = float(bbox.find('xmax').text) - 1
+    y2 = float(bbox.find('ymax').text) - 1
+    
+    cls = obj.find('name').text.strip()
+    boxes[ix, :] = [x1, y1, x2, y2]
+    gt_classes[ix] = cls
+    if cls[-1] != ")":
+      count_full_gt+=1
+    if gt_classes[ix] in data.keys() and mode == "full":
+      if iou(data[gt_classes[ix]], boxes[ix, :]) > 0.3 \
+         and check_overlap(data[gt_classes[ix]], boxes[ix, :]):
+        acc += 1
+    elif gt_classes[ix] in data.keys() and mode == "all":
+      for i in range(len(data[gt_classes[ix]])):
+        if iou(data[gt_classes[ix]][i], boxes[ix, :]) > 0.3 \
+           and check_overlap(data[gt_classes[ix]][i], boxes[ix, :]):
+          acc += 1
+    else:
+      continue
+  data_values = list(data.values())
+  for i in range(len(data_values)):
+    count_all_pdt = count_all_pdt + len(data_values[i])
+  if mode == "full":
+    #print("num of nematodes(pred):%d, num of nematodes(gt):%d, num of match:%d"
+    #                                  %(len(data.keys()), count_full_gt, acc))
+    acc = acc/(len(data.keys())+ count_full_gt - acc)
+  elif mode == "all":
+    #print(img_name)
+    #print(count_all_pdt, ix+1, acc)
+    acc = acc/(count_all_pdt + ix+1 - acc)
+  else:
+    acc = None
+  return acc
+
+
+    
 if __name__ == '__main__':
 
   args = parse_args()
@@ -165,12 +257,14 @@ if __name__ == '__main__':
   load_name = os.path.join(input_dir,
     'faster_rcnn_{}_{}_{}.pth'.format(args.checksession, args.checkepoch, args.checkpoint))
 
-  pascal_classes = np.asarray(['__background__',
-                       'aeroplane', 'bicycle', 'bird', 'boat',
-                       'bottle', 'bus', 'car', 'cat', 'chair',
-                       'cow', 'diningtable', 'dog', 'horse',
-                       'motorbike', 'person', 'pottedplant',
-                       'sheep', 'sofa', 'train', 'tvmonitor'])
+  pascal_classes = np.asarray(['__background__',  # always index 0
+                         'A.bes(H)','A.bes(T)','A.bes','A.bic(H)','A.bic(T)','A.bic',
+                         'A.fuj(H)','A.fuj(T)','A.fuj','B.xyl(H)','B.xyl(T)','B.xyl',
+                         'C.ele(H)','C.ele(T)','C.ele','M.ent(H)','M.ent(T)','M.ent',
+                         'M.gra(H)','M.gra(T)','M.gra','M.inc(H)','M.inc(T)','M.inc',
+                         'P.cof(H)','P.cof(T)','P.cof','P.vul(H)','P.vul(T)','P.vul',
+                         'P.spe(H)','P.spe(T)','P.spe','H.sp(H)','H.sp(T)','H.sp',
+                         'M.ams(H)' ,'M.ams(T)','M.ams'])###################
 
   # initilize the network here.
   if args.net == 'vgg16':
@@ -217,10 +311,11 @@ if __name__ == '__main__':
     gt_boxes = gt_boxes.cuda()
 
   # make variable
-  im_data = Variable(im_data, volatile=True)
-  im_info = Variable(im_info, volatile=True)
-  num_boxes = Variable(num_boxes, volatile=True)
-  gt_boxes = Variable(gt_boxes, volatile=True)
+  with torch.no_grad():
+    im_data = Variable(im_data)
+    im_info = Variable(im_info)
+    num_boxes = Variable(num_boxes)
+    gt_boxes = Variable(gt_boxes)
 
   if args.cuda > 0:
     cfg.CUDA = True
@@ -232,7 +327,7 @@ if __name__ == '__main__':
 
   start = time.time()
   max_per_image = 100
-  thresh = 0.05
+  thresh = 0.5
   vis = True
 
   webcam_num = args.webcam_num
@@ -246,8 +341,10 @@ if __name__ == '__main__':
 
   print('Loaded Photo: {} images.'.format(num_images))
 
-
-  while (num_images >= 0):
+  c = 0
+  accs1 = 0
+  accs2 = 0
+  while (num_images > 0):
       total_tic = time.time()
       if webcam_num == -1:
         num_images -= 1
@@ -279,10 +376,12 @@ if __name__ == '__main__':
       im_info_pt = torch.from_numpy(im_info_np)
 
       with torch.no_grad():
-              im_data.resize_(im_data_pt.size()).copy_(im_data_pt)
-              im_info.resize_(im_info_pt.size()).copy_(im_info_pt)
-              gt_boxes.resize_(1, 1, 5).zero_()
-              num_boxes.resize_(1).zero_()
+          im_data.resize_(im_data_pt.size()).copy_(im_data_pt)
+          im_info.resize_(im_info_pt.size()).copy_(im_info_pt)
+          gt_boxes.resize_(1, 1, 5).zero_()
+          num_boxes.resize_(1).zero_()
+      #print(im_blob[0].shape)
+      cv2.imwrite('test.jpg',im_blob[0]) 
 
       # pdb.set_trace()
       det_tic = time.time()
@@ -331,28 +430,238 @@ if __name__ == '__main__':
       det_toc = time.time()
       detect_time = det_toc - det_tic
       misc_tic = time.time()
+      
+      
+      new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()##############################
+      new_scores = torch.cuda.FloatTensor(300,40).zero_()
+      for k in range(13):
+        b = torch.cat((pred_boxes[:,12*k+4:12*k+8],pred_boxes[:,12*k+8:12*k+12]),0)
+        s = torch.cat((scores[:,3*k+1],scores[:,3*k+2]),0)
+        keep = nms(b, s, 0.2)
+        #new head class
+        idx = [g for g in range(len(keep)) if keep[g] <300]
+        new_pred_boxes[:len(keep[idx]),12*k+4:12*k+8] = b[keep[idx]]
+        new_scores[:len(keep[idx]),3*k+1] = s[keep[idx]]
+        #new tail class
+        idx = [g for g in range(len(keep)) if keep[g] >=300]
+        new_pred_boxes[:len(keep[idx]),12*k+8:12*k+12] = b[keep[idx]]
+        new_scores[:len(keep[idx]),3*k+2] = s[keep[idx]]
+        #new full length class = original
+        new_pred_boxes[:,12*k+12:12*k+16] = pred_boxes[:,12*k+12:12*k+16]
+        new_scores[:,3*k+3] = scores[:,3*k+3]
+      new_pred_boxes = new_pred_boxes.cpu()
+      new_scores = new_scores.cpu()
+      voting_data = {}     
+      J = 0
       if vis:
           im2show = np.copy(im)
       for j in xrange(1, len(pascal_classes)):
-          inds = torch.nonzero(scores[:,j]>thresh).view(-1)
+          inds = torch.nonzero(new_scores[:,j]>thresh).view(-1)
           # if there is det
           if inds.numel() > 0:
-            cls_scores = scores[:,j][inds]
+            cls_scores = new_scores[:,j][inds]          
             _, order = torch.sort(cls_scores, 0, True)
             if args.class_agnostic:
-              cls_boxes = pred_boxes[inds, :]
+              cls_boxes = new_pred_boxes[inds, :]
             else:
-              cls_boxes = pred_boxes[inds][:, j * 4:(j + 1) * 4]
+              cls_boxes = new_pred_boxes[inds][:, j * 4:(j + 1) * 4]
             
             cls_dets = torch.cat((cls_boxes, cls_scores.unsqueeze(1)), 1)
-            # cls_dets = torch.cat((cls_boxes, cls_scores), 1)
             cls_dets = cls_dets[order]
             # keep = nms(cls_dets, cfg.TEST.NMS, force_cpu=not cfg.USE_GPU_NMS)
             keep = nms(cls_boxes[order, :], cls_scores[order], cfg.TEST.NMS)
             cls_dets = cls_dets[keep.view(-1).long()]
+            voting_data[pascal_classes[j]] = cls_dets
+            #print(cls_dets.shape)
             if vis:
-              im2show = vis_detections(im2show, pascal_classes[j], cls_dets.cpu().numpy(), 0.5)
+              img_name = imglist[num_images][:-4]
+              im2show, _ , J= vis_detections(im2show, pascal_classes[j], cls_dets.cpu().numpy(),img_name,  0.5, J)
+              J+=1
+              #f = open("species.txt", "w+")
+              #f.write(pascal_classes[j])
+      # voting_data['class']: [[a1,y1,x2,y2,score],[],..]
+      #acc1 = cal_accuracy(voting_data, imglist[num_images][:-4], "all")
+      #print("acc1 : %f"%(acc1))
+      #accs1 = accs1 + acc1 
+      # initial voting_results
+      voting_results = {}
+      list_of_keys = list(voting_data.keys())
+      list_of_values = list(voting_data.values())
+      # initial flag 
+      flag = [None]*len(list_of_values)
+      for m in range(len(list_of_values)):
+        flag[m] = [0]*len(list_of_values[m])
+      group_count = 0
+      species_List = []
+      species_List.extend([x for x in range(0,len(list_of_values)) if list_of_keys[x][-1]!=")"])
+      #print(species_List)
+      species_List.extend([x for x in range(0,len(list_of_values)) if list_of_keys[x][-1]==")"])
+      #print(species_List)
+      
+      
+      ############################   decide how many nematodes and allocate boxes
+      for m in species_List:
+        for l in range(len(list_of_values[m])):         
+          for n in species_List:
+            for k in range(len(list_of_values[n])):
+              if m != n or l != k:
+                if group_count == 0: # decide the first group                             
+                  if check_overlap(list_of_values[m][l][0:4], list_of_values[n][k][0:4]) == True:  
+                    max_box = MaximumBox(list_of_values[m][l], list_of_values[n][k])
+                    voting_results["group"+str(group_count)] = {"region": max_box, \
+                                                                list_of_keys[m]: list_of_values[m][l][4],\
+                                                                list_of_keys[n]: list_of_values[n][k][4]}
+                    flag[m][l] = 1+group_count
+                    flag[n][k] = 1+group_count
+                    group_count+=1
+                  elif m == n:# same class but not overlap
+                    if list_of_keys[m][-1] != ")":# full-length case => two nematodes
+                      reg = [x for x in list_of_values[m][l][0:4]]
+                      voting_results["group"+str(group_count)] = {"region": reg, \
+                                                                  list_of_keys[m]: list_of_values[m][l][4]}
+                      flag[m][l] = 1+group_count
+                      group_count+=1
+                      reg = [x for x in list_of_values[n][k][0:4]]
+                      voting_results["group"+str(group_count)] = {"region": reg, \
+                                                                  list_of_keys[n]: list_of_values[n][k][4]}
+                      flag[n][k] = 1+group_count
+                      group_count+=1
+                    elif list_of_values[m][l][4] >= list_of_values[n][k][4]: # partial case => higher score
+                      reg = [x for x in list_of_values[m][l][0:4]]
+                      voting_results["group"+str(group_count)] = {"region": reg, \
+                                                                  list_of_keys[m]: list_of_values[m][l][4]}
+                      flag[m][l] = 1+group_count
+                      group_count+=1
+                    else:
+                      reg = [x for x in list_of_values[n][k][0:4]]
+                      voting_results["group"+str(group_count)] = {"region": reg, \
+                                                                  list_of_keys[n]: list_of_values[n][k][4]}
+                      flag[n][k] = 1+group_count 
+                      group_count+=1
+                  else:# different classes and not overlap => first box create a group
+                    reg = [x for x in list_of_values[m][l][0:4]]
+                    voting_results["group"+str(group_count)] = {"region": reg,\
+                                                                list_of_keys[m]:list_of_values[m][l][4]}
+                    flag[m][l] = 1+group_count                
+                    group_count+=1
+                else: # exist 1 or more groups
+                  if flag[m][l] == 0:
+                    for p in range(group_count):#find if overlap with previous groups
+                      if check_overlap(list_of_values[m][l][0:4], voting_results["group"+str(p)]\
+                                                                                ["region"]) == True:
+                        max_box = MaximumBox(list_of_values[m][l], voting_results["group"+str(p)]["region"])
+                        voting_results["group"+str(p)]["region"] = max_box
+                        if list_of_keys[m] in voting_results["group"+str(p)].keys():                        
+                          voting_results["group"+str(p)][list_of_keys[m]] = max(list_of_values[m][l][4], \
+                                                        voting_results["group"+str(p)][list_of_keys[m]])
+                          flag[m][l] = 1+p
+                          break
+                        else:                                                
+                          voting_results["group"+str(p)][list_of_keys[m]] = list_of_values[m][l][4]
+                          flag[m][l] = 1+p
+                          break
+                    # not overlap with previous groups & full-length=> create a new group
+                    if flag[m][l] == 0 and list_of_keys[m][-1] != ")":
+                      reg = [x for x in list_of_values[m][l][0:4]]
+                      voting_results["group"+str(group_count)] = {"region": reg,\
+                                                                  list_of_keys[m]:list_of_values[m][l][4]}
+                      flag[m][l] = 1+group_count
+                      group_count+=1
+                    elif flag[m][l] == 0 and list_of_keys[m][-1] == ")":
+                      if flag[n][k] == 0 and check_overlap(list_of_values[m][l][0:4],\
+                         list_of_values[n][k][0:4]) == True and (m != n or l != k):
+                        max_box = MaximumBox(list_of_values[m][l], list_of_values[n][k])
+                        voting_results["group"+str(group_count)] = {"region": max_box, \
+                                                                    list_of_keys[m]: list_of_values[m][l][4],\
+                                                                    list_of_keys[n]: list_of_values[n][k][4]}
+                        flag[m][l] = 1+group_count
+                        flag[n][k] = 1+group_count
+                        group_count+=1
+                    else:
+                      continue
+                  else:
+                    continue
+                    
+      #print(imglist[num_images][:-4]+': '+str(voting_results)+"\n")       
+      if group_count == 1:# delete the case of single-partial group
+        zero_flag = 1
+        v_list = list(voting_results.values())
+        v_list = v_list[0]
+        v_list = list(v_list.keys())
+        #print(v_list)
+        for m in range(1, len(v_list)):
+          if v_list[m][-1] != ')':
+            zero_flag = 0
+            break
+        if zero_flag == 1:
+          voting_results = {}
+          group_count = 0
 
+      # calculate the score for each nematode  
+      groups = list(voting_results.keys())
+      datas = list(voting_results.values()) 
+      results = {}
+      if group_count != 0:
+        c+=len(groups)
+        for k in range(len(groups)):
+          scores = list(datas[k].values())#score[0]: region of group[x1, y1, x2, y2]
+          species = list(datas[k].keys())
+          #print(scores[0])
+          for m in range(1, len(species)): 
+            if species[m][:4] != "H.sp":
+              s = species[m][:5]
+              results[s] = copy.deepcopy(scores[0])
+              #print(scores[0])
+              if len(results[s]) == 4:
+                results[s].extend([0])
+            else:
+              s = species[m][:4]
+              results[s] = scores[0]
+              if len(results[s]) == 4:
+                results[s].extend([0])
+          # results = [x1,y1,x2,y2,score]  
+          for m in range(1, len(species)):
+            if species[m][:4] != "H.sp":
+              s = species[m][:5]
+            else:
+              s = species[m][:4]
+            if species[m][-2] == "H":
+              results[s][4] = results[s][4] + scores[m]*0.2
+            elif species[m][-2] == "T":
+              results[s][4] = results[s][4] + scores[m]*0.2
+            else:
+              results[s][4] = results[s][4] + scores[m]*0.6
+          
+          #print(results)                     
+          list_of_species = list(results.keys())
+          list_of_scores = list(results.values())
+          highest_data = {}
+          highest_score = [0,0,0,0,0]
+          highest_class = ""
+          for m in range(len(list_of_species)):# find the highest score class            
+            if list_of_scores[m][4]>highest_score[4]:
+              highest_score = list_of_scores[m]
+              highest_class = list_of_species[m]
+          highest_data[highest_class] = highest_score
+          #print(highest_data)
+          #acc2 = cal_accuracy(highest_data, imglist[num_images][:-4], "full")
+          #accs2 = accs2 + acc2
+          #print("accs2 : %f"%(accs2))
+          #print(c)
+          height = int(im_info_np[0][0]/im_info_np[0][2])
+          #print(height)
+          cv2.putText(im2show, "%d" % k, (scores[0][0],scores[0][1]- 80), \
+                                          cv2.FONT_HERSHEY_PLAIN, 3, (251,9,3), thickness=3)
+          
+          cv2.putText(im2show, "%d" % k, (10+k*300, height-200), \
+                      cv2.FONT_HERSHEY_PLAIN, 3, (251,9,3), thickness=3)
+          for m in range(len(list_of_species)):
+            #print(list_of_scores[m])          
+            cv2.putText(im2show, '%s: %.2f' % (list_of_species[m], list_of_scores[m][4]), \
+                        (10+k*300, height-160+m*40), \
+                         cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 0), thickness=3)
+          
+          results = {}
       misc_toc = time.time()
       nms_time = misc_toc - misc_tic
 
@@ -365,6 +674,7 @@ if __name__ == '__main__':
           # cv2.imshow('test', im2show)
           # cv2.waitKey(0)
           result_path = os.path.join(args.image_dir, imglist[num_images][:-4] + "_det.jpg")
+          im2show = np.asarray(im2show)
           cv2.imwrite(result_path, im2show)
       else:
           im2showRGB = cv2.cvtColor(im2show, cv2.COLOR_BGR2RGB)
@@ -375,6 +685,10 @@ if __name__ == '__main__':
           print('Frame rate:', frame_rate)
           if cv2.waitKey(1) & 0xFF == ord('q'):
               break
+  #print(accs1, len(imglist))
+  #print(accs2, c)
+  #print("Accuracy before voting: %.3f" % (accs1/len(imglist)))
+  #print("Accuracy after voting: %.3f"% (accs2/c))
   if webcam_num >= 0:
       cap.release()
       cv2.destroyAllWindows()

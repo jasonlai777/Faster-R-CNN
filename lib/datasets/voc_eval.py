@@ -12,6 +12,8 @@ import os
 import pickle
 import numpy as np
 
+
+
 def parse_rec(filename):
   """ Parse a PASCAL VOC xml file """
   tree = ET.parse(filename)
@@ -28,9 +30,23 @@ def parse_rec(filename):
                           int(bbox.find('xmax').text),
                           int(bbox.find('ymax').text)]
     objects.append(obj_struct)
-
+  #print(objects)
   return objects
 
+def parse_rec_srgan(filename, new_gt_box):##############
+  objects = []
+  obj_struct = {}
+  if filename[-1] ==")":
+    obj_struct['name'] = filename[-8:]
+  else:
+    obj_struct['name'] = filename[-5:]
+  obj_struct['pose'] = 'Unspecified'
+  obj_struct['truncated'] = 0
+  obj_struct['difficult'] = 0
+  obj_struct['bbox'] = new_gt_box
+  objects.append(obj_struct)
+  #print(objects)
+  return objects
 
 def voc_ap(rec, prec, use_07_metric=False):
   """ ap = voc_ap(rec, prec, [use_07_metric])
@@ -71,8 +87,11 @@ def voc_eval(detpath,
              imagesetfile,
              classname,
              cachedir,
+             new_indexes,
+             new_gt_boxes,
              ovthresh=0.5,
              use_07_metric=False):
+
   """rec, prec, ap = voc_eval(detpath,
                               annopath,
                               imagesetfile,
@@ -89,6 +108,7 @@ def voc_eval(detpath,
   imagesetfile: Text file containing the list of images, one image per line.
   classname: Category name (duh)
   cachedir: Directory for caching the annotations
+  new_indexes: names of srgan output images
   [ovthresh]: Overlap threshold (default = 0.5)
   [use_07_metric]: Whether to use VOC07's 11 point AP computation
       (default False)
@@ -99,14 +119,20 @@ def voc_eval(detpath,
   # cachedir caches the annotations in a pickle file
 
   # first load gt
+  #print(imagesetfile)
+  #print(cachedir)
   if not os.path.isdir(cachedir):
     os.mkdir(cachedir)
   cachefile = os.path.join(cachedir, '%s_annots.pkl' % imagesetfile)
+  #print(cachefile)
   # read list of images
   with open(imagesetfile, 'r') as f:
     lines = f.readlines()
   imagenames = [x.strip() for x in lines]
-
+  test_with_srgan_flag = True 
+  if test_with_srgan_flag == True:
+    imagenames.extend(new_indexes)
+    #print("1")
   if not os.path.isfile(cachefile):
     # load annotations
     recs = {}
@@ -115,6 +141,8 @@ def voc_eval(detpath,
       if i % 100 == 0:
         print('Reading annotation for {:d}/{:d}'.format(
           i + 1, len(imagenames)))
+    
+    
     # save
     print('Saving cached annotations to {:s}'.format(cachefile))
     with open(cachefile, 'wb') as f:
@@ -124,24 +152,35 @@ def voc_eval(detpath,
     with open(cachefile, 'rb') as f:
       try:
         recs = pickle.load(f)
+        if test_with_srgan_flag == True:
+          for i, new_index in enumerate(new_indexes):
+            recs[new_index] = parse_rec_srgan(new_index, new_gt_boxes[i])
       except:
         recs = pickle.load(f, encoding='bytes')
-
+        if test_with_srgan_flag == True:
+          for i, new_index in enumerate(new_indexes):
+            recs[new_index] = parse_rec_srgan(new_index, new_gt_boxes[i])
   # extract gt objects for this class
   class_recs = {}
   npos = 0
+  #print(imagenames)
   for imagename in imagenames:
     R = [obj for obj in recs[imagename] if obj['name'] == classname]
+
     bbox = np.array([x['bbox'] for x in R])
     difficult = np.array([x['difficult'] for x in R]).astype(np.bool)
+    #print("!!!!!!!!")
+    #print(R, difficult)
     det = [False] * len(R)
     npos = npos + sum(~difficult)
+    print(npos)
     class_recs[imagename] = {'bbox': bbox,
                              'difficult': difficult,
                              'det': det}
-
   # read dets
+  #print(detpath)
   detfile = detpath.format(classname)
+  #print(detfile)
   with open(detfile, 'r') as f:
     lines = f.readlines()
 
@@ -149,6 +188,10 @@ def voc_eval(detpath,
   image_ids = [x[0] for x in splitlines]
   confidence = np.array([float(x[1]) for x in splitlines])
   BB = np.array([[float(z) for z in x[2:]] for x in splitlines])
+  #print(splitlines)
+  #print(BB)
+  
+  
 
   nd = len(image_ids)
   tp = np.zeros(nd)
@@ -197,6 +240,8 @@ def voc_eval(detpath,
             fp[d] = 1.
       else:
         fp[d] = 1.
+  else:
+    return 0, 0, 0, 0
 
   # compute precision recall
   fp = np.cumsum(fp)
@@ -205,6 +250,12 @@ def voc_eval(detpath,
   # avoid divide by zero in case the first detection matches a difficult
   # ground truth
   prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
-  ap = voc_ap(rec, prec, use_07_metric)
+  for i in range(len(sorted_scores)):
+    if abs(sorted_scores[i]) <0.5:
+      f1 = (2*prec[i]*rec[i])/(prec[i]+rec[i])
+      print("class: %s, precision: %f, recall: %f, f1-score(thresh=0.5): %f"%(classname, prec[i], rec[i], f1))
+      break
+            
+  ap = voc_ap(rec, prec)
 
-  return rec, prec, ap
+  return rec, prec, ap, f1
