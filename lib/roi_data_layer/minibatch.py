@@ -17,6 +17,7 @@ from model.utils.config import cfg
 from model.utils.blob import prep_im_for_blob, im_list_to_blob
 import pdb
 import cv2
+import sys
 
 def get_minibatch(roidb, num_classes):
   """Given a roidb, construct a minibatch sampled from it."""
@@ -80,14 +81,22 @@ def _get_image_blob(roidb, scale_inds):
       im = im[::-1, :, :]
     if roidb[i]['brightness']:
       if roidb[i]['bright']:
+        #cv2.imwrite("test1.jpg", im)
         hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
-        hsv += 60
+        h, s, v = cv2.split(hsv)
+        v += 40
+        hsv = cv2.merge((h, s, v))
         im = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+        #cv2.imwrite("test2.jpg", im)
       else:
+        #cv2.imwrite("test3.jpg", im)
         hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
-        hsv -= 60
+        h, s, v = cv2.split(hsv)
+        v -= 40
+        hsv = cv2.merge((h, s, v))
         im = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
-      
+        #cv2.imwrite("test4.jpg", im)
+        #sys.exit()
     if roidb[i]['rotate90']:
       im =np.rot90(im)
     
