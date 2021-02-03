@@ -11,7 +11,7 @@ from __future__ import print_function
 import os
 import os.path as osp
 import PIL
-from model.utils.cython_bbox import bbox_overlaps
+#from model.utils.cython_bbox import bbox_overlaps
 import numpy as np
 import scipy.sparse
 from model.utils.config import cfg
@@ -109,6 +109,10 @@ class imdb(object):
   def _get_widths(self):
     return [PIL.Image.open(self.image_path_at(i)).size[0]
             for i in range(self.num_images)]
+            
+  def _get_heights(self):
+    return [PIL.Image.open(self.image_path_at(i)).size[1]
+            for i in range(self.num_images)]
 
   def append_flipped_images(self):
     num_images = self.num_images
@@ -123,41 +127,82 @@ class imdb(object):
       entry = {'boxes': boxes,
                'gt_overlaps': self.roidb[i]['gt_overlaps'],
                'gt_classes': self.roidb[i]['gt_classes'],
-               'flipped': True}
+               'flipped': True,
+               'vflipped': False,
+               'brightness':False,
+               'bright':False,
+               'rotate90':False}
       self.roidb.append(entry)
     self._image_index = self._image_index * 2
   
-  def append_flipped_images(self):
+  def append_vertical_flipped_images(self):
     num_images = self.num_images
-    widths = self._get_widths()
+    heights = self._get_heights()
     for i in range(num_images):
       boxes = self.roidb[i]['boxes'].copy()
-      oldx1 = boxes[:, 0].copy()
-      oldx2 = boxes[:, 2].copy()
-      boxes[:, 0] = widths[i] - oldx2 - 1
-      boxes[:, 2] = widths[i] - oldx1 - 1
+      oldy1 = boxes[:, 1].copy()
+      oldy2 = boxes[:, 3].copy()
+      boxes[:, 1] = heights[i] - oldy2 - 1
+      boxes[:, 3] = heights[i] - oldy1 - 1
+      assert (boxes[:, 3] >= boxes[:, 1]).all()
+      entry = {'boxes': boxes,
+               'gt_overlaps': self.roidb[i]['gt_overlaps'],
+               'gt_classes': self.roidb[i]['gt_classes'],
+               'flipped': self.roidb[i]['flipped'],
+               'vflipped': True,
+               'brightness':False,
+               'bright':False,
+               'rotate90':False
+               }
+      self.roidb.append(entry)
+    self._image_index = self._image_index * 2
+  
+  def append_brightness_change_images(self):
+    num_images = self.num_images
+    for i in range(num_images):
+      boxes = self.roidb[i]['boxes'].copy()
+      entry1 = {'boxes': boxes,
+               'gt_overlaps': self.roidb[i]['gt_overlaps'],
+               'gt_classes': self.roidb[i]['gt_classes'],
+               'flipped': self.roidb[i]['flipped'],
+               'vflipped': self.roidb[i]['vflipped'],
+               'brightness':True,
+               'bright':False,
+               'rotate90':False}
+      entry2 = {'boxes': boxes,
+               'gt_overlaps': self.roidb[i]['gt_overlaps'],
+               'gt_classes': self.roidb[i]['gt_classes'],
+               'flipped': self.roidb[i]['flipped'],
+               'vflipped': self.roidb[i]['vflipped'],
+               'brightness':True,
+               'bright':True,
+               'rotate90':False}
+      self.roidb.append(entry1)
+      self.roidb.append(entry2)
+      
+    self._image_index = self._image_index * 3
+    
+  def append_rotate_90_images(self):
+    num_images = self.num_images
+    for i in range(num_images):
+      boxes = self.roidb[i]['boxes'].copy()
+      oldy1 = boxes[:, 1].copy()
+      oldy2 = boxes[:, 3].copy()
+      oldy1 = boxes[:, 0].copy()
+      oldy2 = boxes[:, 2].copy()
+      boxes[:, 0] = oldy1
+      boxes[:, 2] = oldy2
+      boxes[:, 1] = oldx1
+      boxes[:, 3] = oldx2
       assert (boxes[:, 2] >= boxes[:, 0]).all()
       entry = {'boxes': boxes,
                'gt_overlaps': self.roidb[i]['gt_overlaps'],
                'gt_classes': self.roidb[i]['gt_classes'],
-               'flipped': True}
-      self.roidb.append(entry)
-    self._image_index = self._image_index * 2
-  
-  def append_flipped_images(self):
-    num_images = self.num_images
-    widths = self._get_widths()
-    for i in range(num_images):
-      boxes = self.roidb[i]['boxes'].copy()
-      oldx1 = boxes[:, 0].copy()
-      oldx2 = boxes[:, 2].copy()
-      boxes[:, 0] = widths[i] - oldx2 - 1
-      boxes[:, 2] = widths[i] - oldx1 - 1
-      assert (boxes[:, 2] >= boxes[:, 0]).all()
-      entry = {'boxes': boxes,
-               'gt_overlaps': self.roidb[i]['gt_overlaps'],
-               'gt_classes': self.roidb[i]['gt_classes'],
-               'flipped': True}
+               'flipped': self.roidb[i]['flipped'],
+               'vflipped': self.roidb[i]['vflipped'],
+               'brightness':self.roidb[i]['brightness'],
+               'bright':self.roidb[i]['bright'],
+               'rotate90':True}
       self.roidb.append(entry)
     self._image_index = self._image_index * 2
   
