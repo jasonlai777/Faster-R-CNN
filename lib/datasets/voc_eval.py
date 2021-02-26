@@ -173,7 +173,7 @@ def voc_eval(detpath,
     #print(R, difficult)
     det = [False] * len(R)
     npos = npos + sum(~difficult)
-    print(npos)
+    #print(npos)
     class_recs[imagename] = {'bbox': bbox,
                              'difficult': difficult,
                              'det': det}
@@ -251,7 +251,7 @@ def voc_eval(detpath,
   # ground truth
   prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
   for i in range(len(sorted_scores)):
-    if abs(sorted_scores[i]) <0.5:
+    if abs(sorted_scores[i]) <0.05:# csthreshold
       f1 = (2*prec[i]*rec[i])/(prec[i]+rec[i])
       print("class: %s, precision: %f, recall: %f, f1-score(thresh=0.5): %f"%(classname, prec[i], rec[i], f1))
       break

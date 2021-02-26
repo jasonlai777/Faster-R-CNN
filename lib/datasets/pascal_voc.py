@@ -367,8 +367,8 @@ class pascal_voc(imdb):
               use_07_metric=use_07_metric)
             f1s += [f1]
             aps += [ap]
-            if cls == "H.sp":
-              print(prec, rec)
+            #if cls == "H.sp":
+              #print(prec, rec)
             pl.plot(rec, prec, lw=2,
                     label='{} (AP = {:.4f})'
                           ''.format(cls, ap))

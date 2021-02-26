@@ -78,7 +78,10 @@ def _get_image_blob(roidb, scale_inds):
     if roidb[i]['flipped']:
       im = im[:, ::-1, :]
     if roidb[i]['vflipped']:
+      #cv2.imwrite("test01.jpg", im)
       im = im[::-1, :, :]
+      #cv2.imwrite("test02.jpg", im)
+      #sys.exit()
     if roidb[i]['brightness']:
       if roidb[i]['bright']:
         #cv2.imwrite("test1.jpg", im)

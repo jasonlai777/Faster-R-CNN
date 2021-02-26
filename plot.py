@@ -20,8 +20,8 @@ loss_list_test1 = [float(s.strip('Testing loss: ')) for s in loss_list_test]
 
 #print(loss_int)
 plt.figure()
-loss_list_train1 = [x/1440 for x in loss_list_train1]
-loss_list_test1 = [x/52 for x in loss_list_test1]
+loss_list_train1 = [x for x in loss_list_train1]
+loss_list_test1 = [x for x in loss_list_test1]
 plt.plot(range(1,len(loss_list_train1)+1),loss_list_train1, '-o')
 plt.plot(range(1,len(loss_list_test1)+1),loss_list_test1, '-o')
 #plt.title('Loss Curve', fontsize=22) 

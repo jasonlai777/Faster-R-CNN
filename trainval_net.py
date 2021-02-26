@@ -49,7 +49,7 @@ def parse_args():
                       default=1, type=int)
   parser.add_argument('--epochs', dest='max_epochs',
                       help='number of epochs to train',
-                      default=20, type=int)
+                      default=40, type=int)
   parser.add_argument('--disp_interval', dest='disp_interval',
                       help='number of iterations to display',
                       default=100, type=int)
@@ -82,10 +82,10 @@ def parse_args():
 # config optimization
   parser.add_argument('--o', dest='optimizer',
                       help='training optimizer',
-                      default="sgd", type=str)
+                      default="adam", type=str)
   parser.add_argument('--lr', dest='lr',
                       help='starting learning rate',
-                      default=0.001, type=float)
+                      default=0.0005, type=float)
   parser.add_argument('--lr_decay_step', dest='lr_decay_step',
                       help='step to do learning rate decay, unit is epoch',
                       default=5, type=int)
@@ -443,8 +443,8 @@ if __name__ == '__main__':
           logger.add_scalars("logs_s_{}/losses".format(args.session), info, (epoch - 1) * iters_per_epoch + step)
         start = time.time()
       if step == iters_per_epoch-1:
-        training_loss_total /= (iters_per_epoch*4)
-        testing_loss_total /= (iters_per_epoch_test*4)
+        training_loss_total /= iters_per_epoch
+        testing_loss_total /= iters_per_epoch_test
         print("Epoch %d: Training loss: %.4f, Testing loss: %.4f"%(epoch, training_loss_total, testing_loss_total))
 
       

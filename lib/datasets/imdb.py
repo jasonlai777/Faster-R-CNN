@@ -17,6 +17,7 @@ import scipy.sparse
 from model.utils.config import cfg
 import pdb
 
+import sys
 ROOT_DIR = osp.join(osp.dirname(__file__), '..', '..')
 
 class imdb(object):
@@ -117,6 +118,8 @@ class imdb(object):
   def append_flipped_images(self):
     num_images = self.num_images
     widths = self._get_widths()
+    #print(self.roidb)
+    #sys.exit()
     for i in range(num_images):
       boxes = self.roidb[i]['boxes'].copy()
       oldx1 = boxes[:, 0].copy()
@@ -167,7 +170,7 @@ class imdb(object):
                'flipped': self.roidb[i]['flipped'],
                'vflipped': self.roidb[i]['vflipped'],
                'brightness':True,
-               'bright':False,
+               'bright':True,
                'rotate90':False}
       entry2 = {'boxes': boxes,
                'gt_overlaps': self.roidb[i]['gt_overlaps'],
@@ -175,7 +178,7 @@ class imdb(object):
                'flipped': self.roidb[i]['flipped'],
                'vflipped': self.roidb[i]['vflipped'],
                'brightness':True,
-               'bright':True,
+               'bright':False,
                'rotate90':False}
       self.roidb.append(entry1)
       self.roidb.append(entry2)
