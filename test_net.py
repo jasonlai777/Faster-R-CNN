@@ -27,8 +27,9 @@ from roi_data_layer.roidb import combined_roidb
 from roi_data_layer.roibatchLoader import roibatchLoader
 from model.utils.config import cfg, cfg_from_file, cfg_from_list, get_output_dir
 from model.rpn.bbox_transform import clip_boxes
-# from model.nms.nms_wrapper import nms
-from model.roi_layers import nms
+#from model.nms.nms_wrapper import nms
+#from model.roi_layers import nms
+from torchvision.ops.boxes import nms
 from model.rpn.bbox_transform import bbox_transform_inv
 from model.utils.net_utils import save_net, load_net, vis_detections
 from model.faster_rcnn.vgg16 import vgg16
@@ -292,7 +293,9 @@ if __name__ == '__main__':
       
       #print(scores.shape)
       #print(pred_boxes.shape)
-      new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()##############################
+      #sys.exit()
+      '''
+      new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()############################## nms for head & tail in each classes
       new_scores = torch.cuda.FloatTensor(300,40).zero_()
       for k in range(13):
         b = torch.cat((pred_boxes[:,12*k+4:12*k+8],pred_boxes[:,12*k+8:12*k+12]),0)
@@ -312,7 +315,37 @@ if __name__ == '__main__':
       if vis:
           im = cv2.imread(imdb.image_path_at(i))
           im2show = np.copy(im)
+      '''
       
+      new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()############################## nms for all head, (tail, full-length) classes
+      new_scores = torch.cuda.FloatTensor(300,40).zero_()
+      for j in range(3):
+        b = pred_boxes[:,4*j+4:4*j+8]
+        s = scores[:,j+1]
+        #print(b.shape)
+        for k in range(1, 13):
+          b = torch.cat((b, pred_boxes[:,12*k+4*j+4:12*k+4*j+8]),0)
+          s = torch.cat((s ,scores[:,3*k+j+1]),0)
+        #print(b.shape,s.shape)
+        #sys.exit()
+        keep = nms(b, s, 0.5)
+        #print(keep, len(keep))
+        for l in range(13):
+          idx = [g.item() for g in keep if g < (l+1)*300 and g >= l*300]
+          #print(len(idx), new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8])
+          #print(new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8].shape, b[idx].shape)
+          new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8] = b[idx]
+          new_scores[:len(idx),3*l+j+1] = s[idx]
+          #print([g for g in s[idx] if g > 0.5])
+
+      
+          
+      if vis:
+          im = cv2.imread(imdb.image_path_at(i))
+          im2show = np.copy(im)
+      
+      #new_pred_boxes = pred_boxes
+      #new_scores = scores
       
       #H_classes = [1,4,7,10,13,16,19,22,25,28,31]#########
       #T_classes = [2,5,8,11,14,17,20,23,26,29,32]
@@ -328,11 +361,13 @@ if __name__ == '__main__':
               cls_boxes = new_pred_boxes[inds, :]
             else:
               cls_boxes = new_pred_boxes[inds][:, j * 4:(j + 1) * 4]
-            #print(cls_boxes.shape)
-            #print(cls_scores.unsqueeze(1).shape)
+            # print(cls_boxes.shape)
+            # print(cls_scores.unsqueeze(1).shape)
             cls_dets = torch.cat((cls_boxes, cls_scores.unsqueeze(1)), 1)
             # cls_dets = torch.cat((cls_boxes, cls_scores), 1)
             cls_dets = cls_dets[order]
+            #print(j, cls_dets)
+            #sys.exit()
             keep = nms(cls_boxes[order, :], cls_scores[order], cfg.TEST.NMS)
             cls_dets = cls_dets[keep.view(-1).long()]
             

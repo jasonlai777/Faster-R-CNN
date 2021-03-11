@@ -63,6 +63,8 @@ def vis_detections(im, class_name, dets, img_name, thresh, J):
             if class_name[-2]== "H":
               cv2.rectangle(im, bbox[0:2], bbox[2:4], (240, 20, 15), 5)
             elif class_name[-2]== "T":
+              #print(type(im),im.shape)
+              #print(bbox)
               cv2.rectangle(im, bbox[0:2], bbox[2:4], (70, 85, 135), 5)
             else:
               cv2.rectangle(im, bbox[0:2], bbox[2:4], (0, 0, 250), 5)

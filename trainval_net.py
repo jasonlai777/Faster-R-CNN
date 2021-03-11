@@ -49,10 +49,10 @@ def parse_args():
                       default=1, type=int)
   parser.add_argument('--epochs', dest='max_epochs',
                       help='number of epochs to train',
-                      default=40, type=int)
+                      default=20, type=int)
   parser.add_argument('--disp_interval', dest='disp_interval',
                       help='number of iterations to display',
-                      default=100, type=int)
+                      default=1000, type=int)
   parser.add_argument('--checkpoint_interval', dest='checkpoint_interval',
                       help='number of iterations to display',
                       default=10000, type=int)
@@ -194,7 +194,7 @@ if __name__ == '__main__':
   # -- Note: Use validation set and disable the flipped to enable faster loading.
   cfg.TRAIN.USE_FLIPPED = True
   cfg.TRAIN.USE_VERTICAL_FLIPPED = False
-  cfg.TRAIN.BRIGHTNESS_CHANGE = True
+  cfg.TRAIN.BRIGHTNESS_CHANGE = False
   cfg.TRAIN.ROTATE_90 = False
   cfg.USE_GPU_NMS = args.cuda
   imdb, roidb, ratio_list, ratio_index = combined_roidb(args.imdb_name)

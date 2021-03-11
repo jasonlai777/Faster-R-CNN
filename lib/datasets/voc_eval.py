@@ -242,7 +242,8 @@ def voc_eval(detpath,
         fp[d] = 1.
   else:
     return 0, 0, 0, 0
-
+  ntp = np.sum(tp)
+  nfp = np.sum(fp)
   # compute precision recall
   fp = np.cumsum(fp)
   tp = np.cumsum(tp)
@@ -251,11 +252,11 @@ def voc_eval(detpath,
   # ground truth
   prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
   for i in range(len(sorted_scores)):
-    if abs(sorted_scores[i]) <0.05:# csthreshold
+    if abs(sorted_scores[i]) <0.5:# csthreshold
       f1 = (2*prec[i]*rec[i])/(prec[i]+rec[i])
       print("class: %s, precision: %f, recall: %f, f1-score(thresh=0.5): %f"%(classname, prec[i], rec[i], f1))
       break
             
   ap = voc_ap(rec, prec)
 
-  return rec, prec, ap, f1
+  return rec, prec, ap, f1, ntp, nfp, npos-ntp

@@ -1,5 +1,6 @@
 
 from torch.utils.ffi import _wrap_function
+#from torch.utils.cpp_extension import _wrap_function
 from ._nms import lib as _lib, ffi as _ffi
 
 __all__ = []

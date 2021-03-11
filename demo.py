@@ -23,7 +23,8 @@ import torch.optim as optim
 import xml.etree.ElementTree as ET
 import torchvision.transforms as transforms
 import torchvision.datasets as dset
-from scipy.misc import imread
+#from scipy.misc import imread
+from imageio import imread
 from roi_data_layer.roidb import combined_roidb
 from roi_data_layer.roibatchLoader import roibatchLoader
 from model.utils.config import cfg, cfg_from_file, cfg_from_list, get_output_dir
@@ -431,7 +432,7 @@ if __name__ == '__main__':
       detect_time = det_toc - det_tic
       misc_tic = time.time()
       
-      
+      '''
       new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()##############################
       new_scores = torch.cuda.FloatTensor(300,40).zero_()
       for k in range(13):
@@ -449,10 +450,35 @@ if __name__ == '__main__':
         #new full length class = original
         new_pred_boxes[:,12*k+12:12*k+16] = pred_boxes[:,12*k+12:12*k+16]
         new_scores[:,3*k+3] = scores[:,3*k+3]
+      '''
+      new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()############################## nms for all head, (tail, full-length) classes
+      new_scores = torch.cuda.FloatTensor(300,40).zero_()
+      for j in range(3):
+        b = pred_boxes[:,4*j+4:4*j+8]
+        s = scores[:,j+1]
+        #print(b.shape)
+        for k in range(1, 13):
+          b = torch.cat((b, pred_boxes[:,12*k+4*j+4:12*k+4*j+8]),0)
+          s = torch.cat((s ,scores[:,3*k+j+1]),0)
+        #print(b.shape,s.shape)
+        #sys.exit()
+        keep = nms(b, s, 0.5)
+        #print(keep, len(keep))
+        for l in range(13):
+          idx = [g.item() for g in keep if g < (l+1)*300 and g >= l*300]
+          #print(len(idx), new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8])
+          #print(new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8].shape, b[idx].shape)
+          new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8] = b[idx]
+          new_scores[:len(idx),3*l+j+1] = s[idx]
+          #print([g for g in s[idx] if g > 0.5])
+      
+      #new_pred_boxes = pred_boxes
+      #new_scores = scores
       new_pred_boxes = new_pred_boxes.cpu()
       new_scores = new_scores.cpu()
       voting_data = {}     
       J = 0
+      
       if vis:
           im2show = np.copy(im)
       for j in xrange(1, len(pascal_classes)):
@@ -475,7 +501,9 @@ if __name__ == '__main__':
             #print(cls_dets.shape)
             if vis:
               img_name = imglist[num_images][:-4]
-              im2show, _ , J= vis_detections(im2show, pascal_classes[j], cls_dets.cpu().numpy(),img_name,  0.5, J)
+              im2show = cv2.UMat(im2show).get()
+              #print(type(im2show))  
+              im2show, _ , J= vis_detections(im2show, pascal_classes[j], cls_dets.cpu().numpy(),img_name,  0.8, J)
               J+=1
               #f = open("species.txt", "w+")
               #f.write(pascal_classes[j])
@@ -650,7 +678,7 @@ if __name__ == '__main__':
           #print(c)
           height = int(im_info_np[0][0]/im_info_np[0][2])
           #print(height)
-          cv2.putText(im2show, "%d" % k, (scores[0][0],scores[0][1]- 80), \
+          cv2.putText(im2show, "%d" % k, (int(scores[0][0]),int(scores[0][1]- 80)), \
                                           cv2.FONT_HERSHEY_PLAIN, 3, (251,9,3), thickness=3)
           
           cv2.putText(im2show, "%d" % k, (10+k*300, height-200), \

@@ -24,7 +24,7 @@ from .imdb import imdb
 from .imdb import ROOT_DIR
 from . import ds_utils
 from .voc_eval import voc_eval
-import pylab as pl
+import matplotlib.pylab as pl
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
@@ -49,15 +49,15 @@ class pascal_voc(imdb):
         self._devkit_path = self._get_default_path() if devkit_path is None \
             else devkit_path
         self._data_path = os.path.join(self._devkit_path, 'VOC' + self._year)
-        
+        '''
         self._classes = ('__background__',  # always index 0
-                         'A.bes(H)','A.bes(T)','A.bes','A.bic(H)','A.bic(T)','A.bic',
-                         'A.fuj(H)','A.fuj(T)','A.fuj','B.xyl(H)','B.xyl(T)','B.xyl',
-                         'C.ele(H)','C.ele(T)','C.ele','M.ent(H)','M.ent(T)','M.ent',
-                         'M.gra(H)','M.gra(T)','M.gra','M.inc(H)','M.inc(T)','M.inc',
-                         'P.cof(H)','P.cof(T)','P.cof','P.vul(H)','P.vul(T)','P.vul',
-                         'P.spe(H)','P.spe(T)','P.spe','H.sp(H)','H.sp(T)','H.sp',
-                         'M.ams(H)' ,'M.ams(T)','M.ams'                    
+                         'A.bes','A.bic',
+                         'A.fuj','B.xyl',
+                         'C.ele','M.ent',
+                         'M.gra','M.inc',
+                         'P.cof','P.vul',
+                         'P.spe','H.sp',
+                         'M.ams'                    
                          )###################
         '''
         self._classes = ('__background__',  # always index 0
@@ -66,8 +66,9 @@ class pascal_voc(imdb):
                          'C.ele(H)','C.ele(T)','C.ele','M.ent(H)','M.ent(T)','M.ent',
                          'M.gra(H)','M.gra(T)','M.gra','M.inc(H)','M.inc(T)','M.inc',
                          'P.cof(H)','P.cof(T)','P.cof','P.vul(H)','P.vul(T)','P.vul',
-                         'P.spe(H)','P.spe(T)','P.spe')
-        '''
+                         'P.spe(H)','P.spe(T)','P.spe','H.sp(H)','H.sp(T)','H.sp',
+                         'M.ams(H)','M.ams(T)','M.ams')
+        
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
         self._image_ext = '.JPG'
         self._image_index = self._load_image_set_index()
@@ -231,17 +232,19 @@ class pascal_voc(imdb):
         '''
         temp_objs = []
         for obj in objs:
-            if obj.find('name').text.strip()=='A.bes(H)'  or obj.find('name').text.strip()== 'A.bes(T)' or\
-             obj.find('name').text.strip()=='A.bic(H)' or obj.find('name').text.strip()== 'A.bic(T)' or\
-             obj.find('name').text.strip()=='A.fuj(H)' or obj.find('name').text.strip()== 'A.fuj(T)' or\
-             obj.find('name').text.strip()=='B.xyl(H)' or obj.find('name').text.strip()== 'B.xyl(T)'or\
-             obj.find('name').text.strip()=='C.ele(H)' or obj.find('name').text.strip()== 'C.ele(T)'or\
-             obj.find('name').text.strip()== 'M.ent(H)' or obj.find('name').text.strip()== 'M.ent(T)'or\
-             obj.find('name').text.strip()== 'M.gra(H)' or obj.find('name').text.strip()== 'M.gra(T)'or\
-             obj.find('name').text.strip()== 'M.inc(H)' or obj.find('name').text.strip()== 'M.inc(T)'or\
-             obj.find('name').text.strip()== 'P.cof(H)' or obj.find('name').text.strip()== 'P.cof(T)'or\
-             obj.find('name').text.strip()== 'P.spe(H)' or obj.find('name').text.strip()== 'P.spe(T)'or\
-             obj.find('name').text.strip()== 'P.vul(H)' or obj.find('name').text.strip()== 'P.vul(T)':
+            if obj.find('name').text.strip()== 'A.bes' or\
+             obj.find('name').text.strip()== 'A.bic' or\
+             obj.find('name').text.strip()== 'A.fuj' or\
+             obj.find('name').text.strip()== 'B.xyl' or\
+             obj.find('name').text.strip()== 'C.ele' or\
+             obj.find('name').text.strip()== 'M.ent' or\
+             obj.find('name').text.strip()== 'M.gra' or\
+             obj.find('name').text.strip()== 'M.inc' or\
+             obj.find('name').text.strip()== 'P.cof' or\
+             obj.find('name').text.strip()== 'P.spe' or\
+             obj.find('name').text.strip()== 'P.vul' or\
+             obj.find('name').text.strip()== 'H.sp' or\
+             obj.find('name').text.strip()== 'M.ams':
                temp_objs.append(obj)
         objs = temp_objs
         '''
@@ -344,6 +347,9 @@ class pascal_voc(imdb):
         cachedir = os.path.join(self._devkit_path, 'annotations_cache')
         aps = []
         f1s = []
+        ntps = 0
+        nfps = 0
+        nfns = 0
         # The PASCAL VOC metric changed in 2010
         use_07_metric = True if int(self._year) < 2010 else False
         print('VOC07 metric? ' + ('Yes' if use_07_metric else 'No'))
@@ -362,11 +368,14 @@ class pascal_voc(imdb):
             image_ids = [x[0] for x in splitlines]
             #print(image_ids)
             weights.append(len(image_ids))
-            rec, prec, ap, f1 = voc_eval(
+            rec, prec, ap, f1, ntp, nfp, nfn = voc_eval(
               filename, annopath, imagesetfile, cls, cachedir, new_indexes, new_gt_boxes, ovthresh=0.5,
               use_07_metric=use_07_metric)
             f1s += [f1]
             aps += [ap]
+            ntps += ntp
+            nfps += nfp
+            nfns += nfn
             #if cls == "H.sp":
               #print(prec, rec)
             pl.plot(rec, prec, lw=2,
@@ -375,34 +384,38 @@ class pascal_voc(imdb):
             print('AP for {} = {:.4f}'.format(cls, ap))
             with open(os.path.join(output_dir, cls + '_pr.pkl'), 'wb') as f:
                 pickle.dump({'rec': rec, 'prec': prec, 'ap': ap}, f)
-                
+        
+        accuracy = (ntps+0)/(ntps+0+nfps+nfns)        
         #mpl.rcParams['xtick.direction'] = 'in'
         #mpl.rcParams['ytick.direction'] = 'in'
-        plt.tick_params(axis= 'x', direction='in', labelsize = 18)
-        plt.tick_params(axis= 'y', direction='in', labelsize = 18)
+        pl.tick_params(axis= 'x', direction='in', labelsize = 18)
+        pl.tick_params(axis= 'y', direction='in', labelsize = 18)
         pl.xlabel('Recall', fontsize=18)
         pl.ylabel('Precision', fontsize=18)
-        plt.grid(False)
+        pl.grid(False)
         pl.ylim([0.0, 1.05])
         pl.xlim([0.0, 1.05])
         
-        print(weights)
-        #pl.title('mAP = %.4f' % np.average(aps, weights = weights), fontsize=20)
+        #print(weights)
+        #plt.title('mAP = %.4f' % np.average(aps, weights = weights), fontsize=20)
         pl.title('mAP = %.4f' % np.mean(aps), fontsize=20)
         pl.legend(loc="best")     
-        plt.show()
+        plt.savefig("PR_curve.png")
+        #plt.show()
         
         
         
         #print('Mean AP = {:.4f}'.format(np.average(aps, weights = weights)))
         print('Mean AP = {:.4f}'.format(np.mean(aps)))
-        print('~~~~~~~~')
-        print('Results:')
-        for ap in aps:
-            print('{:.3f}'.format(ap))
-        print('{:.3f}'.format(np.mean(aps)))
-        print('~~~~~~~~')
+        print('CS threshold = 0.5')
+        print('Accuracy = %.4f'%(accuracy))
         print("f1-score for all classes: %f"%(np.mean(f1s)))
+        #print('~~~~~~~~')
+        #print('Results:')
+        #for ap in aps:
+            #print('{:.3f}'.format(ap))
+        #print('{:.3f}'.format(np.mean(aps)))
+        #print('~~~~~~~~')        
         print('')
         print('--------------------------------------------------------------')
         print('Results computed with the **unofficial** Python eval code.')
