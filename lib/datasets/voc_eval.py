@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 import os
 import pickle
 import numpy as np
+import sys
 
 
 
@@ -196,7 +197,9 @@ def voc_eval(detpath,
   nd = len(image_ids)
   tp = np.zeros(nd)
   fp = np.zeros(nd)
-
+  ntp = 0
+  nfp = 0
+  
   if BB.shape[0] > 0:
     # sort by confidence
     sorted_ind = np.argsort(-confidence)
@@ -236,15 +239,21 @@ def voc_eval(detpath,
           if not R['det'][jmax]:
             tp[d] = 1.
             R['det'][jmax] = 1
+            if abs(sorted_scores[d]) >= 0.5:
+              ntp+=1
           else:
             fp[d] = 1.
+            if abs(sorted_scores[d]) >= 0.5:
+              nfp+=1
       else:
         fp[d] = 1.
+        if abs(sorted_scores[d]) >= 0.5:
+          nfp+=1
   else:
     return 0, 0, 0, 0
-  ntp = np.sum(tp)
-  nfp = np.sum(fp)
+
   # compute precision recall
+
   fp = np.cumsum(fp)
   tp = np.cumsum(tp)
   rec = tp / float(npos)
