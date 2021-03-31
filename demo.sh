@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=1 python3 -u demo.py --net res101  --checksession 1  --checkepoch 20 --checkpoint 1897  --cuda --load_dir models

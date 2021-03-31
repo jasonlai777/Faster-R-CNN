@@ -1,0 +1,458 @@
+Called with args:
+Namespace(batch_size=2, checkepoch=1, checkpoint=0, checkpoint_interval=10000, checksession=1, class_agnostic=False, cuda=True, dataset='pascal_voc', disp_interval=1000, large_scale=False, lr=0.001, lr_decay_gamma=0.1, lr_decay_step=5, mGPUs=False, max_epochs=20, net='res101', num_workers=1, optimizer='adam', resume=False, save_dir='models', session=1, start_epoch=1, use_tfboard=False)
+/home/jason/Faster-R-CNN/lib/model/utils/config.py:377: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  yaml_cfg = edict(yaml.load(f))
+Using config:
+{'ANCHOR_RATIOS': [0.5, 1, 2],
+ 'ANCHOR_SCALES': [8, 16, 32],
+ 'CROP_RESIZE_WITH_MAX_POOL': False,
+ 'CUDA': False,
+ 'DATA_DIR': '/home/jason/Faster-R-CNN/data',
+ 'DEDUP_BOXES': 0.0625,
+ 'EPS': 1e-14,
+ 'EXP_DIR': 'res101',
+ 'FEAT_STRIDE': [16],
+ 'GPU_ID': 0,
+ 'MATLAB': 'matlab',
+ 'MAX_NUM_GT_BOXES': 20,
+ 'MOBILENET': {'DEPTH_MULTIPLIER': 1.0,
+               'FIXED_LAYERS': 5,
+               'REGU_DEPTH': False,
+               'WEIGHT_DECAY': 4e-05},
+ 'PIXEL_MEANS': array([[[102.9801, 115.9465, 122.7717]]]),
+ 'POOLING_MODE': 'align',
+ 'POOLING_SIZE': 7,
+ 'RESNET': {'FIXED_BLOCKS': 1, 'MAX_POOL': False},
+ 'RNG_SEED': 3,
+ 'ROOT_DIR': '/home/jason/Faster-R-CNN',
+ 'TEST': {'BBOX_REG': True,
+          'HAS_RPN': True,
+          'MAX_SIZE': 1000,
+          'MODE': 'nms',
+          'NMS': 0.3,
+          'PROPOSAL_METHOD': 'gt',
+          'RPN_MIN_SIZE': 16,
+          'RPN_NMS_THRESH': 0.7,
+          'RPN_POST_NMS_TOP_N': 300,
+          'RPN_PRE_NMS_TOP_N': 6000,
+          'RPN_TOP_N': 5000,
+          'SCALES': [600],
+          'SVM': False},
+ 'TRAIN': {'ASPECT_GROUPING': False,
+           'BATCH_SIZE': 128,
+           'BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
+           'BBOX_NORMALIZE_MEANS': [0.0, 0.0, 0.0, 0.0],
+           'BBOX_NORMALIZE_STDS': [0.1, 0.1, 0.2, 0.2],
+           'BBOX_NORMALIZE_TARGETS': True,
+           'BBOX_NORMALIZE_TARGETS_PRECOMPUTED': True,
+           'BBOX_REG': True,
+           'BBOX_THRESH': 0.5,
+           'BG_THRESH_HI': 0.5,
+           'BG_THRESH_LO': 0.0,
+           'BIAS_DECAY': False,
+           'BN_TRAIN': False,
+           'BRIGHTNESS_CHANGE': False,
+           'DISPLAY': 20,
+           'DOUBLE_BIAS': False,
+           'FG_FRACTION': 0.25,
+           'FG_THRESH': 0.5,
+           'GAMMA': 0.1,
+           'HAS_RPN': True,
+           'IMS_PER_BATCH': 1,
+           'LEARNING_RATE': 0.001,
+           'MAX_SIZE': 1000,
+           'MOMENTUM': 0.9,
+           'PROPOSAL_METHOD': 'gt',
+           'ROTATE_90': False,
+           'RPN_BATCHSIZE': 256,
+           'RPN_BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
+           'RPN_CLOBBER_POSITIVES': False,
+           'RPN_FG_FRACTION': 0.5,
+           'RPN_MIN_SIZE': 8,
+           'RPN_NEGATIVE_OVERLAP': 0.3,
+           'RPN_NMS_THRESH': 0.7,
+           'RPN_POSITIVE_OVERLAP': 0.7,
+           'RPN_POSITIVE_WEIGHT': -1.0,
+           'RPN_POST_NMS_TOP_N': 2000,
+           'RPN_PRE_NMS_TOP_N': 12000,
+           'SCALES': [600],
+           'SNAPSHOT_ITERS': 5000,
+           'SNAPSHOT_KEPT': 3,
+           'SNAPSHOT_PREFIX': 'res101_faster_rcnn',
+           'STEPSIZE': [30000],
+           'SUMMARY_INTERVAL': 180,
+           'TRIM_HEIGHT': 600,
+           'TRIM_WIDTH': 600,
+           'TRUNCATED': False,
+           'USE_ALL_GT': True,
+           'USE_FLIPPED': True,
+           'USE_GT': False,
+           'USE_VERTICAL_FLIPPED': False,
+           'WEIGHT_DECAY': 0.0001},
+ 'USE_GPU_NMS': True}
+['voc_2007_trainval']
+Loaded dataset `voc_2007_trainval` for training
+Set proposal method: gt
+Appending horizontally-flipped training examples...
+wrote gt roidb to /home/jason/Faster-R-CNN/data/cache/voc_2007_trainval_gt_roidb.pkl
+done
+Preparing training data...
+done
+before filtering, there are 14978 images...
+after filtering, there are 9688 images...
+['voc_2007_test']
+Loaded dataset `voc_2007_test` for training
+Set proposal method: gt
+Preparing training data...
+voc_2007_test gt roidb loaded from /home/jason/Faster-R-CNN/data/cache/voc_2007_test_gt_roidb.pkl
+done
+before filtering, there are 1888 images...
+after filtering, there are 1375 images...
+9688 roidb entries
+1375 roidb2 entries
+/home/jason/Faster-R-CNN/lib/model/rpn/rpn.py:93: UserWarning: This overload of nonzero is deprecated:
+	nonzero()
+Consider using one of the following signatures instead:
+	nonzero(*, bool as_tuple) (Triggered internally at  /pytorch/torch/csrc/utils/python_arg_parser.cpp:882.)
+  rpn_keep = Variable(rpn_label.view(-1).ne(-1).nonzero().view(-1))
+[session 1][epoch  1][iter    0/4844] training loss: 7.4936,  lr: 1.00e-04
+			fg/bg=(2/254), time cost: 2.448202
+			rpn_cls: 0.7588, rpn_box: 0.1920, rcnn_cls: 6.5260, rcnn_box 0.0168
+[session 1][epoch  1][iter 1000/4844] training loss: 0.7696,  lr: 1.00e-04
+			fg/bg=(25/231), time cost: 1353.164310
+			rpn_cls: 0.1927, rpn_box: 0.0141, rcnn_cls: 0.5605, rcnn_box 0.1974
+[session 1][epoch  1][iter 2000/4844] training loss: 0.6714,  lr: 1.00e-04
+			fg/bg=(52/204), time cost: 1300.223837
+			rpn_cls: 0.0969, rpn_box: 0.0224, rcnn_cls: 0.5644, rcnn_box 0.4149
+[session 1][epoch  1][iter 3000/4844] training loss: 0.6649,  lr: 1.00e-04
+			fg/bg=(15/241), time cost: 1297.434808
+			rpn_cls: 0.0852, rpn_box: 0.0083, rcnn_cls: 0.2407, rcnn_box 0.1174
+[session 1][epoch  1][iter 4000/4844] training loss: 0.7387,  lr: 1.00e-04
+			fg/bg=(11/245), time cost: 1285.560955
+			rpn_cls: 0.0870, rpn_box: 0.0219, rcnn_cls: 0.2012, rcnn_box 0.0789
+Epoch 1: Training loss: 0.7015, Testing loss: 0.6269
+total training time: 5238.832112
+[session 1][epoch  2][iter    0/4844] training loss: 0.9508,  lr: 1.00e-04
+			fg/bg=(24/232), time cost: 1.975317
+			rpn_cls: 0.3644, rpn_box: 0.0557, rcnn_cls: 0.3929, rcnn_box 0.1379
+[session 1][epoch  2][iter 1000/4844] training loss: 0.6225,  lr: 1.00e-04
+			fg/bg=(18/238), time cost: 1366.227505
+			rpn_cls: 0.0330, rpn_box: 0.0102, rcnn_cls: 0.2092, rcnn_box 0.1016
+[session 1][epoch  2][iter 2000/4844] training loss: 0.6211,  lr: 1.00e-04
+			fg/bg=(7/249), time cost: 1263.292462
+			rpn_cls: 0.1257, rpn_box: 0.0452, rcnn_cls: 0.1543, rcnn_box 0.0532
+[session 1][epoch  2][iter 3000/4844] training loss: 0.6082,  lr: 1.00e-04
+			fg/bg=(29/227), time cost: 1265.327126
+			rpn_cls: 0.0347, rpn_box: 0.0050, rcnn_cls: 0.3409, rcnn_box 0.1621
+[session 1][epoch  2][iter 4000/4844] training loss: 0.6043,  lr: 1.00e-04
+			fg/bg=(16/240), time cost: 1264.006309
+			rpn_cls: 0.0247, rpn_box: 0.0242, rcnn_cls: 0.2210, rcnn_box 0.1124
+Epoch 2: Training loss: 0.6156, Testing loss: 0.4813
+total training time: 10399.660832
+[session 1][epoch  3][iter    0/4844] training loss: 1.0952,  lr: 1.00e-04
+			fg/bg=(39/217), time cost: 1.860207
+			rpn_cls: 0.1527, rpn_box: 0.0215, rcnn_cls: 0.6099, rcnn_box 0.3112
+[session 1][epoch  3][iter 1000/4844] training loss: 0.6002,  lr: 1.00e-04
+			fg/bg=(13/243), time cost: 1330.667387
+			rpn_cls: 0.0367, rpn_box: 0.0109, rcnn_cls: 0.1508, rcnn_box 0.0758
+[session 1][epoch  3][iter 2000/4844] training loss: 0.5871,  lr: 1.00e-04
+			fg/bg=(50/206), time cost: 1261.014293
+			rpn_cls: 0.0954, rpn_box: 0.0686, rcnn_cls: 0.5509, rcnn_box 0.2510
+[session 1][epoch  3][iter 3000/4844] training loss: 0.5840,  lr: 1.00e-04
+			fg/bg=(32/224), time cost: 1258.640195
+			rpn_cls: 0.0580, rpn_box: 0.0848, rcnn_cls: 0.4369, rcnn_box 0.1638
+[session 1][epoch  3][iter 4000/4844] training loss: 0.5818,  lr: 1.00e-04
+			fg/bg=(34/222), time cost: 1273.396199
+			rpn_cls: 0.0613, rpn_box: 0.0105, rcnn_cls: 0.3684, rcnn_box 0.1412
+Epoch 3: Training loss: 0.5826, Testing loss: 0.5842
+total training time: 15525.239114
+[session 1][epoch  4][iter    0/4844] training loss: 0.5747,  lr: 1.00e-04
+			fg/bg=(29/227), time cost: 1.828202
+			rpn_cls: 0.0329, rpn_box: 0.0109, rcnn_cls: 0.3768, rcnn_box 0.1540
+[session 1][epoch  4][iter 1000/4844] training loss: 0.5618,  lr: 1.00e-04
+			fg/bg=(37/219), time cost: 1329.792820
+			rpn_cls: 0.0125, rpn_box: 0.0078, rcnn_cls: 0.3503, rcnn_box 0.1571
+[session 1][epoch  4][iter 2000/4844] training loss: 0.5539,  lr: 1.00e-04
+			fg/bg=(40/216), time cost: 1263.909705
+			rpn_cls: 0.0298, rpn_box: 0.0085, rcnn_cls: 0.3811, rcnn_box 0.1576
+[session 1][epoch  4][iter 3000/4844] training loss: 0.5523,  lr: 1.00e-04
+			fg/bg=(12/244), time cost: 1261.355378
+			rpn_cls: 0.0183, rpn_box: 0.0048, rcnn_cls: 0.1230, rcnn_box 0.0695
+[session 1][epoch  4][iter 4000/4844] training loss: 0.5624,  lr: 1.00e-04
+			fg/bg=(54/202), time cost: 1259.656522
+			rpn_cls: 0.0596, rpn_box: 0.0193, rcnn_cls: 0.1767, rcnn_box 0.2886
+Epoch 4: Training loss: 0.5548, Testing loss: 0.6377
+total training time: 20641.781741
+[session 1][epoch  5][iter    0/4844] training loss: 0.4628,  lr: 1.00e-04
+			fg/bg=(30/226), time cost: 1.809670
+			rpn_cls: 0.0440, rpn_box: 0.0081, rcnn_cls: 0.2396, rcnn_box 0.1712
+[session 1][epoch  5][iter 1000/4844] training loss: 0.5379,  lr: 1.00e-04
+			fg/bg=(23/233), time cost: 1329.079417
+			rpn_cls: 0.0555, rpn_box: 0.0034, rcnn_cls: 0.2761, rcnn_box 0.0963
+[session 1][epoch  5][iter 2000/4844] training loss: 0.5382,  lr: 1.00e-04
+			fg/bg=(29/227), time cost: 1257.233149
+			rpn_cls: 0.0677, rpn_box: 0.0228, rcnn_cls: 0.2341, rcnn_box 0.1114
+[session 1][epoch  5][iter 3000/4844] training loss: 0.5528,  lr: 1.00e-04
+			fg/bg=(50/206), time cost: 1263.620862
+			rpn_cls: 0.0346, rpn_box: 0.0027, rcnn_cls: 0.4623, rcnn_box 0.2349
+[session 1][epoch  5][iter 4000/4844] training loss: 0.5435,  lr: 1.00e-04
+			fg/bg=(20/236), time cost: 1260.015558
+			rpn_cls: 0.0071, rpn_box: 0.0021, rcnn_cls: 0.1611, rcnn_box 0.0675
+Epoch 5: Training loss: 0.5443, Testing loss: 0.6174
+total training time: 25753.540398
+[session 1][epoch  6][iter    0/4844] training loss: 0.5554,  lr: 1.00e-05
+			fg/bg=(22/234), time cost: 1.786127
+			rpn_cls: 0.0517, rpn_box: 0.0300, rcnn_cls: 0.3261, rcnn_box 0.1475
+[session 1][epoch  6][iter 1000/4844] training loss: 0.5324,  lr: 1.00e-05
+			fg/bg=(31/225), time cost: 1325.027496
+			rpn_cls: 0.0912, rpn_box: 0.0123, rcnn_cls: 0.3316, rcnn_box 0.1647
+[session 1][epoch  6][iter 2000/4844] training loss: 0.5111,  lr: 1.00e-05
+			fg/bg=(31/225), time cost: 1262.733138
+			rpn_cls: 0.0362, rpn_box: 0.0116, rcnn_cls: 0.2013, rcnn_box 0.1724
+[session 1][epoch  6][iter 3000/4844] training loss: 0.4920,  lr: 1.00e-05
+			fg/bg=(34/222), time cost: 1262.192319
+			rpn_cls: 0.0462, rpn_box: 0.0148, rcnn_cls: 0.3775, rcnn_box 0.1358
+[session 1][epoch  6][iter 4000/4844] training loss: 0.4943,  lr: 1.00e-05
+			fg/bg=(30/226), time cost: 1262.905269
+			rpn_cls: 0.1207, rpn_box: 0.0111, rcnn_cls: 0.2604, rcnn_box 0.1703
+Epoch 6: Training loss: 0.5048, Testing loss: 0.5864
+total training time: 30868.184747
+[session 1][epoch  7][iter    0/4844] training loss: 0.3555,  lr: 1.00e-05
+			fg/bg=(30/226), time cost: 1.777460
+			rpn_cls: 0.0316, rpn_box: 0.0153, rcnn_cls: 0.1862, rcnn_box 0.1225
+[session 1][epoch  7][iter 1000/4844] training loss: 0.4780,  lr: 1.00e-05
+			fg/bg=(11/245), time cost: 1330.221488
+			rpn_cls: 0.0373, rpn_box: 0.0045, rcnn_cls: 0.0664, rcnn_box 0.0411
+[session 1][epoch  7][iter 2000/4844] training loss: 0.4766,  lr: 1.00e-05
+			fg/bg=(47/209), time cost: 1259.579406
+			rpn_cls: 0.0359, rpn_box: 0.0060, rcnn_cls: 0.3756, rcnn_box 0.1375
+[session 1][epoch  7][iter 3000/4844] training loss: 0.4780,  lr: 1.00e-05
+			fg/bg=(64/192), time cost: 1261.334292
+			rpn_cls: 0.0455, rpn_box: 0.0075, rcnn_cls: 0.4044, rcnn_box 0.2420
+[session 1][epoch  7][iter 4000/4844] training loss: 0.4700,  lr: 1.00e-05
+			fg/bg=(57/199), time cost: 1258.828109
+			rpn_cls: 0.1069, rpn_box: 0.0560, rcnn_cls: 0.4934, rcnn_box 0.2239
+Epoch 7: Training loss: 0.4735, Testing loss: 0.6683
+total training time: 35979.925502
+[session 1][epoch  8][iter    0/4844] training loss: 0.3105,  lr: 1.00e-05
+			fg/bg=(30/226), time cost: 1.772442
+			rpn_cls: 0.0322, rpn_box: 0.0103, rcnn_cls: 0.1641, rcnn_box 0.1039
+[session 1][epoch  8][iter 1000/4844] training loss: 0.4538,  lr: 1.00e-05
+			fg/bg=(46/210), time cost: 1325.964930
+			rpn_cls: 0.0156, rpn_box: 0.0012, rcnn_cls: 0.3492, rcnn_box 0.1256
+[session 1][epoch  8][iter 2000/4844] training loss: 0.4548,  lr: 1.00e-05
+			fg/bg=(19/237), time cost: 1264.189316
+			rpn_cls: 0.0202, rpn_box: 0.0113, rcnn_cls: 0.1114, rcnn_box 0.0703
+[session 1][epoch  8][iter 3000/4844] training loss: 0.4605,  lr: 1.00e-05
+			fg/bg=(27/229), time cost: 1263.933473
+			rpn_cls: 0.0650, rpn_box: 0.0074, rcnn_cls: 0.2567, rcnn_box 0.1291
+[session 1][epoch  8][iter 4000/4844] training loss: 0.4441,  lr: 1.00e-05
+			fg/bg=(47/209), time cost: 1261.354943
+			rpn_cls: 0.1744, rpn_box: 0.0213, rcnn_cls: 0.3017, rcnn_box 0.2784
+Epoch 8: Training loss: 0.4534, Testing loss: 0.6597
+total training time: 41097.140605
+[session 1][epoch  9][iter    0/4844] training loss: 0.4982,  lr: 1.00e-05
+			fg/bg=(45/211), time cost: 1.786800
+			rpn_cls: 0.0262, rpn_box: 0.0212, rcnn_cls: 0.2372, rcnn_box 0.2136
+[session 1][epoch  9][iter 1000/4844] training loss: 0.4446,  lr: 1.00e-05
+			fg/bg=(30/226), time cost: 1327.737903
+			rpn_cls: 0.0725, rpn_box: 0.0075, rcnn_cls: 0.3415, rcnn_box 0.0949
+[session 1][epoch  9][iter 2000/4844] training loss: 0.4296,  lr: 1.00e-05
+			fg/bg=(19/237), time cost: 1264.750529
+			rpn_cls: 0.0924, rpn_box: 0.0129, rcnn_cls: 0.2182, rcnn_box 0.0443
+[session 1][epoch  9][iter 3000/4844] training loss: 0.4299,  lr: 1.00e-05
+			fg/bg=(30/226), time cost: 1267.699337
+			rpn_cls: 0.0458, rpn_box: 0.0333, rcnn_cls: 0.3999, rcnn_box 0.0946
+[session 1][epoch  9][iter 4000/4844] training loss: 0.4194,  lr: 1.00e-05
+			fg/bg=(52/204), time cost: 1259.244995
+			rpn_cls: 0.0693, rpn_box: 0.0075, rcnn_cls: 0.3410, rcnn_box 0.2749
+Epoch 9: Training loss: 0.4318, Testing loss: 0.6843
+total training time: 46218.360169
+[session 1][epoch 10][iter    0/4844] training loss: 0.4407,  lr: 1.00e-05
+			fg/bg=(39/217), time cost: 1.845079
+			rpn_cls: 0.0225, rpn_box: 0.0032, rcnn_cls: 0.2785, rcnn_box 0.1365
+[session 1][epoch 10][iter 1000/4844] training loss: 0.4176,  lr: 1.00e-05
+			fg/bg=(47/209), time cost: 1327.640403
+			rpn_cls: 0.0530, rpn_box: 0.0040, rcnn_cls: 0.3513, rcnn_box 0.1599
+[session 1][epoch 10][iter 2000/4844] training loss: 0.4130,  lr: 1.00e-05
+			fg/bg=(54/202), time cost: 1265.315519
+			rpn_cls: 0.1169, rpn_box: 0.0149, rcnn_cls: 0.4155, rcnn_box 0.1458
+[session 1][epoch 10][iter 3000/4844] training loss: 0.4070,  lr: 1.00e-05
+			fg/bg=(13/243), time cost: 1262.546789
+			rpn_cls: 0.0173, rpn_box: 0.0132, rcnn_cls: 0.1191, rcnn_box 0.0641
+[session 1][epoch 10][iter 4000/4844] training loss: 0.3892,  lr: 1.00e-05
+			fg/bg=(20/236), time cost: 1262.957131
+			rpn_cls: 0.0324, rpn_box: 0.0050, rcnn_cls: 0.0587, rcnn_box 0.0920
+Epoch 10: Training loss: 0.4033, Testing loss: 0.7068
+total training time: 51338.665090
+[session 1][epoch 11][iter    0/4844] training loss: 0.3467,  lr: 1.00e-05
+			fg/bg=(27/229), time cost: 1.868892
+			rpn_cls: 0.0386, rpn_box: 0.0179, rcnn_cls: 0.1744, rcnn_box 0.1158
+[session 1][epoch 11][iter 1000/4844] training loss: 0.3887,  lr: 1.00e-05
+			fg/bg=(32/224), time cost: 1328.365008
+			rpn_cls: 0.0452, rpn_box: 0.0188, rcnn_cls: 0.2088, rcnn_box 0.0982
+[session 1][epoch 11][iter 2000/4844] training loss: 0.3780,  lr: 1.00e-05
+			fg/bg=(40/216), time cost: 1265.250184
+			rpn_cls: 0.0470, rpn_box: 0.0119, rcnn_cls: 0.2265, rcnn_box 0.1075
+[session 1][epoch 11][iter 3000/4844] training loss: 0.3818,  lr: 1.00e-05
+			fg/bg=(46/210), time cost: 1262.681001
+			rpn_cls: 0.0517, rpn_box: 0.0052, rcnn_cls: 0.0929, rcnn_box 0.1912
+[session 1][epoch 11][iter 4000/4844] training loss: 0.3757,  lr: 1.00e-05
+			fg/bg=(44/212), time cost: 1264.610075
+			rpn_cls: 0.0835, rpn_box: 0.0125, rcnn_cls: 0.0966, rcnn_box 0.1155
+Epoch 11: Training loss: 0.3792, Testing loss: 0.7158
+total training time: 56461.440250
+[session 1][epoch 12][iter    0/4844] training loss: 0.2957,  lr: 1.00e-06
+			fg/bg=(24/232), time cost: 1.788854
+			rpn_cls: 0.0263, rpn_box: 0.0130, rcnn_cls: 0.1755, rcnn_box 0.0810
+[session 1][epoch 12][iter 1000/4844] training loss: 0.3344,  lr: 1.00e-06
+			fg/bg=(38/218), time cost: 1327.214347
+			rpn_cls: 0.1225, rpn_box: 0.0317, rcnn_cls: 0.0891, rcnn_box 0.1492
+[session 1][epoch 12][iter 2000/4844] training loss: 0.3241,  lr: 1.00e-06
+			fg/bg=(21/235), time cost: 1262.904736
+			rpn_cls: 0.0442, rpn_box: 0.0175, rcnn_cls: 0.1471, rcnn_box 0.1386
+[session 1][epoch 12][iter 3000/4844] training loss: 0.3328,  lr: 1.00e-06
+			fg/bg=(35/221), time cost: 1264.129134
+			rpn_cls: 0.0182, rpn_box: 0.0035, rcnn_cls: 0.3650, rcnn_box 0.0617
+[session 1][epoch 12][iter 4000/4844] training loss: 0.3270,  lr: 1.00e-06
+			fg/bg=(30/226), time cost: 1258.431784
+			rpn_cls: 0.0288, rpn_box: 0.0120, rcnn_cls: 0.1260, rcnn_box 0.0842
+Epoch 12: Training loss: 0.3285, Testing loss: 0.7754
+total training time: 61575.909104
+[session 1][epoch 13][iter    0/4844] training loss: 0.2984,  lr: 1.00e-06
+			fg/bg=(38/218), time cost: 1.884665
+			rpn_cls: 0.0418, rpn_box: 0.0061, rcnn_cls: 0.1078, rcnn_box 0.1428
+[session 1][epoch 13][iter 1000/4844] training loss: 0.3218,  lr: 1.00e-06
+			fg/bg=(46/210), time cost: 1331.163058
+			rpn_cls: 0.0376, rpn_box: 0.0144, rcnn_cls: 0.1491, rcnn_box 0.1374
+[session 1][epoch 13][iter 2000/4844] training loss: 0.3268,  lr: 1.00e-06
+			fg/bg=(40/216), time cost: 1262.898164
+			rpn_cls: 0.0394, rpn_box: 0.0049, rcnn_cls: 0.1913, rcnn_box 0.0645
+[session 1][epoch 13][iter 3000/4844] training loss: 0.3099,  lr: 1.00e-06
+			fg/bg=(25/231), time cost: 1256.842633
+			rpn_cls: 0.0513, rpn_box: 0.0082, rcnn_cls: 0.0519, rcnn_box 0.0847
+[session 1][epoch 13][iter 4000/4844] training loss: 0.3158,  lr: 1.00e-06
+			fg/bg=(34/222), time cost: 1261.947733
+			rpn_cls: 0.0597, rpn_box: 0.0183, rcnn_cls: 0.1235, rcnn_box 0.1719
+Epoch 13: Training loss: 0.3177, Testing loss: 0.8268
+total training time: 66690.645357
+[session 1][epoch 14][iter    0/4844] training loss: 0.2712,  lr: 1.00e-06
+			fg/bg=(30/226), time cost: 1.845779
+			rpn_cls: 0.0245, rpn_box: 0.0168, rcnn_cls: 0.1568, rcnn_box 0.0731
+[session 1][epoch 14][iter 1000/4844] training loss: 0.3102,  lr: 1.00e-06
+			fg/bg=(53/203), time cost: 1327.545049
+			rpn_cls: 0.0564, rpn_box: 0.0136, rcnn_cls: 0.1051, rcnn_box 0.0997
+[session 1][epoch 14][iter 2000/4844] training loss: 0.3106,  lr: 1.00e-06
+			fg/bg=(29/227), time cost: 1262.323246
+			rpn_cls: 0.0447, rpn_box: 0.0112, rcnn_cls: 0.1273, rcnn_box 0.0834
+[session 1][epoch 14][iter 3000/4844] training loss: 0.3123,  lr: 1.00e-06
+			fg/bg=(17/239), time cost: 1259.707652
+			rpn_cls: 0.0373, rpn_box: 0.0091, rcnn_cls: 0.0862, rcnn_box 0.0799
+[session 1][epoch 14][iter 4000/4844] training loss: 0.3117,  lr: 1.00e-06
+			fg/bg=(43/213), time cost: 1262.756143
+			rpn_cls: 0.0493, rpn_box: 0.0175, rcnn_cls: 0.0472, rcnn_box 0.0765
+Epoch 14: Training loss: 0.3110, Testing loss: 0.8538
+total training time: 71804.823226
+[session 1][epoch 15][iter    0/4844] training loss: 0.1479,  lr: 1.00e-06
+			fg/bg=(27/229), time cost: 1.778227
+			rpn_cls: 0.0206, rpn_box: 0.0101, rcnn_cls: 0.0414, rcnn_box 0.0758
+[session 1][epoch 15][iter 1000/4844] training loss: 0.2998,  lr: 1.00e-06
+			fg/bg=(24/232), time cost: 1329.622884
+			rpn_cls: 0.0157, rpn_box: 0.0153, rcnn_cls: 0.1282, rcnn_box 0.1019
+[session 1][epoch 15][iter 2000/4844] training loss: 0.3050,  lr: 1.00e-06
+			fg/bg=(19/237), time cost: 1260.098698
+			rpn_cls: 0.0088, rpn_box: 0.0118, rcnn_cls: 0.1029, rcnn_box 0.0495
+[session 1][epoch 15][iter 3000/4844] training loss: 0.2977,  lr: 1.00e-06
+			fg/bg=(30/226), time cost: 1261.535417
+			rpn_cls: 0.0754, rpn_box: 0.0091, rcnn_cls: 0.1588, rcnn_box 0.0986
+[session 1][epoch 15][iter 4000/4844] training loss: 0.3081,  lr: 1.00e-06
+			fg/bg=(39/217), time cost: 1262.743665
+			rpn_cls: 0.0360, rpn_box: 0.0093, rcnn_cls: 0.1729, rcnn_box 0.0615
+Epoch 15: Training loss: 0.3044, Testing loss: 0.8728
+total training time: 76920.602117
+[session 1][epoch 16][iter    0/4844] training loss: 0.3233,  lr: 1.00e-06
+			fg/bg=(28/228), time cost: 1.867878
+			rpn_cls: 0.0296, rpn_box: 0.0068, rcnn_cls: 0.1988, rcnn_box 0.0880
+[session 1][epoch 16][iter 1000/4844] training loss: 0.2997,  lr: 1.00e-06
+			fg/bg=(33/223), time cost: 1330.589429
+			rpn_cls: 0.0068, rpn_box: 0.0054, rcnn_cls: 0.1249, rcnn_box 0.0503
+[session 1][epoch 16][iter 2000/4844] training loss: 0.3058,  lr: 1.00e-06
+			fg/bg=(29/227), time cost: 1270.167614
+			rpn_cls: 0.0131, rpn_box: 0.0056, rcnn_cls: 0.0616, rcnn_box 0.0584
+[session 1][epoch 16][iter 3000/4844] training loss: 0.2975,  lr: 1.00e-06
+			fg/bg=(31/225), time cost: 1315.004083
+			rpn_cls: 0.0294, rpn_box: 0.0090, rcnn_cls: 0.0848, rcnn_box 0.1107
+[session 1][epoch 16][iter 4000/4844] training loss: 0.2920,  lr: 1.00e-06
+			fg/bg=(26/230), time cost: 1310.839699
+			rpn_cls: 0.0138, rpn_box: 0.0068, rcnn_cls: 0.0255, rcnn_box 0.0309
+Epoch 16: Training loss: 0.2971, Testing loss: 0.8918
+total training time: 82149.070821
+[session 1][epoch 17][iter    0/4844] training loss: 0.3310,  lr: 1.00e-06
+			fg/bg=(52/204), time cost: 2.043738
+			rpn_cls: 0.0397, rpn_box: 0.0164, rcnn_cls: 0.1831, rcnn_box 0.0917
+[session 1][epoch 17][iter 1000/4844] training loss: 0.2858,  lr: 1.00e-06
+			fg/bg=(18/238), time cost: 1394.185683
+			rpn_cls: 0.0181, rpn_box: 0.0047, rcnn_cls: 0.1504, rcnn_box 0.0798
+[session 1][epoch 17][iter 2000/4844] training loss: 0.2906,  lr: 1.00e-06
+			fg/bg=(34/222), time cost: 1318.365632
+			rpn_cls: 0.0240, rpn_box: 0.0233, rcnn_cls: 0.1598, rcnn_box 0.2475
+[session 1][epoch 17][iter 3000/4844] training loss: 0.2922,  lr: 1.00e-06
+			fg/bg=(53/203), time cost: 1311.020642
+			rpn_cls: 0.0692, rpn_box: 0.0015, rcnn_cls: 0.1604, rcnn_box 0.1992
+[session 1][epoch 17][iter 4000/4844] training loss: 0.2921,  lr: 1.00e-06
+			fg/bg=(23/233), time cost: 1315.767837
+			rpn_cls: 0.0283, rpn_box: 0.0011, rcnn_cls: 0.1045, rcnn_box 0.0489
+Epoch 17: Training loss: 0.2908, Testing loss: 0.9231
+total training time: 87490.454352
+[session 1][epoch 18][iter    0/4844] training loss: 0.3679,  lr: 1.00e-07
+			fg/bg=(45/211), time cost: 2.058140
+			rpn_cls: 0.0279, rpn_box: 0.0083, rcnn_cls: 0.2072, rcnn_box 0.1246
+[session 1][epoch 18][iter 1000/4844] training loss: 0.2884,  lr: 1.00e-07
+			fg/bg=(42/214), time cost: 1398.243126
+			rpn_cls: 0.0698, rpn_box: 0.0559, rcnn_cls: 0.1640, rcnn_box 0.2725
+[session 1][epoch 18][iter 2000/4844] training loss: 0.2831,  lr: 1.00e-07
+			fg/bg=(33/223), time cost: 1324.120052
+			rpn_cls: 0.0143, rpn_box: 0.0005, rcnn_cls: 0.1289, rcnn_box 0.0483
+[session 1][epoch 18][iter 3000/4844] training loss: 0.2801,  lr: 1.00e-07
+			fg/bg=(53/203), time cost: 1322.677607
+			rpn_cls: 0.0260, rpn_box: 0.0083, rcnn_cls: 0.1714, rcnn_box 0.2010
+[session 1][epoch 18][iter 4000/4844] training loss: 0.2732,  lr: 1.00e-07
+			fg/bg=(19/237), time cost: 1317.935639
+			rpn_cls: 0.0258, rpn_box: 0.0113, rcnn_cls: 0.0741, rcnn_box 0.0660
+Epoch 18: Training loss: 0.2813, Testing loss: 0.9301
+total training time: 92855.488916
+[session 1][epoch 19][iter    0/4844] training loss: 0.2494,  lr: 1.00e-07
+			fg/bg=(20/236), time cost: 2.077307
+			rpn_cls: 0.0388, rpn_box: 0.0349, rcnn_cls: 0.1044, rcnn_box 0.0713
+[session 1][epoch 19][iter 1000/4844] training loss: 0.2752,  lr: 1.00e-07
+			fg/bg=(48/208), time cost: 1393.070626
+			rpn_cls: 0.0258, rpn_box: 0.0050, rcnn_cls: 0.5959, rcnn_box 0.1473
+[session 1][epoch 19][iter 2000/4844] training loss: 0.2769,  lr: 1.00e-07
+			fg/bg=(56/200), time cost: 1320.711092
+			rpn_cls: 0.0290, rpn_box: 0.0029, rcnn_cls: 0.0647, rcnn_box 0.0441
+[session 1][epoch 19][iter 3000/4844] training loss: 0.2834,  lr: 1.00e-07
+			fg/bg=(47/209), time cost: 1318.641766
+			rpn_cls: 0.0119, rpn_box: 0.0172, rcnn_cls: 0.1180, rcnn_box 0.1446
+[session 1][epoch 19][iter 4000/4844] training loss: 0.2812,  lr: 1.00e-07
+			fg/bg=(44/212), time cost: 1336.907125
+			rpn_cls: 0.0516, rpn_box: 0.0060, rcnn_cls: 0.1380, rcnn_box 0.1288
+Epoch 19: Training loss: 0.2789, Testing loss: 0.9453
+total training time: 98226.896832
+[session 1][epoch 20][iter    0/4844] training loss: 0.2835,  lr: 1.00e-07
+			fg/bg=(25/231), time cost: 2.124262
+			rpn_cls: 0.0647, rpn_box: 0.0167, rcnn_cls: 0.1040, rcnn_box 0.0981
+[session 1][epoch 20][iter 1000/4844] training loss: 0.2780,  lr: 1.00e-07
+			fg/bg=(51/205), time cost: 1389.592490
+			rpn_cls: 0.0220, rpn_box: 0.0091, rcnn_cls: 0.1735, rcnn_box 0.0912
+[session 1][epoch 20][iter 2000/4844] training loss: 0.2801,  lr: 1.00e-07
+			fg/bg=(49/207), time cost: 1317.976794
+			rpn_cls: 0.0121, rpn_box: 0.0061, rcnn_cls: 0.1598, rcnn_box 0.1403
+[session 1][epoch 20][iter 3000/4844] training loss: 0.2805,  lr: 1.00e-07
+			fg/bg=(26/230), time cost: 1312.861389
+			rpn_cls: 0.0441, rpn_box: 0.0113, rcnn_cls: 0.1398, rcnn_box 0.0593
+[session 1][epoch 20][iter 4000/4844] training loss: 0.2710,  lr: 1.00e-07
+			fg/bg=(26/230), time cost: 1311.180670
+			rpn_cls: 0.0201, rpn_box: 0.0011, rcnn_cls: 0.0939, rcnn_box 0.0632
+Epoch 20: Training loss: 0.2770, Testing loss: 0.9595
+total training time: 103560.632437
+save model: models/res101/pascal_voc/faster_rcnn_1_20_4843.pth

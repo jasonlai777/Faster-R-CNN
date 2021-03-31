@@ -1,0 +1,202 @@
+Called with args:
+Namespace(batch_size=6, checkepoch=1, checkpoint=0, checkpoint_interval=10000, checksession=1, class_agnostic=False, cuda=True, dataset='pascal_voc', disp_interval=200, large_scale=False, lr=0.001, lr_decay_gamma=0.1, lr_decay_step=5, mGPUs=False, max_epochs=40, net='res101', num_workers=1, optimizer='sgd', resume=False, save_dir='models', session=1, start_epoch=1, use_tfboard=False)
+/home/jason/Faster-R-CNN/lib/model/utils/config.py:377: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  yaml_cfg = edict(yaml.load(f))
+Using config:
+{'ANCHOR_RATIOS': [0.5, 1, 2],
+ 'ANCHOR_SCALES': [8, 16, 32],
+ 'CROP_RESIZE_WITH_MAX_POOL': False,
+ 'CUDA': False,
+ 'DATA_DIR': '/home/jason/Faster-R-CNN/data',
+ 'DEDUP_BOXES': 0.0625,
+ 'EPS': 1e-14,
+ 'EXP_DIR': 'res101',
+ 'FEAT_STRIDE': [16],
+ 'GPU_ID': 0,
+ 'MATLAB': 'matlab',
+ 'MAX_NUM_GT_BOXES': 20,
+ 'MOBILENET': {'DEPTH_MULTIPLIER': 1.0,
+               'FIXED_LAYERS': 5,
+               'REGU_DEPTH': False,
+               'WEIGHT_DECAY': 4e-05},
+ 'PIXEL_MEANS': array([[[102.9801, 115.9465, 122.7717]]]),
+ 'POOLING_MODE': 'align',
+ 'POOLING_SIZE': 7,
+ 'RESNET': {'FIXED_BLOCKS': 1, 'MAX_POOL': False},
+ 'RNG_SEED': 3,
+ 'ROOT_DIR': '/home/jason/Faster-R-CNN',
+ 'TEST': {'BBOX_REG': True,
+          'HAS_RPN': True,
+          'MAX_SIZE': 1000,
+          'MODE': 'nms',
+          'NMS': 0.3,
+          'PROPOSAL_METHOD': 'gt',
+          'RPN_MIN_SIZE': 16,
+          'RPN_NMS_THRESH': 0.7,
+          'RPN_POST_NMS_TOP_N': 300,
+          'RPN_PRE_NMS_TOP_N': 6000,
+          'RPN_TOP_N': 5000,
+          'SCALES': [600],
+          'SVM': False},
+ 'TRAIN': {'ASPECT_GROUPING': False,
+           'BATCH_SIZE': 128,
+           'BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
+           'BBOX_NORMALIZE_MEANS': [0.0, 0.0, 0.0, 0.0],
+           'BBOX_NORMALIZE_STDS': [0.1, 0.1, 0.2, 0.2],
+           'BBOX_NORMALIZE_TARGETS': True,
+           'BBOX_NORMALIZE_TARGETS_PRECOMPUTED': True,
+           'BBOX_REG': True,
+           'BBOX_THRESH': 0.5,
+           'BG_THRESH_HI': 0.5,
+           'BG_THRESH_LO': 0.0,
+           'BIAS_DECAY': False,
+           'BN_TRAIN': False,
+           'BRIGHTNESS_CHANGE': False,
+           'DISPLAY': 20,
+           'DOUBLE_BIAS': False,
+           'FG_FRACTION': 0.25,
+           'FG_THRESH': 0.5,
+           'GAMMA': 0.1,
+           'HAS_RPN': True,
+           'IMS_PER_BATCH': 1,
+           'LEARNING_RATE': 0.001,
+           'MAX_SIZE': 1000,
+           'MOMENTUM': 0.9,
+           'PROPOSAL_METHOD': 'gt',
+           'ROTATE_90': False,
+           'RPN_BATCHSIZE': 256,
+           'RPN_BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
+           'RPN_CLOBBER_POSITIVES': False,
+           'RPN_FG_FRACTION': 0.5,
+           'RPN_MIN_SIZE': 8,
+           'RPN_NEGATIVE_OVERLAP': 0.3,
+           'RPN_NMS_THRESH': 0.7,
+           'RPN_POSITIVE_OVERLAP': 0.7,
+           'RPN_POSITIVE_WEIGHT': -1.0,
+           'RPN_POST_NMS_TOP_N': 2000,
+           'RPN_PRE_NMS_TOP_N': 12000,
+           'SCALES': [600],
+           'SNAPSHOT_ITERS': 5000,
+           'SNAPSHOT_KEPT': 3,
+           'SNAPSHOT_PREFIX': 'res101_faster_rcnn',
+           'STEPSIZE': [30000],
+           'SUMMARY_INTERVAL': 180,
+           'TRIM_HEIGHT': 600,
+           'TRIM_WIDTH': 600,
+           'TRUNCATED': False,
+           'USE_ALL_GT': True,
+           'USE_FLIPPED': True,
+           'USE_GT': False,
+           'USE_VERTICAL_FLIPPED': False,
+           'WEIGHT_DECAY': 0.0001},
+ 'USE_GPU_NMS': True}
+['voc_2007_trainval']
+Loaded dataset `voc_2007_trainval` for training
+Set proposal method: gt
+Appending horizontally-flipped training examples...
+wrote gt roidb to /home/jason/Faster-R-CNN/data/cache/voc_2007_trainval_gt_roidb.pkl
+done
+Preparing training data...
+done
+before filtering, there are 14978 images...
+after filtering, there are 14976 images...
+['voc_2007_test']
+Loaded dataset `voc_2007_test` for training
+Set proposal method: gt
+Preparing training data...
+wrote gt roidb to /home/jason/Faster-R-CNN/data/cache/voc_2007_test_gt_roidb.pkl
+done
+before filtering, there are 1888 images...
+after filtering, there are 1888 images...
+14976 roidb entries
+1888 roidb2 entries
+/home/jason/Faster-R-CNN/lib/model/rpn/rpn.py:93: UserWarning: This overload of nonzero is deprecated:
+	nonzero()
+Consider using one of the following signatures instead:
+	nonzero(*, bool as_tuple) (Triggered internally at  /pytorch/torch/csrc/utils/python_arg_parser.cpp:882.)
+  rpn_keep = Variable(rpn_label.view(-1).ne(-1).nonzero().view(-1))
+[session 1][epoch  1][iter    0/2496] training loss: 5.8505,  lr: 1.00e-03
+			fg/bg=(27/741), time cost: 12.061366
+			rpn_cls: 0.5214, rpn_box: 0.1766, rcnn_cls: 5.0460, rcnn_box 0.1066
+[session 1][epoch  1][iter  200/2496] training loss: 1.4239,  lr: 1.00e-03
+			fg/bg=(54/714), time cost: 2249.981327
+			rpn_cls: 0.1991, rpn_box: 0.1086, rcnn_cls: 0.4234, rcnn_box 0.1489
+[session 1][epoch  1][iter  400/2496] training loss: 1.1195,  lr: 1.00e-03
+			fg/bg=(130/638), time cost: 2270.866638
+			rpn_cls: 0.3005, rpn_box: 0.2335, rcnn_cls: 0.7286, rcnn_box 0.3974
+[session 1][epoch  1][iter  600/2496] training loss: 1.0326,  lr: 1.00e-03
+			fg/bg=(69/699), time cost: 2264.161488
+			rpn_cls: 0.1303, rpn_box: 0.0500, rcnn_cls: 0.4481, rcnn_box 0.2068
+[session 1][epoch  1][iter  800/2496] training loss: 1.0646,  lr: 1.00e-03
+			fg/bg=(78/690), time cost: 2249.124142
+			rpn_cls: 0.1297, rpn_box: 0.0505, rcnn_cls: 0.5184, rcnn_box 0.2414
+[session 1][epoch  1][iter 1000/2496] training loss: 1.0248,  lr: 1.00e-03
+			fg/bg=(113/655), time cost: 2264.990858
+			rpn_cls: 0.1503, rpn_box: 0.0171, rcnn_cls: 0.5059, rcnn_box 0.3653
+[session 1][epoch  1][iter 1200/2496] training loss: 1.0665,  lr: 1.00e-03
+			fg/bg=(100/668), time cost: 2233.200428
+			rpn_cls: 0.1140, rpn_box: 0.0098, rcnn_cls: 0.5162, rcnn_box 0.3363
+[session 1][epoch  1][iter 1400/2496] training loss: 1.0823,  lr: 1.00e-03
+			fg/bg=(105/663), time cost: 2249.706857
+			rpn_cls: 0.1865, rpn_box: 0.2273, rcnn_cls: 0.4970, rcnn_box 0.3706
+[session 1][epoch  1][iter 1600/2496] training loss: 1.1679,  lr: 1.00e-03
+			fg/bg=(155/613), time cost: 2226.599224
+			rpn_cls: 0.0972, rpn_box: 0.0339, rcnn_cls: 0.9439, rcnn_box 0.5149
+[session 1][epoch  1][iter 1800/2496] training loss: 1.1118,  lr: 1.00e-03
+			fg/bg=(174/594), time cost: 2270.646825
+			rpn_cls: 0.1127, rpn_box: 0.1587, rcnn_cls: 0.6578, rcnn_box 0.5404
+[session 1][epoch  1][iter 2000/2496] training loss: 1.1004,  lr: 1.00e-03
+			fg/bg=(107/661), time cost: 2241.337017
+			rpn_cls: 0.0487, rpn_box: 0.0060, rcnn_cls: 0.4677, rcnn_box 0.3126
+[session 1][epoch  1][iter 2200/2496] training loss: 1.1316,  lr: 1.00e-03
+			fg/bg=(184/584), time cost: 2277.561652
+			rpn_cls: 0.0939, rpn_box: 0.1510, rcnn_cls: 0.7891, rcnn_box 0.5415
+[session 1][epoch  1][iter 2400/2496] training loss: 1.0894,  lr: 1.00e-03
+			fg/bg=(105/663), time cost: 2249.166433
+			rpn_cls: 0.0721, rpn_box: 0.0557, rcnn_cls: 0.4705, rcnn_box 0.2872
+Epoch 1: Training loss: 1.1155, Testing loss: 0.0000
+total training time: 27059.404254
+save model: models/res101/pascal_voc/faster_rcnn_1_1_2495.pth
+[session 1][epoch  2][iter    0/2496] training loss: 1.1284,  lr: 1.00e-03
+			fg/bg=(169/599), time cost: 10.479223
+			rpn_cls: 0.1171, rpn_box: 0.2696, rcnn_cls: 0.3135, rcnn_box 0.4282
+[session 1][epoch  2][iter  200/2496] training loss: 1.0619,  lr: 1.00e-03
+			fg/bg=(136/632), time cost: 2287.776206
+			rpn_cls: 0.0585, rpn_box: 0.0510, rcnn_cls: 0.6605, rcnn_box 0.3412
+[session 1][epoch  2][iter  400/2496] training loss: 1.0436,  lr: 1.00e-03
+			fg/bg=(139/629), time cost: 2291.487643
+			rpn_cls: 0.0477, rpn_box: 0.0479, rcnn_cls: 0.6160, rcnn_box 0.3440
+[session 1][epoch  2][iter  600/2496] training loss: 1.0650,  lr: 1.00e-03
+			fg/bg=(105/663), time cost: 2272.262759
+			rpn_cls: 0.0710, rpn_box: 0.0767, rcnn_cls: 0.4453, rcnn_box 0.2281
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py", line 872, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/usr/lib/python3.8/multiprocessing/queues.py", line 107, in get
+    if not self._poll(timeout):
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/usr/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+  File "/usr/local/lib/python3.8/dist-packages/torch/utils/data/_utils/signal_handling.py", line 66, in handler
+    _error_if_any_worker_fails()
+RuntimeError: DataLoader worker (pid 3249770) is killed by signal: Terminated. 
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "trainval_net.py", line 355, in <module>
+    data = next(data_iter)
+  File "/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py", line 435, in __next__
+    data = self._next_data()
+  File "/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py", line 1068, in _next_data
+    idx, data = self._get_data()
+  File "/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py", line 1034, in _get_data
+    success, data = self._try_get_data()
+  File "/usr/local/lib/python3.8/dist-packages/torch/utils/data/dataloader.py", line 885, in _try_get_data
+    raise RuntimeError('DataLoader worker (pid(s) {}) exited unexpectedly'.format(pids_str)) from e
+RuntimeError: DataLoader worker (pid(s) 3249770) exited unexpectedly

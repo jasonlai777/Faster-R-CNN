@@ -4,7 +4,7 @@ import math
 import numpy as np
 
 ####plot loss curve
-f = open('nohup_20210305_head.out','r')
+f = open('nohup/nohup_20210221_hor.out','r')
 txt = f.read()
 loss_list_train = re.findall(r'Training loss: \d+\.?\d+',txt)
 loss_list_test = re.findall(r'Testing loss: \d+\.?\d+',txt)

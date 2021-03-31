@@ -24,8 +24,8 @@ def copy_img():
  '''
  :return:
  '''
- local_img_name='/home/jason/faster-rcnn.pytorch-1.0/data/VOCdevkit2007/VOC2007/JPEGImages'
- path = '/home/jason/faster-rcnn.pytorch-1.0/images'
+ local_img_name='/home/jason/Faster-R-CNN/data/VOCdevkit2007/VOC2007/JPEGImages'
+ path = '/home/jason/Faster-R-CNN/images'
  for i in objFileName():
   new_obj_name = i+'.JPG'
   shutil.copy(local_img_name+'/'+new_obj_name,path+'/'+new_obj_name)

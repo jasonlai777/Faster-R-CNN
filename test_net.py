@@ -51,7 +51,7 @@ def parse_args():
                       default='pascal_voc', type=str)
   parser.add_argument('--cfg', dest='cfg_file',
                       help='optional config file',
-                      default='cfgs/res101.yml', type=str)
+                      default='cfgs/res50.yml', type=str)
   parser.add_argument('--net', dest='net',
                       help='vgg16, res50, res101, res152',
                       default='res101', type=str)
@@ -294,7 +294,7 @@ if __name__ == '__main__':
       #print(scores.shape)
       #print(pred_boxes.shape)
       #sys.exit()
-      '''
+      
       new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()############################## nms for head & tail in each classes
       new_scores = torch.cuda.FloatTensor(300,40).zero_()
       for k in range(13):
@@ -315,8 +315,8 @@ if __name__ == '__main__':
       if vis:
           im = cv2.imread(imdb.image_path_at(i))
           im2show = np.copy(im)
-      '''
       
+      '''
       new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()############################## nms for all head, (tail, full-length) classes
       new_scores = torch.cuda.FloatTensor(300,40).zero_()
       for j in range(3):
@@ -337,13 +337,13 @@ if __name__ == '__main__':
           new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8] = b[idx]
           new_scores[:len(idx),3*l+j+1] = s[idx]
           #print([g for g in s[idx] if g > 0.5])
-
+      
       
           
       if vis:
           im = cv2.imread(imdb.image_path_at(i))
           im2show = np.copy(im)
-      
+      '''
       #new_pred_boxes = pred_boxes
       #new_scores = scores
       

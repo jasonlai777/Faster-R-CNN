@@ -239,15 +239,15 @@ def voc_eval(detpath,
           if not R['det'][jmax]:
             tp[d] = 1.
             R['det'][jmax] = 1
-            if abs(sorted_scores[d]) >= 0.5:
+            if abs(sorted_scores[d]) >= 0.8:
               ntp+=1
           else:
             fp[d] = 1.
-            if abs(sorted_scores[d]) >= 0.5:
+            if abs(sorted_scores[d]) >= 0.8:
               nfp+=1
       else:
         fp[d] = 1.
-        if abs(sorted_scores[d]) >= 0.5:
+        if abs(sorted_scores[d]) >= 0.8:
           nfp+=1
   else:
     return 0, 0, 0, 0
@@ -261,9 +261,9 @@ def voc_eval(detpath,
   # ground truth
   prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
   for i in range(len(sorted_scores)):
-    if abs(sorted_scores[i]) <0.5:# csthreshold
+    if abs(sorted_scores[i]) <0.8:# csthreshold
       f1 = (2*prec[i]*rec[i])/(prec[i]+rec[i])
-      print("class: %s, precision: %f, recall: %f, f1-score(thresh=0.5): %f"%(classname, prec[i], rec[i], f1))
+      print("class: %s, precision: %f, recall: %f, f1-score(thresh=0.8): %f"%(classname, prec[i], rec[i], f1))
       break
             
   ap = voc_ap(rec, prec)

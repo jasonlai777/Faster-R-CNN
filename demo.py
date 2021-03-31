@@ -177,13 +177,14 @@ def MaximumBox(box1, box2):
   y2 = max(box1[3],box2[3])
   return [x1,y1,x2,y2]
 
-def cal_accuracy(data, img_name, mode = "all"):
+def cal_accuracy(data, img_name, mode = "all", partial_flag = False):
   # data = {"class1": [[x1,y1,x2,y2,score],[],...], "class2": [[]..]..} (for all)
   # data = {"class1": [x1,y1,x2,y2,score], "class2": [], ..} (for full)
   acc = 0
-  count_full_gt = 0
+  TP_FP_FN = 0
   count_all_pdt = 0
-  path_of_xml = "/home/jason/faster-rcnn.pytorch-1.0/data/VOCdevkit2007/VOC2007/Annotations/"
+  counter = 0
+  path_of_xml = "/home/jason/Faster-R-CNN/data/VOCdevkit2007/VOC2007/Annotations/"
   filename = os.path.join(path_of_xml, img_name + '.xml')
   tree = ET.parse(filename)
   objs = tree.findall('object')
@@ -201,33 +202,54 @@ def cal_accuracy(data, img_name, mode = "all"):
     cls = obj.find('name').text.strip()
     boxes[ix, :] = [x1, y1, x2, y2]
     gt_classes[ix] = cls
-    if cls[-1] != ")":
-      count_full_gt+=1
-    if gt_classes[ix] in data.keys() and mode == "full":
-      if iou(data[gt_classes[ix]], boxes[ix, :]) > 0.3 \
-         and check_overlap(data[gt_classes[ix]], boxes[ix, :]):
-        acc += 1
+    if gt_classes[ix][:4] == "H.sp":
+      n = 4
+    else:
+      n = 5
+    #print(cls)
+    #print(boxes[ix, :])
+    if gt_classes[ix][:n] in data.keys() and mode == "full":#mode full means only one label would be count
+      #print(data[gt_classes[ix]], boxes[ix, :])
+      if iou(data[gt_classes[ix][:n]], boxes[ix, :]) > 0.2 \
+         and check_overlap(data[gt_classes[ix][:n]], boxes[ix, :])\
+         and not partial_flag :## if full-length label, all labels true
+        acc = 3
+        counter = 3
+        break
+      elif iou(data[gt_classes[ix][:n]], boxes[ix, :]) > 0.2 \
+         and check_overlap(data[gt_classes[ix][:n]], boxes[ix, :])\
+         and partial_flag :## if partial lable, only one label true
+        acc = 1
+        counter = 1
+        break
+      elif not partial_flag:
+        counter+=1
+      else:
+        counter = 1
+        break
     elif gt_classes[ix] in data.keys() and mode == "all":
       for i in range(len(data[gt_classes[ix]])):
-        if iou(data[gt_classes[ix]][i], boxes[ix, :]) > 0.3 \
+        if iou(data[gt_classes[ix]][i], boxes[ix, :]) > 0.2 \
            and check_overlap(data[gt_classes[ix]][i], boxes[ix, :]):
           acc += 1
     else:
+      counter+=1
       continue
+  TP_FP_FN+=counter 
   data_values = list(data.values())
   for i in range(len(data_values)):
     count_all_pdt = count_all_pdt + len(data_values[i])
   if mode == "full":
-    #print("num of nematodes(pred):%d, num of nematodes(gt):%d, num of match:%d"
-    #                                  %(len(data.keys()), count_full_gt, acc))
-    acc = acc/(len(data.keys())+ count_full_gt - acc)
+    TP = acc
+    return TP, TP_FP_FN
   elif mode == "all":
-    #print(img_name)
-    #print(count_all_pdt, ix+1, acc)
-    acc = acc/(count_all_pdt + ix+1 - acc)
+    TP = acc
+    TP_FP_FN = count_all_pdt + ix+1 - acc
+    
+    return TP, TP_FP_FN
   else:
     acc = None
-  return acc
+    return None, None
 
 
     
@@ -328,7 +350,7 @@ if __name__ == '__main__':
 
   start = time.time()
   max_per_image = 100
-  thresh = 0.5
+  thresh = 0.8
   vis = True
 
   webcam_num = args.webcam_num
@@ -343,8 +365,12 @@ if __name__ == '__main__':
   print('Loaded Photo: {} images.'.format(num_images))
 
   c = 0
-  accs1 = 0
-  accs2 = 0
+  #accs1 = 0
+  #accs2 = 0
+  TP1s = 0
+  TP2s = 0
+  TP_FP_FN1s = 0
+  TP_FP_FN2s = 0
   while (num_images > 0):
       total_tic = time.time()
       if webcam_num == -1:
@@ -432,7 +458,7 @@ if __name__ == '__main__':
       detect_time = det_toc - det_tic
       misc_tic = time.time()
       
-      '''
+      
       new_pred_boxes = torch.cuda.FloatTensor(300, 160).zero_()##############################
       new_scores = torch.cuda.FloatTensor(300,40).zero_()
       for k in range(13):
@@ -471,14 +497,14 @@ if __name__ == '__main__':
           new_pred_boxes[:len(idx),12*l+4*j+4:12*l+4*j+8] = b[idx]
           new_scores[:len(idx),3*l+j+1] = s[idx]
           #print([g for g in s[idx] if g > 0.5])
-      
+      '''
       #new_pred_boxes = pred_boxes
       #new_scores = scores
       new_pred_boxes = new_pred_boxes.cpu()
       new_scores = new_scores.cpu()
       voting_data = {}     
       J = 0
-      
+      partial_flag = False
       if vis:
           im2show = np.copy(im)
       for j in xrange(1, len(pascal_classes)):
@@ -508,10 +534,11 @@ if __name__ == '__main__':
               #f = open("species.txt", "w+")
               #f.write(pascal_classes[j])
       # voting_data['class']: [[a1,y1,x2,y2,score],[],..]
-      #acc1 = cal_accuracy(voting_data, imglist[num_images][:-4], "all")
-      #print("acc1 : %f"%(acc1))
-      #accs1 = accs1 + acc1 
+      #TP1, TP_FP_FN1 = cal_accuracy(voting_data, imglist[num_images][:-4], "all", partial_flag)
+      #TP1s +=TP1 
+      #TP_FP_FN1s += TP_FP_FN1
       # initial voting_results
+      #print("vdata: "+ str(voting_data))
       voting_results = {}
       list_of_keys = list(voting_data.keys())
       list_of_values = list(voting_data.values())
@@ -609,7 +636,11 @@ if __name__ == '__main__':
                       continue
                   else:
                     continue
-                    
+      if len(species_List) == 1 and len(list_of_values[0]) ==1:
+        voting_results["group0"] = {"region": [s for s in list_of_values[0][0][0:4]], \
+                                    list_of_keys[0]: list_of_values[0][0][4]}
+        group_count = 1
+      '''              
       #print(imglist[num_images][:-4]+': '+str(voting_results)+"\n")       
       if group_count == 1:# delete the case of single-partial group
         zero_flag = 1
@@ -624,10 +655,11 @@ if __name__ == '__main__':
         if zero_flag == 1:
           voting_results = {}
           group_count = 0
-
+      '''
       # calculate the score for each nematode  
       groups = list(voting_results.keys())
       datas = list(voting_results.values()) 
+      #print("gresult: "+str(voting_results))
       results = {}
       if group_count != 0:
         c+=len(groups)
@@ -639,7 +671,7 @@ if __name__ == '__main__':
             if species[m][:4] != "H.sp":
               s = species[m][:5]
               results[s] = copy.deepcopy(scores[0])
-              #print(scores[0])
+              #print(results[s])
               if len(results[s]) == 4:
                 results[s].extend([0])
             else:
@@ -653,29 +685,44 @@ if __name__ == '__main__':
               s = species[m][:5]
             else:
               s = species[m][:4]
-            if species[m][-2] == "H":
+            if len(species) == 2 and species[m][-1] == ")":
+              results[s][4] = scores[m]
+              partial_flag = True
+              break
+            elif species[m][-2] == "H":
               results[s][4] = results[s][4] + scores[m]*0.2
             elif species[m][-2] == "T":
               results[s][4] = results[s][4] + scores[m]*0.2
             else:
               results[s][4] = results[s][4] + scores[m]*0.6
           
-          #print(results)                     
+          #print("vresult: "+str(results))
+                              
           list_of_species = list(results.keys())
           list_of_scores = list(results.values())
+          #print(list_of_scores) 
           highest_data = {}
           highest_score = [0,0,0,0,0]
           highest_class = ""
-          for m in range(len(list_of_species)):# find the highest score class            
+          for m in range(len(list_of_species)):# find the highest score class 
+            #print(list_of_scores[m], highest_score)           
             if list_of_scores[m][4]>highest_score[4]:
-              highest_score = list_of_scores[m]
+              
+              if im_in.shape == (4000,6000,3):
+                highest_score = list_of_scores[m]
+              else:
+                highest_score = [list_of_scores[m][1],4000-list_of_scores[m][2],list_of_scores[m][3],4000-list_of_scores[m][0], list_of_scores[m][4]]
+              
+              #highest_score = list_of_scores[m]
               highest_class = list_of_species[m]
+              
           highest_data[highest_class] = highest_score
-          #print(highest_data)
-          #acc2 = cal_accuracy(highest_data, imglist[num_images][:-4], "full")
-          #accs2 = accs2 + acc2
-          #print("accs2 : %f"%(accs2))
-          #print(c)
+          #print(imglist[num_images][:-4])
+          #print("highest: "+str(highest_data))
+          TP2, TP_FP_FN2 = cal_accuracy(highest_data, imglist[num_images][:-4], "full", partial_flag)
+          TP2s += TP2 
+          TP_FP_FN2s += TP_FP_FN2
+          #print(TP2s, TP_FP_FN2s)
           height = int(im_info_np[0][0]/im_info_np[0][2])
           #print(height)
           cv2.putText(im2show, "%d" % k, (int(scores[0][0]),int(scores[0][1]- 80)), \
@@ -692,18 +739,18 @@ if __name__ == '__main__':
           results = {}
       misc_toc = time.time()
       nms_time = misc_toc - misc_tic
-
+      
       if webcam_num == -1:
           sys.stdout.write('im_detect: {:d}/{:d} {:.3f}s {:.3f}s   \r' \
                            .format(num_images + 1, len(imglist), detect_time, nms_time))
           sys.stdout.flush()
-
+      
       if vis and webcam_num == -1:
           # cv2.imshow('test', im2show)
           # cv2.waitKey(0)
           result_path = os.path.join(args.image_dir, imglist[num_images][:-4] + "_det.jpg")
           im2show = np.asarray(im2show)
-          cv2.imwrite(result_path, im2show)
+          #cv2.imwrite(result_path, im2show)
       else:
           im2showRGB = cv2.cvtColor(im2show, cv2.COLOR_BGR2RGB)
           cv2.imshow("frame", im2showRGB)
@@ -715,8 +762,8 @@ if __name__ == '__main__':
               break
   #print(accs1, len(imglist))
   #print(accs2, c)
-  #print("Accuracy before voting: %.3f" % (accs1/len(imglist)))
-  #print("Accuracy after voting: %.3f"% (accs2/c))
+  #print("Accuracy before voting: %.3f" % (TP1s/TP_FP_FN1s))
+  print("\n Accuracy after voting: %.3f"% (TP2s/TP_FP_FN2s))
   if webcam_num >= 0:
       cap.release()
       cv2.destroyAllWindows()

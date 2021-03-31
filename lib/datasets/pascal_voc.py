@@ -407,7 +407,7 @@ class pascal_voc(imdb):
         
         #print('Mean AP = {:.4f}'.format(np.average(aps, weights = weights)))
         print('Mean AP = {:.4f}'.format(np.mean(aps)))
-        print('CS threshold = 0.5')
+        print('CS threshold = 0.8')
         print('Accuracy = %.4f'%(accuracy))
         print("f1-score for all classes: %f"%(np.mean(f1s)))
         #print('~~~~~~~~')

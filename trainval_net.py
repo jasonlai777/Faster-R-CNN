@@ -49,10 +49,10 @@ def parse_args():
                       default=1, type=int)
   parser.add_argument('--epochs', dest='max_epochs',
                       help='number of epochs to train',
-                      default=20, type=int)
+                      default=40, type=int)
   parser.add_argument('--disp_interval', dest='disp_interval',
                       help='number of iterations to display',
-                      default=1000, type=int)
+                      default=100, type=int)
   parser.add_argument('--checkpoint_interval', dest='checkpoint_interval',
                       help='number of iterations to display',
                       default=10000, type=int)
@@ -82,10 +82,10 @@ def parse_args():
 # config optimization
   parser.add_argument('--o', dest='optimizer',
                       help='training optimizer',
-                      default="adam", type=str)
+                      default="sgd", type=str)
   parser.add_argument('--lr', dest='lr',
                       help='starting learning rate',
-                      default=0.0005, type=float)
+                      default=0.001, type=float)
   parser.add_argument('--lr_decay_step', dest='lr_decay_step',
                       help='step to do learning rate decay, unit is epoch',
                       default=5, type=int)
@@ -233,7 +233,7 @@ if __name__ == '__main__':
   #print(dataset,dataset2)
 
   dataloader2 = torch.utils.data.DataLoader(dataset2, batch_size=args.batch_size,
-                            sampler=sampler_batch2, num_workers=args.num_workers)                          
+                            sampler=sampler_batch2, shuffle=False, num_workers=args.num_workers, pin_memory=True)                          
   
   
 
@@ -374,25 +374,26 @@ if __name__ == '__main__':
       
       
       #print(im_data2.shape, im_info2.shape, gt_boxes2.shape, num_boxes2.shape)
-      if step < iters_per_epoch_test:
-        data2 = next(data_iter2)
-        with torch.no_grad():
-            im_data2.resize_(data2[0].size()).copy_(data2[0])
-            im_info2.resize_(data2[1].size()).copy_(data2[1])
-            gt_boxes2.resize_(data2[2].size()).copy_(data2[2])
-            num_boxes2.resize_(data2[3].size()).copy_(data2[3])
-            #print(im_data2.shape, im_info2.shape, gt_boxes2.shape, num_boxes2.shape, gt_boxes2)
-            #fasterRCNN.eval()
-        
-        rois2, cls_prob2, bbox_pred2, \
-        rpn_loss_cls2, rpn_loss_box2, \
-        RCNN_loss_cls2, RCNN_loss_bbox2, \
-        rois_label2 = fasterRCNN(im_data2, im_info2, gt_boxes2, num_boxes2)
-        #print(rpn_loss_cls2, rpn_loss_box2, RCNN_loss_cls2, RCNN_loss_bbox2)
-        loss2 = rpn_loss_cls2.mean() + rpn_loss_box2.mean() \
-             + RCNN_loss_cls2.mean() + RCNN_loss_bbox2.mean()
-        testing_loss += loss2.item()
-        testing_loss_total += loss2.item()
+      if step == iters_per_epoch-1:        
+        for step_test in range(iters_per_epoch_test):
+          fasterRCNN.eval()
+          data2 = next(data_iter2)
+          with torch.no_grad():
+              im_data2.resize_(data2[0].size()).copy_(data2[0])
+              im_info2.resize_(data2[1].size()).copy_(data2[1])
+              gt_boxes2.resize_(data2[2].size()).copy_(data2[2])
+              num_boxes2.resize_(data2[3].size()).copy_(data2[3])
+              #print(im_data2.shape, im_info2.shape, gt_boxes2.shape, num_boxes2.shape, gt_boxes2)
+              #fasterRCNN.eval()
+          
+              rois2, cls_prob2, bbox_pred2, \
+              rpn_loss_cls2, rpn_loss_box2, \
+              RCNN_loss_cls2, RCNN_loss_bbox2, \
+              rois_label2 = fasterRCNN(im_data2, im_info2, gt_boxes2, num_boxes2)
+              #print(rpn_loss_cls2, rpn_loss_box2, RCNN_loss_cls2, RCNN_loss_bbox2)
+              loss2 = rpn_loss_cls.mean() + rpn_loss_box.mean() \
+                     +RCNN_loss_cls2.mean() + RCNN_loss_bbox2.mean()
+              testing_loss_total += loss2.item()
       
       
       
@@ -449,17 +450,17 @@ if __name__ == '__main__':
 
       
     print("total training time: %f" % total_time)
-    if epoch == args.max_epochs:
-      save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
-      save_checkpoint({
-        'session': args.session,
-        'epoch': epoch + 1,
-        'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
-        'optimizer': optimizer.state_dict(),
-        'pooling_mode': cfg.POOLING_MODE,
-        'class_agnostic': args.class_agnostic,
-      }, save_name)
-      print('save model: {}'.format(save_name))
+    #if epoch == args.max_epochs or epoch == args.max_epochs/2:
+    save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
+    save_checkpoint({
+      'session': args.session,
+      'epoch': epoch + 1,
+      'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
+      'optimizer': optimizer.state_dict(),
+      'pooling_mode': cfg.POOLING_MODE,
+      'class_agnostic': args.class_agnostic,
+    }, save_name)
+    print('save model: {}'.format(save_name))
 
   if args.use_tfboard:
     logger.close()

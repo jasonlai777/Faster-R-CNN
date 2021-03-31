@@ -1,1178 +1,0 @@
-Called with args:
-Namespace(batch_size=8, checkepoch=1, checkpoint=0, checkpoint_interval=10000, checksession=1, class_agnostic=False, cuda=True, dataset='pascal_voc', disp_interval=100, large_scale=False, lr=0.001, lr_decay_gamma=0.1, lr_decay_step=5, mGPUs=False, max_epochs=20, net='res101', num_workers=1, optimizer='sgd', resume=False, save_dir='models', session=1, start_epoch=1, use_tfboard=False)
-Using config:
-{'ANCHOR_RATIOS': [0.5, 1, 2],
- 'ANCHOR_SCALES': [8, 16, 32],
- 'CROP_RESIZE_WITH_MAX_POOL': False,
- 'CUDA': False,
- 'DATA_DIR': '/home/jason/faster-rcnn.pytorch-1.0/data',
- 'DEDUP_BOXES': 0.0625,
- 'EPS': 1e-14,
- 'EXP_DIR': 'res101',
- 'FEAT_STRIDE': [16],
- 'GPU_ID': 0,
- 'MATLAB': 'matlab',
- 'MAX_NUM_GT_BOXES': 20,
- 'MOBILENET': {'DEPTH_MULTIPLIER': 1.0,
-               'FIXED_LAYERS': 5,
-               'REGU_DEPTH': False,
-               'WEIGHT_DECAY': 4e-05},
- 'PIXEL_MEANS': array([[[102.9801, 115.9465, 122.7717]]]),
- 'POOLING_MODE': 'align',
- 'POOLING_SIZE': 7,
- 'RESNET': {'FIXED_BLOCKS': 1, 'MAX_POOL': False},
- 'RNG_SEED': 3,
- 'ROOT_DIR': '/home/jason/faster-rcnn.pytorch-1.0',
- 'TEST': {'BBOX_REG': True,
-          'HAS_RPN': True,
-          'MAX_SIZE': 1000,
-          'MODE': 'nms',
-          'NMS': 0.3,
-          'PROPOSAL_METHOD': 'gt',
-          'RPN_MIN_SIZE': 16,
-          'RPN_NMS_THRESH': 0.7,
-          'RPN_POST_NMS_TOP_N': 300,
-          'RPN_PRE_NMS_TOP_N': 6000,
-          'RPN_TOP_N': 5000,
-          'SCALES': [600],
-          'SVM': False},
- 'TRAIN': {'ASPECT_GROUPING': False,
-           'BATCH_SIZE': 128,
-           'BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
-           'BBOX_NORMALIZE_MEANS': [0.0, 0.0, 0.0, 0.0],
-           'BBOX_NORMALIZE_STDS': [0.1, 0.1, 0.2, 0.2],
-           'BBOX_NORMALIZE_TARGETS': True,
-           'BBOX_NORMALIZE_TARGETS_PRECOMPUTED': True,
-           'BBOX_REG': True,
-           'BBOX_THRESH': 0.5,
-           'BG_THRESH_HI': 0.5,
-           'BG_THRESH_LO': 0.0,
-           'BIAS_DECAY': False,
-           'BN_TRAIN': False,
-           'DISPLAY': 20,
-           'DOUBLE_BIAS': False,
-           'FG_FRACTION': 0.25,
-           'FG_THRESH': 0.5,
-           'GAMMA': 0.1,
-           'HAS_RPN': True,
-           'IMS_PER_BATCH': 1,
-           'LEARNING_RATE': 0.001,
-           'MAX_SIZE': 1000,
-           'MOMENTUM': 0.9,
-           'PROPOSAL_METHOD': 'gt',
-           'RPN_BATCHSIZE': 256,
-           'RPN_BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
-           'RPN_CLOBBER_POSITIVES': False,
-           'RPN_FG_FRACTION': 0.5,
-           'RPN_MIN_SIZE': 8,
-           'RPN_NEGATIVE_OVERLAP': 0.3,
-           'RPN_NMS_THRESH': 0.7,
-           'RPN_POSITIVE_OVERLAP': 0.7,
-           'RPN_POSITIVE_WEIGHT': -1.0,
-           'RPN_POST_NMS_TOP_N': 2000,
-           'RPN_PRE_NMS_TOP_N': 12000,
-           'SCALES': [600],
-           'SNAPSHOT_ITERS': 5000,
-           'SNAPSHOT_KEPT': 3,
-           'SNAPSHOT_PREFIX': 'res101_faster_rcnn',
-           'STEPSIZE': [30000],
-           'SUMMARY_INTERVAL': 180,
-           'TRIM_HEIGHT': 600,
-           'TRIM_WIDTH': 600,
-           'TRUNCATED': False,
-           'USE_ALL_GT': True,
-           'USE_FLIPPED': True,
-           'USE_GT': False,
-           'WEIGHT_DECAY': 0.0001},
- 'USE_GPU_NMS': True}
-['voc_2007_trainval']
-Loaded dataset `voc_2007_trainval` for training
-Set proposal method: gt
-Appending horizontally-flipped training examples...
-wrote gt roidb to /home/jason/faster-rcnn.pytorch-1.0/data/cache/voc_2007_trainval_gt_roidb.pkl
-done
-Preparing training data...
-done
-before filtering, there are 12718 images...
-after filtering, there are 12718 images...
-12718 roidb entries
-Loading pretrained weights from data/pretrained_model/resnet101_caffe.pth
-[session 1][epoch  1][iter    0/1589] loss: 4.2820, lr: 1.00e-03
-			fg/bg=(53/971), time cost: 6.389011
-			rpn_cls: 0.6745, rpn_box: 0.1076, rcnn_cls: 3.3880, rcnn_box 0.1120
-[session 1][epoch  1][iter  100/1589] loss: 1.3212, lr: 1.00e-03
-			fg/bg=(139/885), time cost: 541.535426
-			rpn_cls: 0.1789, rpn_box: 0.1485, rcnn_cls: 0.5461, rcnn_box 0.3277
-[session 1][epoch  1][iter  200/1589] loss: 1.1871, lr: 1.00e-03
-			fg/bg=(134/890), time cost: 546.986111
-			rpn_cls: 0.0645, rpn_box: 0.0198, rcnn_cls: 0.5926, rcnn_box 0.3477
-[session 1][epoch  1][iter  300/1589] loss: 1.1585, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 545.527006
-			rpn_cls: 0.1468, rpn_box: 0.1364, rcnn_cls: 0.7187, rcnn_box 0.6299
-[session 1][epoch  1][iter  400/1589] loss: 1.1719, lr: 1.00e-03
-			fg/bg=(172/852), time cost: 541.767936
-			rpn_cls: 0.0606, rpn_box: 0.1133, rcnn_cls: 0.6426, rcnn_box 0.4025
-[session 1][epoch  1][iter  500/1589] loss: 1.0479, lr: 1.00e-03
-			fg/bg=(219/805), time cost: 544.958586
-			rpn_cls: 0.0849, rpn_box: 0.0947, rcnn_cls: 0.6007, rcnn_box 0.4889
-[session 1][epoch  1][iter  600/1589] loss: 1.1092, lr: 1.00e-03
-			fg/bg=(201/823), time cost: 538.029169
-			rpn_cls: 0.0850, rpn_box: 0.0734, rcnn_cls: 0.6594, rcnn_box 0.4527
-[session 1][epoch  1][iter  700/1589] loss: 1.0783, lr: 1.00e-03
-			fg/bg=(128/896), time cost: 540.013156
-			rpn_cls: 0.0666, rpn_box: 0.0763, rcnn_cls: 0.3419, rcnn_box 0.2671
-[session 1][epoch  1][iter  800/1589] loss: 1.0327, lr: 1.00e-03
-			fg/bg=(191/833), time cost: 542.589938
-			rpn_cls: 0.0577, rpn_box: 0.0319, rcnn_cls: 0.5921, rcnn_box 0.4079
-[session 1][epoch  1][iter  900/1589] loss: 0.9992, lr: 1.00e-03
-			fg/bg=(220/804), time cost: 545.524172
-			rpn_cls: 0.0869, rpn_box: 0.1028, rcnn_cls: 0.5847, rcnn_box 0.4773
-[session 1][epoch  1][iter 1000/1589] loss: 0.9796, lr: 1.00e-03
-			fg/bg=(155/869), time cost: 540.792862
-			rpn_cls: 0.0418, rpn_box: 0.0854, rcnn_cls: 0.3865, rcnn_box 0.2949
-[session 1][epoch  1][iter 1100/1589] loss: 0.8870, lr: 1.00e-03
-			fg/bg=(183/841), time cost: 543.421365
-			rpn_cls: 0.0492, rpn_box: 0.0629, rcnn_cls: 0.3144, rcnn_box 0.3196
-[session 1][epoch  1][iter 1200/1589] loss: 0.8997, lr: 1.00e-03
-			fg/bg=(233/791), time cost: 538.662431
-			rpn_cls: 0.0758, rpn_box: 0.1529, rcnn_cls: 0.2587, rcnn_box 0.5515
-[session 1][epoch  1][iter 1300/1589] loss: 0.8422, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 538.142491
-			rpn_cls: 0.0609, rpn_box: 0.1699, rcnn_cls: 0.4379, rcnn_box 0.3789
-[session 1][epoch  1][iter 1400/1589] loss: 0.8091, lr: 1.00e-03
-			fg/bg=(182/842), time cost: 538.586003
-			rpn_cls: 0.0479, rpn_box: 0.0788, rcnn_cls: 0.4912, rcnn_box 0.2541
-[session 1][epoch  1][iter 1500/1589] loss: 0.7990, lr: 1.00e-03
-			fg/bg=(192/832), time cost: 539.193795
-			rpn_cls: 0.0284, rpn_box: 0.0269, rcnn_cls: 0.5911, rcnn_box 0.2423
-total training time: 8132.119460
-[session 1][epoch  2][iter    0/1589] loss: 0.5506, lr: 1.00e-03
-			fg/bg=(236/788), time cost: 6.368579
-			rpn_cls: 0.0406, rpn_box: 0.0900, rcnn_cls: 0.1662, rcnn_box 0.2538
-[session 1][epoch  2][iter  100/1589] loss: 0.6946, lr: 1.00e-03
-			fg/bg=(231/793), time cost: 547.350783
-			rpn_cls: 0.0990, rpn_box: 0.1047, rcnn_cls: 0.2593, rcnn_box 0.3299
-[session 1][epoch  2][iter  200/1589] loss: 0.7441, lr: 1.00e-03
-			fg/bg=(174/850), time cost: 546.798489
-			rpn_cls: 0.0317, rpn_box: 0.0118, rcnn_cls: 0.1555, rcnn_box 0.2086
-[session 1][epoch  2][iter  300/1589] loss: 0.7236, lr: 1.00e-03
-			fg/bg=(162/862), time cost: 543.949240
-			rpn_cls: 0.0310, rpn_box: 0.0691, rcnn_cls: 0.2930, rcnn_box 0.2087
-[session 1][epoch  2][iter  400/1589] loss: 0.7366, lr: 1.00e-03
-			fg/bg=(237/787), time cost: 544.592015
-			rpn_cls: 0.0298, rpn_box: 0.0571, rcnn_cls: 0.3618, rcnn_box 0.2761
-[session 1][epoch  2][iter  500/1589] loss: 0.6659, lr: 1.00e-03
-			fg/bg=(182/842), time cost: 542.325124
-			rpn_cls: 0.0168, rpn_box: 0.0163, rcnn_cls: 0.2137, rcnn_box 0.2325
-[session 1][epoch  2][iter  600/1589] loss: 0.6414, lr: 1.00e-03
-			fg/bg=(188/836), time cost: 546.541006
-			rpn_cls: 0.0216, rpn_box: 0.0373, rcnn_cls: 0.2292, rcnn_box 0.1788
-[session 1][epoch  2][iter  700/1589] loss: 0.6460, lr: 1.00e-03
-			fg/bg=(186/838), time cost: 545.518593
-			rpn_cls: 0.0412, rpn_box: 0.0659, rcnn_cls: 0.3864, rcnn_box 0.1917
-[session 1][epoch  2][iter  800/1589] loss: 0.5777, lr: 1.00e-03
-			fg/bg=(238/786), time cost: 546.326613
-			rpn_cls: 0.0325, rpn_box: 0.1010, rcnn_cls: 0.1915, rcnn_box 0.2024
-[session 1][epoch  2][iter  900/1589] loss: 0.6288, lr: 1.00e-03
-			fg/bg=(172/852), time cost: 541.166977
-			rpn_cls: 0.0323, rpn_box: 0.0082, rcnn_cls: 0.1991, rcnn_box 0.2509
-[session 1][epoch  2][iter 1000/1589] loss: 0.6242, lr: 1.00e-03
-			fg/bg=(246/778), time cost: 541.892132
-			rpn_cls: 0.0546, rpn_box: 0.1222, rcnn_cls: 0.1251, rcnn_box 0.2134
-[session 1][epoch  2][iter 1100/1589] loss: 0.5884, lr: 1.00e-03
-			fg/bg=(224/800), time cost: 547.686924
-			rpn_cls: 0.0310, rpn_box: 0.0519, rcnn_cls: 0.2516, rcnn_box 0.2245
-[session 1][epoch  2][iter 1200/1589] loss: 0.5903, lr: 1.00e-03
-			fg/bg=(229/795), time cost: 545.185931
-			rpn_cls: 0.0208, rpn_box: 0.0449, rcnn_cls: 0.1581, rcnn_box 0.2138
-[session 1][epoch  2][iter 1300/1589] loss: 0.5984, lr: 1.00e-03
-			fg/bg=(229/795), time cost: 544.267422
-			rpn_cls: 0.0316, rpn_box: 0.0483, rcnn_cls: 0.2127, rcnn_box 0.2408
-[session 1][epoch  2][iter 1400/1589] loss: 0.5640, lr: 1.00e-03
-			fg/bg=(184/840), time cost: 548.507219
-			rpn_cls: 0.0450, rpn_box: 0.0850, rcnn_cls: 0.1568, rcnn_box 0.1763
-[session 1][epoch  2][iter 1500/1589] loss: 0.5762, lr: 1.00e-03
-			fg/bg=(212/812), time cost: 545.779948
-			rpn_cls: 0.0330, rpn_box: 0.0240, rcnn_cls: 0.2156, rcnn_box 0.1936
-total training time: 16316.376453
-[session 1][epoch  3][iter    0/1589] loss: 0.8514, lr: 1.00e-03
-			fg/bg=(196/828), time cost: 6.190222
-			rpn_cls: 0.0199, rpn_box: 0.0485, rcnn_cls: 0.6086, rcnn_box 0.1743
-[session 1][epoch  3][iter  100/1589] loss: 0.5356, lr: 1.00e-03
-			fg/bg=(216/808), time cost: 543.543411
-			rpn_cls: 0.0205, rpn_box: 0.0511, rcnn_cls: 0.1497, rcnn_box 0.1753
-[session 1][epoch  3][iter  200/1589] loss: 0.5373, lr: 1.00e-03
-			fg/bg=(203/821), time cost: 539.690518
-			rpn_cls: 0.0322, rpn_box: 0.0072, rcnn_cls: 0.2346, rcnn_box 0.1675
-[session 1][epoch  3][iter  300/1589] loss: 0.5144, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 538.721184
-			rpn_cls: 0.0405, rpn_box: 0.1236, rcnn_cls: 0.1033, rcnn_box 0.1872
-[session 1][epoch  3][iter  400/1589] loss: 0.5417, lr: 1.00e-03
-			fg/bg=(168/856), time cost: 539.690125
-			rpn_cls: 0.0325, rpn_box: 0.0661, rcnn_cls: 0.3712, rcnn_box 0.1867
-[session 1][epoch  3][iter  500/1589] loss: 0.5015, lr: 1.00e-03
-			fg/bg=(255/769), time cost: 539.165001
-			rpn_cls: 0.0495, rpn_box: 0.1641, rcnn_cls: 0.1725, rcnn_box 0.2325
-[session 1][epoch  3][iter  600/1589] loss: 0.4919, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 541.426982
-			rpn_cls: 0.0550, rpn_box: 0.0748, rcnn_cls: 0.1847, rcnn_box 0.2180
-[session 1][epoch  3][iter  700/1589] loss: 0.4842, lr: 1.00e-03
-			fg/bg=(185/839), time cost: 541.528736
-			rpn_cls: 0.0128, rpn_box: 0.0077, rcnn_cls: 0.1305, rcnn_box 0.1499
-[session 1][epoch  3][iter  800/1589] loss: 0.4431, lr: 1.00e-03
-			fg/bg=(214/810), time cost: 540.773435
-			rpn_cls: 0.0386, rpn_box: 0.0584, rcnn_cls: 0.1277, rcnn_box 0.1611
-[session 1][epoch  3][iter  900/1589] loss: 0.4912, lr: 1.00e-03
-			fg/bg=(165/859), time cost: 542.270650
-			rpn_cls: 0.0313, rpn_box: 0.0584, rcnn_cls: 0.0872, rcnn_box 0.1139
-[session 1][epoch  3][iter 1000/1589] loss: 0.4747, lr: 1.00e-03
-			fg/bg=(204/820), time cost: 541.409557
-			rpn_cls: 0.0256, rpn_box: 0.0655, rcnn_cls: 0.2333, rcnn_box 0.1994
-[session 1][epoch  3][iter 1100/1589] loss: 0.4991, lr: 1.00e-03
-			fg/bg=(234/790), time cost: 538.056690
-			rpn_cls: 0.0689, rpn_box: 0.1211, rcnn_cls: 0.1643, rcnn_box 0.2253
-[session 1][epoch  3][iter 1200/1589] loss: 0.4593, lr: 1.00e-03
-			fg/bg=(219/805), time cost: 542.208431
-			rpn_cls: 0.0209, rpn_box: 0.0062, rcnn_cls: 0.1068, rcnn_box 0.1679
-[session 1][epoch  3][iter 1300/1589] loss: 0.4659, lr: 1.00e-03
-			fg/bg=(222/802), time cost: 541.266543
-			rpn_cls: 0.0385, rpn_box: 0.0314, rcnn_cls: 0.1345, rcnn_box 0.1763
-[session 1][epoch  3][iter 1400/1589] loss: 0.4653, lr: 1.00e-03
-			fg/bg=(227/797), time cost: 541.115864
-			rpn_cls: 0.0342, rpn_box: 0.0111, rcnn_cls: 0.2144, rcnn_box 0.1645
-[session 1][epoch  3][iter 1500/1589] loss: 0.4298, lr: 1.00e-03
-			fg/bg=(234/790), time cost: 542.813022
-			rpn_cls: 0.0266, rpn_box: 0.0417, rcnn_cls: 0.1476, rcnn_box 0.1628
-total training time: 24436.246825
-[session 1][epoch  4][iter    0/1589] loss: 0.5173, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 6.247484
-			rpn_cls: 0.0499, rpn_box: 0.1144, rcnn_cls: 0.1719, rcnn_box 0.1812
-[session 1][epoch  4][iter  100/1589] loss: 0.3979, lr: 1.00e-03
-			fg/bg=(229/795), time cost: 548.200931
-			rpn_cls: 0.0314, rpn_box: 0.0239, rcnn_cls: 0.1402, rcnn_box 0.1798
-[session 1][epoch  4][iter  200/1589] loss: 0.4146, lr: 1.00e-03
-			fg/bg=(239/785), time cost: 544.395409
-			rpn_cls: 0.0358, rpn_box: 0.1001, rcnn_cls: 0.1337, rcnn_box 0.1901
-[session 1][epoch  4][iter  300/1589] loss: 0.4083, lr: 1.00e-03
-			fg/bg=(166/858), time cost: 544.135932
-			rpn_cls: 0.0080, rpn_box: 0.0098, rcnn_cls: 0.1388, rcnn_box 0.3099
-[session 1][epoch  4][iter  400/1589] loss: 0.3969, lr: 1.00e-03
-			fg/bg=(243/781), time cost: 543.854500
-			rpn_cls: 0.0186, rpn_box: 0.0337, rcnn_cls: 0.0772, rcnn_box 0.1409
-[session 1][epoch  4][iter  500/1589] loss: 0.4095, lr: 1.00e-03
-			fg/bg=(211/813), time cost: 545.016610
-			rpn_cls: 0.0129, rpn_box: 0.0499, rcnn_cls: 0.1095, rcnn_box 0.1694
-[session 1][epoch  4][iter  600/1589] loss: 0.4020, lr: 1.00e-03
-			fg/bg=(226/798), time cost: 547.176997
-			rpn_cls: 0.0117, rpn_box: 0.0205, rcnn_cls: 0.6725, rcnn_box 0.1112
-[session 1][epoch  4][iter  700/1589] loss: 0.4123, lr: 1.00e-03
-			fg/bg=(230/794), time cost: 546.531372
-			rpn_cls: 0.0138, rpn_box: 0.0348, rcnn_cls: 0.2783, rcnn_box 0.1326
-[session 1][epoch  4][iter  800/1589] loss: 0.3864, lr: 1.00e-03
-			fg/bg=(213/811), time cost: 543.469321
-			rpn_cls: 0.0115, rpn_box: 0.0044, rcnn_cls: 0.1015, rcnn_box 0.1716
-[session 1][epoch  4][iter  900/1589] loss: 0.3946, lr: 1.00e-03
-			fg/bg=(246/778), time cost: 544.427972
-			rpn_cls: 0.0414, rpn_box: 0.1233, rcnn_cls: 0.1077, rcnn_box 0.1605
-[session 1][epoch  4][iter 1000/1589] loss: 0.4057, lr: 1.00e-03
-			fg/bg=(206/818), time cost: 547.139113
-			rpn_cls: 0.0486, rpn_box: 0.0334, rcnn_cls: 0.1214, rcnn_box 0.1550
-[session 1][epoch  4][iter 1100/1589] loss: 0.3738, lr: 1.00e-03
-			fg/bg=(221/803), time cost: 544.634555
-			rpn_cls: 0.0511, rpn_box: 0.1537, rcnn_cls: 0.1354, rcnn_box 0.1481
-[session 1][epoch  4][iter 1200/1589] loss: 0.3932, lr: 1.00e-03
-			fg/bg=(217/807), time cost: 545.854521
-			rpn_cls: 0.0172, rpn_box: 0.0431, rcnn_cls: 0.3033, rcnn_box 0.1567
-[session 1][epoch  4][iter 1300/1589] loss: 0.3838, lr: 1.00e-03
-			fg/bg=(177/847), time cost: 542.763362
-			rpn_cls: 0.0236, rpn_box: 0.0890, rcnn_cls: 0.1168, rcnn_box 0.0954
-[session 1][epoch  4][iter 1400/1589] loss: 0.3784, lr: 1.00e-03
-			fg/bg=(233/791), time cost: 543.512964
-			rpn_cls: 0.0444, rpn_box: 0.0407, rcnn_cls: 0.0980, rcnn_box 0.1468
-[session 1][epoch  4][iter 1500/1589] loss: 0.3935, lr: 1.00e-03
-			fg/bg=(185/839), time cost: 545.613706
-			rpn_cls: 0.0063, rpn_box: 0.0057, rcnn_cls: 0.1017, rcnn_box 0.1967
-total training time: 32619.221574
-[session 1][epoch  5][iter    0/1589] loss: 0.2316, lr: 1.00e-03
-			fg/bg=(200/824), time cost: 6.113481
-			rpn_cls: 0.0066, rpn_box: 0.0348, rcnn_cls: 0.0555, rcnn_box 0.1347
-[session 1][epoch  5][iter  100/1589] loss: 0.3511, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 543.643644
-			rpn_cls: 0.0146, rpn_box: 0.0705, rcnn_cls: 0.0982, rcnn_box 0.2133
-[session 1][epoch  5][iter  200/1589] loss: 0.3775, lr: 1.00e-03
-			fg/bg=(219/805), time cost: 547.511530
-			rpn_cls: 0.0293, rpn_box: 0.0518, rcnn_cls: 0.1466, rcnn_box 0.1941
-[session 1][epoch  5][iter  300/1589] loss: 0.3289, lr: 1.00e-03
-			fg/bg=(247/777), time cost: 551.066160
-			rpn_cls: 0.0457, rpn_box: 0.1411, rcnn_cls: 0.0993, rcnn_box 0.2642
-[session 1][epoch  5][iter  400/1589] loss: 0.3251, lr: 1.00e-03
-			fg/bg=(242/782), time cost: 547.621821
-			rpn_cls: 0.0350, rpn_box: 0.0508, rcnn_cls: 0.0908, rcnn_box 0.1304
-[session 1][epoch  5][iter  500/1589] loss: 0.3557, lr: 1.00e-03
-			fg/bg=(205/819), time cost: 551.781944
-			rpn_cls: 0.0514, rpn_box: 0.0458, rcnn_cls: 0.1367, rcnn_box 0.1372
-[session 1][epoch  5][iter  600/1589] loss: 0.3526, lr: 1.00e-03
-			fg/bg=(205/819), time cost: 548.720145
-			rpn_cls: 0.0305, rpn_box: 0.0220, rcnn_cls: 0.1183, rcnn_box 0.1614
-[session 1][epoch  5][iter  700/1589] loss: 0.3293, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 552.959064
-			rpn_cls: 0.0371, rpn_box: 0.1206, rcnn_cls: 0.0967, rcnn_box 0.1352
-[session 1][epoch  5][iter  800/1589] loss: 0.3279, lr: 1.00e-03
-			fg/bg=(182/842), time cost: 548.238115
-			rpn_cls: 0.0109, rpn_box: 0.0260, rcnn_cls: 0.1571, rcnn_box 0.1678
-[session 1][epoch  5][iter  900/1589] loss: 0.3260, lr: 1.00e-03
-			fg/bg=(227/797), time cost: 551.120938
-			rpn_cls: 0.0136, rpn_box: 0.0141, rcnn_cls: 0.1154, rcnn_box 0.0816
-[session 1][epoch  5][iter 1000/1589] loss: 0.3384, lr: 1.00e-03
-			fg/bg=(256/768), time cost: 548.437136
-			rpn_cls: 0.0379, rpn_box: 0.0498, rcnn_cls: 0.1685, rcnn_box 0.2191
-[session 1][epoch  5][iter 1100/1589] loss: 0.3474, lr: 1.00e-03
-			fg/bg=(181/843), time cost: 552.665236
-			rpn_cls: 0.0021, rpn_box: 0.0019, rcnn_cls: 0.0360, rcnn_box 0.1034
-[session 1][epoch  5][iter 1200/1589] loss: 0.3252, lr: 1.00e-03
-			fg/bg=(225/799), time cost: 551.860855
-			rpn_cls: 0.0050, rpn_box: 0.0049, rcnn_cls: 0.0848, rcnn_box 0.1006
-[session 1][epoch  5][iter 1300/1589] loss: 0.3238, lr: 1.00e-03
-			fg/bg=(243/781), time cost: 551.397920
-			rpn_cls: 0.0329, rpn_box: 0.0183, rcnn_cls: 0.0821, rcnn_box 0.1410
-[session 1][epoch  5][iter 1400/1589] loss: 0.3117, lr: 1.00e-03
-			fg/bg=(174/850), time cost: 550.690727
-			rpn_cls: 0.0240, rpn_box: 0.0104, rcnn_cls: 0.0758, rcnn_box 0.0925
-[session 1][epoch  5][iter 1500/1589] loss: 0.3387, lr: 1.00e-03
-			fg/bg=(199/825), time cost: 550.619696
-			rpn_cls: 0.0130, rpn_box: 0.0190, rcnn_cls: 0.1559, rcnn_box 0.0782
-total training time: 40873.669986
-[session 1][epoch  6][iter    0/1589] loss: 0.1956, lr: 1.00e-04
-			fg/bg=(233/791), time cost: 6.421560
-			rpn_cls: 0.0152, rpn_box: 0.0119, rcnn_cls: 0.0970, rcnn_box 0.0715
-[session 1][epoch  6][iter  100/1589] loss: 0.2875, lr: 1.00e-04
-			fg/bg=(237/787), time cost: 545.667957
-			rpn_cls: 0.0066, rpn_box: 0.0052, rcnn_cls: 0.0649, rcnn_box 0.0727
-[session 1][epoch  6][iter  200/1589] loss: 0.2425, lr: 1.00e-04
-			fg/bg=(204/820), time cost: 547.340447
-			rpn_cls: 0.0147, rpn_box: 0.0710, rcnn_cls: 0.0606, rcnn_box 0.0656
-[session 1][epoch  6][iter  300/1589] loss: 0.2436, lr: 1.00e-04
-			fg/bg=(222/802), time cost: 545.416320
-			rpn_cls: 0.0093, rpn_box: 0.0251, rcnn_cls: 0.0590, rcnn_box 0.0478
-[session 1][epoch  6][iter  400/1589] loss: 0.2431, lr: 1.00e-04
-			fg/bg=(230/794), time cost: 546.421282
-			rpn_cls: 0.0120, rpn_box: 0.0401, rcnn_cls: 0.1086, rcnn_box 0.1146
-[session 1][epoch  6][iter  500/1589] loss: 0.2360, lr: 1.00e-04
-			fg/bg=(254/770), time cost: 547.175829
-			rpn_cls: 0.0745, rpn_box: 0.0452, rcnn_cls: 0.1264, rcnn_box 0.1642
-[session 1][epoch  6][iter  600/1589] loss: 0.2232, lr: 1.00e-04
-			fg/bg=(215/809), time cost: 548.028240
-			rpn_cls: 0.0106, rpn_box: 0.0437, rcnn_cls: 0.0709, rcnn_box 0.0788
-[session 1][epoch  6][iter  700/1589] loss: 0.2264, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 545.742706
-			rpn_cls: 0.0225, rpn_box: 0.0696, rcnn_cls: 0.0616, rcnn_box 0.1206
-[session 1][epoch  6][iter  800/1589] loss: 0.2296, lr: 1.00e-04
-			fg/bg=(176/848), time cost: 544.983358
-			rpn_cls: 0.0213, rpn_box: 0.0246, rcnn_cls: 0.0675, rcnn_box 0.0624
-[session 1][epoch  6][iter  900/1589] loss: 0.2259, lr: 1.00e-04
-			fg/bg=(227/797), time cost: 547.005163
-			rpn_cls: 0.0155, rpn_box: 0.0280, rcnn_cls: 0.0523, rcnn_box 0.0740
-[session 1][epoch  6][iter 1000/1589] loss: 0.2203, lr: 1.00e-04
-			fg/bg=(205/819), time cost: 543.377702
-			rpn_cls: 0.0133, rpn_box: 0.0548, rcnn_cls: 0.0849, rcnn_box 0.1038
-[session 1][epoch  6][iter 1100/1589] loss: 0.2115, lr: 1.00e-04
-			fg/bg=(218/806), time cost: 541.432878
-			rpn_cls: 0.0156, rpn_box: 0.0492, rcnn_cls: 0.0724, rcnn_box 0.0596
-[session 1][epoch  6][iter 1200/1589] loss: 0.2243, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 541.236110
-			rpn_cls: 0.0197, rpn_box: 0.0861, rcnn_cls: 0.0756, rcnn_box 0.0841
-[session 1][epoch  6][iter 1300/1589] loss: 0.2124, lr: 1.00e-04
-			fg/bg=(235/789), time cost: 540.390959
-			rpn_cls: 0.0060, rpn_box: 0.0365, rcnn_cls: 0.0709, rcnn_box 0.1030
-[session 1][epoch  6][iter 1400/1589] loss: 0.2227, lr: 1.00e-04
-			fg/bg=(242/782), time cost: 537.206577
-			rpn_cls: 0.0194, rpn_box: 0.0459, rcnn_cls: 0.1681, rcnn_box 0.0635
-[session 1][epoch  6][iter 1500/1589] loss: 0.2192, lr: 1.00e-04
-			fg/bg=(224/800), time cost: 541.821611
-			rpn_cls: 0.0219, rpn_box: 0.0232, rcnn_cls: 0.0886, rcnn_box 0.0869
-total training time: 49043.338684
-[session 1][epoch  7][iter    0/1589] loss: 0.4207, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 6.227271
-			rpn_cls: 0.0423, rpn_box: 0.0376, rcnn_cls: 0.1797, rcnn_box 0.1611
-[session 1][epoch  7][iter  100/1589] loss: 0.2080, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 546.686302
-			rpn_cls: 0.0339, rpn_box: 0.1091, rcnn_cls: 0.0630, rcnn_box 0.0992
-[session 1][epoch  7][iter  200/1589] loss: 0.2245, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 543.002291
-			rpn_cls: 0.0215, rpn_box: 0.1262, rcnn_cls: 0.0895, rcnn_box 0.1077
-[session 1][epoch  7][iter  300/1589] loss: 0.2181, lr: 1.00e-04
-			fg/bg=(236/788), time cost: 543.206401
-			rpn_cls: 0.0104, rpn_box: 0.0789, rcnn_cls: 0.0718, rcnn_box 0.0597
-[session 1][epoch  7][iter  400/1589] loss: 0.1961, lr: 1.00e-04
-			fg/bg=(234/790), time cost: 544.934494
-			rpn_cls: 0.0042, rpn_box: 0.0105, rcnn_cls: 0.0439, rcnn_box 0.0552
-[session 1][epoch  7][iter  500/1589] loss: 0.2184, lr: 1.00e-04
-			fg/bg=(231/793), time cost: 544.900919
-			rpn_cls: 0.0122, rpn_box: 0.0282, rcnn_cls: 0.0580, rcnn_box 0.0403
-[session 1][epoch  7][iter  600/1589] loss: 0.2093, lr: 1.00e-04
-			fg/bg=(224/800), time cost: 544.002427
-			rpn_cls: 0.0033, rpn_box: 0.0182, rcnn_cls: 0.0399, rcnn_box 0.0663
-[session 1][epoch  7][iter  700/1589] loss: 0.2168, lr: 1.00e-04
-			fg/bg=(205/819), time cost: 543.058607
-			rpn_cls: 0.0197, rpn_box: 0.0315, rcnn_cls: 0.0699, rcnn_box 0.0927
-[session 1][epoch  7][iter  800/1589] loss: 0.2237, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 541.809701
-			rpn_cls: 0.0176, rpn_box: 0.0912, rcnn_cls: 0.0552, rcnn_box 0.0783
-[session 1][epoch  7][iter  900/1589] loss: 0.2160, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 544.660597
-			rpn_cls: 0.0304, rpn_box: 0.0573, rcnn_cls: 0.4984, rcnn_box 0.1137
-[session 1][epoch  7][iter 1000/1589] loss: 0.2127, lr: 1.00e-04
-			fg/bg=(173/851), time cost: 543.063162
-			rpn_cls: 0.0251, rpn_box: 0.0533, rcnn_cls: 0.2795, rcnn_box 0.1035
-[session 1][epoch  7][iter 1100/1589] loss: 0.2167, lr: 1.00e-04
-			fg/bg=(237/787), time cost: 542.985631
-			rpn_cls: 0.0211, rpn_box: 0.0305, rcnn_cls: 0.0506, rcnn_box 0.0967
-[session 1][epoch  7][iter 1200/1589] loss: 0.1944, lr: 1.00e-04
-			fg/bg=(211/813), time cost: 547.735701
-			rpn_cls: 0.0070, rpn_box: 0.0127, rcnn_cls: 0.0451, rcnn_box 0.0655
-[session 1][epoch  7][iter 1300/1589] loss: 0.2090, lr: 1.00e-04
-			fg/bg=(215/809), time cost: 544.542161
-			rpn_cls: 0.0052, rpn_box: 0.0450, rcnn_cls: 0.0547, rcnn_box 0.0863
-[session 1][epoch  7][iter 1400/1589] loss: 0.1979, lr: 1.00e-04
-			fg/bg=(245/779), time cost: 543.765527
-			rpn_cls: 0.0058, rpn_box: 0.0256, rcnn_cls: 0.1271, rcnn_box 0.0574
-[session 1][epoch  7][iter 1500/1589] loss: 0.2075, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 546.303555
-			rpn_cls: 0.0181, rpn_box: 0.0899, rcnn_cls: 0.0545, rcnn_box 0.0669
-total training time: 57214.223431
-[session 1][epoch  8][iter    0/1589] loss: 0.1404, lr: 1.00e-04
-			fg/bg=(181/843), time cost: 6.192871
-			rpn_cls: 0.0137, rpn_box: 0.0192, rcnn_cls: 0.0530, rcnn_box 0.0545
-[session 1][epoch  8][iter  100/1589] loss: 0.2060, lr: 1.00e-04
-			fg/bg=(221/803), time cost: 541.718715
-			rpn_cls: 0.0153, rpn_box: 0.0517, rcnn_cls: 0.0866, rcnn_box 0.0800
-[session 1][epoch  8][iter  200/1589] loss: 0.2091, lr: 1.00e-04
-			fg/bg=(196/828), time cost: 542.315739
-			rpn_cls: 0.0220, rpn_box: 0.0253, rcnn_cls: 0.0431, rcnn_box 0.0826
-[session 1][epoch  8][iter  300/1589] loss: 0.2185, lr: 1.00e-04
-			fg/bg=(159/865), time cost: 543.840216
-			rpn_cls: 0.0110, rpn_box: 0.0075, rcnn_cls: 0.0242, rcnn_box 0.0321
-[session 1][epoch  8][iter  400/1589] loss: 0.1940, lr: 1.00e-04
-			fg/bg=(219/805), time cost: 544.708958
-			rpn_cls: 0.0134, rpn_box: 0.0389, rcnn_cls: 0.0746, rcnn_box 0.0961
-[session 1][epoch  8][iter  500/1589] loss: 0.1969, lr: 1.00e-04
-			fg/bg=(222/802), time cost: 544.838217
-			rpn_cls: 0.0024, rpn_box: 0.0094, rcnn_cls: 0.0448, rcnn_box 0.0521
-[session 1][epoch  8][iter  600/1589] loss: 0.2138, lr: 1.00e-04
-			fg/bg=(249/775), time cost: 544.918015
-			rpn_cls: 0.0253, rpn_box: 0.0606, rcnn_cls: 0.0513, rcnn_box 0.1003
-[session 1][epoch  8][iter  700/1589] loss: 0.2041, lr: 1.00e-04
-			fg/bg=(184/840), time cost: 547.218230
-			rpn_cls: 0.0045, rpn_box: 0.0152, rcnn_cls: 0.0465, rcnn_box 0.0447
-[session 1][epoch  8][iter  800/1589] loss: 0.1931, lr: 1.00e-04
-			fg/bg=(229/795), time cost: 546.964568
-			rpn_cls: 0.0055, rpn_box: 0.0246, rcnn_cls: 0.3090, rcnn_box 0.0784
-[session 1][epoch  8][iter  900/1589] loss: 0.1945, lr: 1.00e-04
-			fg/bg=(184/840), time cost: 546.357770
-			rpn_cls: 0.0133, rpn_box: 0.0364, rcnn_cls: 0.0549, rcnn_box 0.0739
-[session 1][epoch  8][iter 1000/1589] loss: 0.2016, lr: 1.00e-04
-			fg/bg=(237/787), time cost: 545.125478
-			rpn_cls: 0.0120, rpn_box: 0.0060, rcnn_cls: 0.0559, rcnn_box 0.1212
-[session 1][epoch  8][iter 1100/1589] loss: 0.2023, lr: 1.00e-04
-			fg/bg=(231/793), time cost: 543.972012
-			rpn_cls: 0.0092, rpn_box: 0.0249, rcnn_cls: 0.0889, rcnn_box 0.0648
-[session 1][epoch  8][iter 1200/1589] loss: 0.1978, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 546.119090
-			rpn_cls: 0.0125, rpn_box: 0.0266, rcnn_cls: 0.0776, rcnn_box 0.0609
-[session 1][epoch  8][iter 1300/1589] loss: 0.1970, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 545.184189
-			rpn_cls: 0.0226, rpn_box: 0.1006, rcnn_cls: 0.0879, rcnn_box 0.0779
-[session 1][epoch  8][iter 1400/1589] loss: 0.2031, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 546.653753
-			rpn_cls: 0.0262, rpn_box: 0.1017, rcnn_cls: 0.0558, rcnn_box 0.1175
-[session 1][epoch  8][iter 1500/1589] loss: 0.2091, lr: 1.00e-04
-			fg/bg=(219/805), time cost: 547.179693
-			rpn_cls: 0.0076, rpn_box: 0.0311, rcnn_cls: 0.0295, rcnn_box 0.0446
-total training time: 65397.530947
-[session 1][epoch  9][iter    0/1589] loss: 0.1250, lr: 1.00e-04
-			fg/bg=(230/794), time cost: 6.279678
-			rpn_cls: 0.0116, rpn_box: 0.0215, rcnn_cls: 0.0503, rcnn_box 0.0416
-[session 1][epoch  9][iter  100/1589] loss: 0.1953, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 542.365980
-			rpn_cls: 0.0114, rpn_box: 0.0978, rcnn_cls: 0.0741, rcnn_box 0.0778
-[session 1][epoch  9][iter  200/1589] loss: 0.2105, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 542.969812
-			rpn_cls: 0.0115, rpn_box: 0.0739, rcnn_cls: 0.0547, rcnn_box 0.0689
-[session 1][epoch  9][iter  300/1589] loss: 0.1991, lr: 1.00e-04
-			fg/bg=(173/851), time cost: 542.586319
-			rpn_cls: 0.0171, rpn_box: 0.0217, rcnn_cls: 0.0457, rcnn_box 0.0450
-[session 1][epoch  9][iter  400/1589] loss: 0.1882, lr: 1.00e-04
-			fg/bg=(248/776), time cost: 542.732051
-			rpn_cls: 0.0092, rpn_box: 0.0034, rcnn_cls: 0.0860, rcnn_box 0.0675
-[session 1][epoch  9][iter  500/1589] loss: 0.1852, lr: 1.00e-04
-			fg/bg=(223/801), time cost: 541.935232
-			rpn_cls: 0.0065, rpn_box: 0.0120, rcnn_cls: 0.0510, rcnn_box 0.0588
-[session 1][epoch  9][iter  600/1589] loss: 0.2023, lr: 1.00e-04
-			fg/bg=(239/785), time cost: 540.621405
-			rpn_cls: 0.0078, rpn_box: 0.0339, rcnn_cls: 0.0974, rcnn_box 0.0690
-[session 1][epoch  9][iter  700/1589] loss: 0.1903, lr: 1.00e-04
-			fg/bg=(255/769), time cost: 540.687008
-			rpn_cls: 0.0038, rpn_box: 0.0023, rcnn_cls: 0.0461, rcnn_box 0.0762
-[session 1][epoch  9][iter  800/1589] loss: 0.2023, lr: 1.00e-04
-			fg/bg=(232/792), time cost: 541.556933
-			rpn_cls: 0.0277, rpn_box: 0.0205, rcnn_cls: 0.0903, rcnn_box 0.1025
-[session 1][epoch  9][iter  900/1589] loss: 0.1870, lr: 1.00e-04
-			fg/bg=(238/786), time cost: 541.217190
-			rpn_cls: 0.0186, rpn_box: 0.0999, rcnn_cls: 0.0548, rcnn_box 0.1003
-[session 1][epoch  9][iter 1000/1589] loss: 0.2174, lr: 1.00e-04
-			fg/bg=(233/791), time cost: 539.054013
-			rpn_cls: 0.0048, rpn_box: 0.0044, rcnn_cls: 0.0402, rcnn_box 0.0967
-[session 1][epoch  9][iter 1100/1589] loss: 0.1823, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 542.587293
-			rpn_cls: 0.0220, rpn_box: 0.0609, rcnn_cls: 0.0462, rcnn_box 0.0551
-[session 1][epoch  9][iter 1200/1589] loss: 0.1916, lr: 1.00e-04
-			fg/bg=(216/808), time cost: 541.003888
-			rpn_cls: 0.0073, rpn_box: 0.0208, rcnn_cls: 0.0399, rcnn_box 0.0527
-[session 1][epoch  9][iter 1300/1589] loss: 0.1895, lr: 1.00e-04
-			fg/bg=(243/781), time cost: 540.409156
-			rpn_cls: 0.0122, rpn_box: 0.0197, rcnn_cls: 0.0670, rcnn_box 0.0455
-[session 1][epoch  9][iter 1400/1589] loss: 0.1924, lr: 1.00e-04
-			fg/bg=(215/809), time cost: 542.750530
-			rpn_cls: 0.0120, rpn_box: 0.0180, rcnn_cls: 0.0868, rcnn_box 0.0546
-[session 1][epoch  9][iter 1500/1589] loss: 0.2002, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 543.152362
-			rpn_cls: 0.0323, rpn_box: 0.0370, rcnn_cls: 0.1382, rcnn_box 0.1467
-total training time: 73529.439797
-[session 1][epoch 10][iter    0/1589] loss: 0.2412, lr: 1.00e-04
-			fg/bg=(226/798), time cost: 6.289472
-			rpn_cls: 0.0122, rpn_box: 0.0689, rcnn_cls: 0.0795, rcnn_box 0.0807
-[session 1][epoch 10][iter  100/1589] loss: 0.1754, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 543.287587
-			rpn_cls: 0.0273, rpn_box: 0.1519, rcnn_cls: 0.0721, rcnn_box 0.0711
-[session 1][epoch 10][iter  200/1589] loss: 0.1791, lr: 1.00e-04
-			fg/bg=(242/782), time cost: 546.527780
-			rpn_cls: 0.0100, rpn_box: 0.0314, rcnn_cls: 0.0501, rcnn_box 0.0406
-[session 1][epoch 10][iter  300/1589] loss: 0.1973, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 544.679966
-			rpn_cls: 0.0202, rpn_box: 0.0744, rcnn_cls: 0.0801, rcnn_box 0.0915
-[session 1][epoch 10][iter  400/1589] loss: 0.1930, lr: 1.00e-04
-			fg/bg=(182/842), time cost: 544.694779
-			rpn_cls: 0.0009, rpn_box: 0.0009, rcnn_cls: 0.0354, rcnn_box 0.0296
-[session 1][epoch 10][iter  500/1589] loss: 0.1958, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 542.024346
-			rpn_cls: 0.0273, rpn_box: 0.0741, rcnn_cls: 0.0513, rcnn_box 0.0554
-[session 1][epoch 10][iter  600/1589] loss: 0.1873, lr: 1.00e-04
-			fg/bg=(230/794), time cost: 541.832869
-			rpn_cls: 0.0123, rpn_box: 0.0145, rcnn_cls: 0.0613, rcnn_box 0.0705
-[session 1][epoch 10][iter  700/1589] loss: 0.1941, lr: 1.00e-04
-			fg/bg=(235/789), time cost: 538.680752
-			rpn_cls: 0.0328, rpn_box: 0.0743, rcnn_cls: 0.0669, rcnn_box 0.0886
-[session 1][epoch 10][iter  800/1589] loss: 0.1966, lr: 1.00e-04
-			fg/bg=(175/849), time cost: 558.036977
-			rpn_cls: 0.0063, rpn_box: 0.0185, rcnn_cls: 0.0450, rcnn_box 0.0422
-[session 1][epoch 10][iter  900/1589] loss: 0.1890, lr: 1.00e-04
-			fg/bg=(221/803), time cost: 564.364430
-			rpn_cls: 0.0106, rpn_box: 0.0194, rcnn_cls: 0.0293, rcnn_box 0.0705
-[session 1][epoch 10][iter 1000/1589] loss: 0.1961, lr: 1.00e-04
-			fg/bg=(222/802), time cost: 563.233199
-			rpn_cls: 0.0089, rpn_box: 0.0195, rcnn_cls: 0.0497, rcnn_box 0.1154
-[session 1][epoch 10][iter 1100/1589] loss: 0.1898, lr: 1.00e-04
-			fg/bg=(222/802), time cost: 563.692521
-			rpn_cls: 0.0151, rpn_box: 0.0783, rcnn_cls: 0.0580, rcnn_box 0.0847
-[session 1][epoch 10][iter 1200/1589] loss: 0.1745, lr: 1.00e-04
-			fg/bg=(227/797), time cost: 563.548512
-			rpn_cls: 0.0067, rpn_box: 0.0092, rcnn_cls: 0.0710, rcnn_box 0.0503
-[session 1][epoch 10][iter 1300/1589] loss: 0.1920, lr: 1.00e-04
-			fg/bg=(228/796), time cost: 564.128708
-			rpn_cls: 0.0110, rpn_box: 0.0068, rcnn_cls: 0.0679, rcnn_box 0.0695
-[session 1][epoch 10][iter 1400/1589] loss: 0.2007, lr: 1.00e-04
-			fg/bg=(215/809), time cost: 563.746364
-			rpn_cls: 0.0142, rpn_box: 0.0516, rcnn_cls: 0.0360, rcnn_box 0.0500
-[session 1][epoch 10][iter 1500/1589] loss: 0.1861, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 563.643444
-			rpn_cls: 0.0257, rpn_box: 0.0659, rcnn_cls: 0.2403, rcnn_box 0.0844
-total training time: 81841.851503
-[session 1][epoch 11][iter    0/1589] loss: 0.1526, lr: 1.00e-04
-			fg/bg=(226/798), time cost: 6.781621
-			rpn_cls: 0.0090, rpn_box: 0.0210, rcnn_cls: 0.0489, rcnn_box 0.0737
-[session 1][epoch 11][iter  100/1589] loss: 0.1882, lr: 1.00e-04
-			fg/bg=(235/789), time cost: 565.471017
-			rpn_cls: 0.0037, rpn_box: 0.0115, rcnn_cls: 0.0439, rcnn_box 0.0716
-[session 1][epoch 11][iter  200/1589] loss: 0.1876, lr: 1.00e-04
-			fg/bg=(215/809), time cost: 569.518270
-			rpn_cls: 0.0064, rpn_box: 0.0405, rcnn_cls: 0.0559, rcnn_box 0.0669
-[session 1][epoch 11][iter  300/1589] loss: 0.1903, lr: 1.00e-04
-			fg/bg=(209/815), time cost: 572.415953
-			rpn_cls: 0.0251, rpn_box: 0.0708, rcnn_cls: 0.0664, rcnn_box 0.0631
-[session 1][epoch 11][iter  400/1589] loss: 0.1914, lr: 1.00e-04
-			fg/bg=(219/805), time cost: 575.707044
-			rpn_cls: 0.0074, rpn_box: 0.0408, rcnn_cls: 0.0481, rcnn_box 0.0515
-[session 1][epoch 11][iter  500/1589] loss: 0.1896, lr: 1.00e-04
-			fg/bg=(232/792), time cost: 574.722265
-			rpn_cls: 0.0112, rpn_box: 0.0223, rcnn_cls: 0.0597, rcnn_box 0.0801
-[session 1][epoch 11][iter  600/1589] loss: 0.1825, lr: 1.00e-04
-			fg/bg=(203/821), time cost: 575.644448
-			rpn_cls: 0.0129, rpn_box: 0.0213, rcnn_cls: 0.0498, rcnn_box 0.0707
-[session 1][epoch 11][iter  700/1589] loss: 0.1749, lr: 1.00e-04
-			fg/bg=(232/792), time cost: 577.244314
-			rpn_cls: 0.0111, rpn_box: 0.0058, rcnn_cls: 0.0504, rcnn_box 0.0965
-[session 1][epoch 11][iter  800/1589] loss: 0.1819, lr: 1.00e-04
-			fg/bg=(210/814), time cost: 572.183149
-			rpn_cls: 0.0031, rpn_box: 0.0035, rcnn_cls: 0.0714, rcnn_box 0.0605
-[session 1][epoch 11][iter  900/1589] loss: 0.1983, lr: 1.00e-04
-			fg/bg=(246/778), time cost: 571.891114
-			rpn_cls: 0.0025, rpn_box: 0.0030, rcnn_cls: 0.0414, rcnn_box 0.0393
-[session 1][epoch 11][iter 1000/1589] loss: 0.1822, lr: 1.00e-04
-			fg/bg=(220/804), time cost: 571.974976
-			rpn_cls: 0.0149, rpn_box: 0.0157, rcnn_cls: 0.0692, rcnn_box 0.0654
-[session 1][epoch 11][iter 1100/1589] loss: 0.1783, lr: 1.00e-04
-			fg/bg=(226/798), time cost: 565.328065
-			rpn_cls: 0.0069, rpn_box: 0.0355, rcnn_cls: 0.0437, rcnn_box 0.0512
-[session 1][epoch 11][iter 1200/1589] loss: 0.1701, lr: 1.00e-04
-			fg/bg=(256/768), time cost: 558.333570
-			rpn_cls: 0.0146, rpn_box: 0.0375, rcnn_cls: 0.0422, rcnn_box 0.0518
-[session 1][epoch 11][iter 1300/1589] loss: 0.1903, lr: 1.00e-04
-			fg/bg=(229/795), time cost: 542.847303
-			rpn_cls: 0.0269, rpn_box: 0.0227, rcnn_cls: 0.1778, rcnn_box 0.1448
-[session 1][epoch 11][iter 1400/1589] loss: 0.1964, lr: 1.00e-04
-			fg/bg=(187/837), time cost: 541.503461
-			rpn_cls: 0.0074, rpn_box: 0.0438, rcnn_cls: 0.0582, rcnn_box 0.0499
-[session 1][epoch 11][iter 1500/1589] loss: 0.1795, lr: 1.00e-04
-			fg/bg=(239/785), time cost: 540.444218
-			rpn_cls: 0.0171, rpn_box: 0.0652, rcnn_cls: 0.0727, rcnn_box 0.0793
-total training time: 90323.862290
-[session 1][epoch 12][iter    0/1589] loss: 0.1183, lr: 1.00e-05
-			fg/bg=(187/837), time cost: 6.634459
-			rpn_cls: 0.0033, rpn_box: 0.0043, rcnn_cls: 0.0497, rcnn_box 0.0610
-[session 1][epoch 12][iter  100/1589] loss: 0.1826, lr: 1.00e-05
-			fg/bg=(165/859), time cost: 543.969305
-			rpn_cls: 0.0079, rpn_box: 0.0151, rcnn_cls: 0.0473, rcnn_box 0.0575
-[session 1][epoch 12][iter  200/1589] loss: 0.1741, lr: 1.00e-05
-			fg/bg=(194/830), time cost: 544.622651
-			rpn_cls: 0.0105, rpn_box: 0.0527, rcnn_cls: 0.0439, rcnn_box 0.0609
-[session 1][epoch 12][iter  300/1589] loss: 0.1916, lr: 1.00e-05
-			fg/bg=(224/800), time cost: 543.732357
-			rpn_cls: 0.0184, rpn_box: 0.0710, rcnn_cls: 0.0925, rcnn_box 0.0699
-[session 1][epoch 12][iter  400/1589] loss: 0.1623, lr: 1.00e-05
-			fg/bg=(224/800), time cost: 546.441138
-			rpn_cls: 0.0047, rpn_box: 0.0026, rcnn_cls: 0.0465, rcnn_box 0.0611
-[session 1][epoch 12][iter  500/1589] loss: 0.1742, lr: 1.00e-05
-			fg/bg=(218/806), time cost: 544.924617
-			rpn_cls: 0.0176, rpn_box: 0.0651, rcnn_cls: 0.0557, rcnn_box 0.0610
-[session 1][epoch 12][iter  600/1589] loss: 0.1751, lr: 1.00e-05
-			fg/bg=(225/799), time cost: 544.728981
-			rpn_cls: 0.0055, rpn_box: 0.0167, rcnn_cls: 0.0335, rcnn_box 0.0543
-[session 1][epoch 12][iter  700/1589] loss: 0.1706, lr: 1.00e-05
-			fg/bg=(191/833), time cost: 544.954657
-			rpn_cls: 0.0042, rpn_box: 0.0517, rcnn_cls: 0.0397, rcnn_box 0.0515
-[session 1][epoch 12][iter  800/1589] loss: 0.1671, lr: 1.00e-05
-			fg/bg=(182/842), time cost: 545.644931
-			rpn_cls: 0.0083, rpn_box: 0.0197, rcnn_cls: 0.0385, rcnn_box 0.0360
-[session 1][epoch 12][iter  900/1589] loss: 0.1803, lr: 1.00e-05
-			fg/bg=(207/817), time cost: 543.264905
-			rpn_cls: 0.0119, rpn_box: 0.0578, rcnn_cls: 0.0532, rcnn_box 0.0502
-[session 1][epoch 12][iter 1000/1589] loss: 0.1746, lr: 1.00e-05
-			fg/bg=(229/795), time cost: 546.576961
-			rpn_cls: 0.0095, rpn_box: 0.0110, rcnn_cls: 0.0712, rcnn_box 0.0719
-[session 1][epoch 12][iter 1100/1589] loss: 0.1986, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 544.360740
-			rpn_cls: 0.0227, rpn_box: 0.1041, rcnn_cls: 0.1441, rcnn_box 0.0843
-[session 1][epoch 12][iter 1200/1589] loss: 0.1692, lr: 1.00e-05
-			fg/bg=(211/813), time cost: 545.579086
-			rpn_cls: 0.0094, rpn_box: 0.0441, rcnn_cls: 0.0639, rcnn_box 0.0360
-[session 1][epoch 12][iter 1300/1589] loss: 0.1693, lr: 1.00e-05
-			fg/bg=(232/792), time cost: 543.535010
-			rpn_cls: 0.0054, rpn_box: 0.0223, rcnn_cls: 0.0370, rcnn_box 0.0630
-[session 1][epoch 12][iter 1400/1589] loss: 0.1936, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 543.377756
-			rpn_cls: 0.0266, rpn_box: 0.1227, rcnn_cls: 0.0581, rcnn_box 0.0577
-[session 1][epoch 12][iter 1500/1589] loss: 0.1829, lr: 1.00e-05
-			fg/bg=(239/785), time cost: 544.371268
-			rpn_cls: 0.0348, rpn_box: 0.0800, rcnn_cls: 0.0906, rcnn_box 0.0768
-total training time: 98500.581111
-[session 1][epoch 13][iter    0/1589] loss: 0.2476, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 6.228917
-			rpn_cls: 0.0220, rpn_box: 0.0977, rcnn_cls: 0.0504, rcnn_box 0.0775
-[session 1][epoch 13][iter  100/1589] loss: 0.1787, lr: 1.00e-05
-			fg/bg=(230/794), time cost: 545.866517
-			rpn_cls: 0.0041, rpn_box: 0.0328, rcnn_cls: 0.0407, rcnn_box 0.0460
-[session 1][epoch 13][iter  200/1589] loss: 0.1809, lr: 1.00e-05
-			fg/bg=(232/792), time cost: 547.515669
-			rpn_cls: 0.0095, rpn_box: 0.0300, rcnn_cls: 0.0613, rcnn_box 0.0649
-[session 1][epoch 13][iter  300/1589] loss: 0.1863, lr: 1.00e-05
-			fg/bg=(238/786), time cost: 543.920609
-			rpn_cls: 0.0067, rpn_box: 0.0292, rcnn_cls: 0.0365, rcnn_box 0.0699
-[session 1][epoch 13][iter  400/1589] loss: 0.1872, lr: 1.00e-05
-			fg/bg=(241/783), time cost: 545.739790
-			rpn_cls: 0.0108, rpn_box: 0.0102, rcnn_cls: 0.0417, rcnn_box 0.0469
-[session 1][epoch 13][iter  500/1589] loss: 0.1719, lr: 1.00e-05
-			fg/bg=(199/825), time cost: 545.873181
-			rpn_cls: 0.0036, rpn_box: 0.0412, rcnn_cls: 0.0418, rcnn_box 0.0370
-[session 1][epoch 13][iter  600/1589] loss: 0.1768, lr: 1.00e-05
-			fg/bg=(213/811), time cost: 544.726558
-			rpn_cls: 0.0162, rpn_box: 0.0250, rcnn_cls: 0.0755, rcnn_box 0.0839
-[session 1][epoch 13][iter  700/1589] loss: 0.1709, lr: 1.00e-05
-			fg/bg=(212/812), time cost: 545.743836
-			rpn_cls: 0.0137, rpn_box: 0.0650, rcnn_cls: 0.0597, rcnn_box 0.0622
-[session 1][epoch 13][iter  800/1589] loss: 0.1779, lr: 1.00e-05
-			fg/bg=(227/797), time cost: 544.736780
-			rpn_cls: 0.0084, rpn_box: 0.0315, rcnn_cls: 0.0454, rcnn_box 0.0461
-[session 1][epoch 13][iter  900/1589] loss: 0.1708, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 544.124661
-			rpn_cls: 0.0229, rpn_box: 0.0992, rcnn_cls: 0.1383, rcnn_box 0.0355
-[session 1][epoch 13][iter 1000/1589] loss: 0.1817, lr: 1.00e-05
-			fg/bg=(249/775), time cost: 545.999017
-			rpn_cls: 0.0312, rpn_box: 0.1145, rcnn_cls: 0.0579, rcnn_box 0.0495
-[session 1][epoch 13][iter 1100/1589] loss: 0.1904, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 547.601878
-			rpn_cls: 0.0219, rpn_box: 0.0392, rcnn_cls: 0.3617, rcnn_box 0.0834
-[session 1][epoch 13][iter 1200/1589] loss: 0.1660, lr: 1.00e-05
-			fg/bg=(211/813), time cost: 544.533423
-			rpn_cls: 0.0028, rpn_box: 0.0028, rcnn_cls: 0.0538, rcnn_box 0.0432
-[session 1][epoch 13][iter 1300/1589] loss: 0.1657, lr: 1.00e-05
-			fg/bg=(244/780), time cost: 548.104044
-			rpn_cls: 0.0256, rpn_box: 0.0202, rcnn_cls: 0.0876, rcnn_box 0.0915
-[session 1][epoch 13][iter 1400/1589] loss: 0.1807, lr: 1.00e-05
-			fg/bg=(184/840), time cost: 543.943328
-			rpn_cls: 0.0141, rpn_box: 0.0533, rcnn_cls: 0.0371, rcnn_box 0.0499
-[session 1][epoch 13][iter 1500/1589] loss: 0.1720, lr: 1.00e-05
-			fg/bg=(219/805), time cost: 547.177083
-			rpn_cls: 0.0154, rpn_box: 0.0381, rcnn_cls: 0.0514, rcnn_box 0.0601
-total training time: 106692.416403
-[session 1][epoch 14][iter    0/1589] loss: 0.0908, lr: 1.00e-05
-			fg/bg=(223/801), time cost: 6.397721
-			rpn_cls: 0.0063, rpn_box: 0.0048, rcnn_cls: 0.0473, rcnn_box 0.0324
-[session 1][epoch 14][iter  100/1589] loss: 0.1823, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 542.457555
-			rpn_cls: 0.0392, rpn_box: 0.1621, rcnn_cls: 0.0628, rcnn_box 0.0992
-[session 1][epoch 14][iter  200/1589] loss: 0.1887, lr: 1.00e-05
-			fg/bg=(237/787), time cost: 546.645013
-			rpn_cls: 0.0113, rpn_box: 0.0527, rcnn_cls: 0.0568, rcnn_box 0.0628
-[session 1][epoch 14][iter  300/1589] loss: 0.1729, lr: 1.00e-05
-			fg/bg=(232/792), time cost: 544.714023
-			rpn_cls: 0.0039, rpn_box: 0.0247, rcnn_cls: 0.0673, rcnn_box 0.0515
-[session 1][epoch 14][iter  400/1589] loss: 0.1866, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 541.814820
-			rpn_cls: 0.0157, rpn_box: 0.0271, rcnn_cls: 0.2183, rcnn_box 0.0750
-[session 1][epoch 14][iter  500/1589] loss: 0.1742, lr: 1.00e-05
-			fg/bg=(228/796), time cost: 540.250156
-			rpn_cls: 0.0206, rpn_box: 0.0553, rcnn_cls: 0.0432, rcnn_box 0.0673
-[session 1][epoch 14][iter  600/1589] loss: 0.1764, lr: 1.00e-05
-			fg/bg=(207/817), time cost: 542.126094
-			rpn_cls: 0.0043, rpn_box: 0.0032, rcnn_cls: 0.0413, rcnn_box 0.0571
-[session 1][epoch 14][iter  700/1589] loss: 0.1647, lr: 1.00e-05
-			fg/bg=(207/817), time cost: 542.006754
-			rpn_cls: 0.0101, rpn_box: 0.0396, rcnn_cls: 0.0433, rcnn_box 0.0528
-[session 1][epoch 14][iter  800/1589] loss: 0.1728, lr: 1.00e-05
-			fg/bg=(228/796), time cost: 543.639862
-			rpn_cls: 0.0074, rpn_box: 0.0208, rcnn_cls: 0.0774, rcnn_box 0.0517
-[session 1][epoch 14][iter  900/1589] loss: 0.1798, lr: 1.00e-05
-			fg/bg=(129/895), time cost: 539.819043
-			rpn_cls: 0.0010, rpn_box: 0.0032, rcnn_cls: 0.0307, rcnn_box 0.0390
-[session 1][epoch 14][iter 1000/1589] loss: 0.1850, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 541.873044
-			rpn_cls: 0.0258, rpn_box: 0.0509, rcnn_cls: 0.0778, rcnn_box 0.0584
-[session 1][epoch 14][iter 1100/1589] loss: 0.1709, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 542.651283
-			rpn_cls: 0.0368, rpn_box: 0.0356, rcnn_cls: 0.1252, rcnn_box 0.1229
-[session 1][epoch 14][iter 1200/1589] loss: 0.1680, lr: 1.00e-05
-			fg/bg=(227/797), time cost: 543.970414
-			rpn_cls: 0.0088, rpn_box: 0.0248, rcnn_cls: 0.0614, rcnn_box 0.0817
-[session 1][epoch 14][iter 1300/1589] loss: 0.1681, lr: 1.00e-05
-			fg/bg=(229/795), time cost: 541.381541
-			rpn_cls: 0.0178, rpn_box: 0.0481, rcnn_cls: 0.0485, rcnn_box 0.0683
-[session 1][epoch 14][iter 1400/1589] loss: 0.1710, lr: 1.00e-05
-			fg/bg=(205/819), time cost: 538.712963
-			rpn_cls: 0.0164, rpn_box: 0.0883, rcnn_cls: 0.0484, rcnn_box 0.0588
-[session 1][epoch 14][iter 1500/1589] loss: 0.1801, lr: 1.00e-05
-			fg/bg=(241/783), time cost: 538.957784
-			rpn_cls: 0.0141, rpn_box: 0.0700, rcnn_cls: 0.0553, rcnn_box 0.0549
-total training time: 114829.834471
-[session 1][epoch 15][iter    0/1589] loss: 0.0999, lr: 1.00e-05
-			fg/bg=(203/821), time cost: 6.318353
-			rpn_cls: 0.0044, rpn_box: 0.0151, rcnn_cls: 0.0340, rcnn_box 0.0464
-[session 1][epoch 15][iter  100/1589] loss: 0.1772, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 544.157633
-			rpn_cls: 0.0143, rpn_box: 0.0340, rcnn_cls: 0.0397, rcnn_box 0.0475
-[session 1][epoch 15][iter  200/1589] loss: 0.1833, lr: 1.00e-05
-			fg/bg=(214/810), time cost: 542.618027
-			rpn_cls: 0.0072, rpn_box: 0.0350, rcnn_cls: 0.0545, rcnn_box 0.0518
-[session 1][epoch 15][iter  300/1589] loss: 0.1562, lr: 1.00e-05
-			fg/bg=(216/808), time cost: 546.975679
-			rpn_cls: 0.0220, rpn_box: 0.0583, rcnn_cls: 0.0797, rcnn_box 0.0761
-[session 1][epoch 15][iter  400/1589] loss: 0.1714, lr: 1.00e-05
-			fg/bg=(212/812), time cost: 543.094803
-			rpn_cls: 0.0018, rpn_box: 0.0023, rcnn_cls: 0.0361, rcnn_box 0.0456
-[session 1][epoch 15][iter  500/1589] loss: 0.1655, lr: 1.00e-05
-			fg/bg=(222/802), time cost: 544.788285
-			rpn_cls: 0.0225, rpn_box: 0.0680, rcnn_cls: 0.0710, rcnn_box 0.0874
-[session 1][epoch 15][iter  600/1589] loss: 0.1750, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 544.724285
-			rpn_cls: 0.0206, rpn_box: 0.0744, rcnn_cls: 0.0935, rcnn_box 0.0854
-[session 1][epoch 15][iter  700/1589] loss: 0.1727, lr: 1.00e-05
-			fg/bg=(221/803), time cost: 546.517168
-			rpn_cls: 0.0032, rpn_box: 0.0109, rcnn_cls: 0.0542, rcnn_box 0.0405
-[session 1][epoch 15][iter  800/1589] loss: 0.1934, lr: 1.00e-05
-			fg/bg=(189/835), time cost: 542.325557
-			rpn_cls: 0.0282, rpn_box: 0.0596, rcnn_cls: 0.0641, rcnn_box 0.0694
-[session 1][epoch 15][iter  900/1589] loss: 0.1767, lr: 1.00e-05
-			fg/bg=(223/801), time cost: 545.188628
-			rpn_cls: 0.0029, rpn_box: 0.0240, rcnn_cls: 0.0479, rcnn_box 0.0602
-[session 1][epoch 15][iter 1000/1589] loss: 0.1724, lr: 1.00e-05
-			fg/bg=(180/844), time cost: 545.968081
-			rpn_cls: 0.0015, rpn_box: 0.0033, rcnn_cls: 0.0547, rcnn_box 0.0664
-[session 1][epoch 15][iter 1100/1589] loss: 0.1738, lr: 1.00e-05
-			fg/bg=(206/818), time cost: 545.488472
-			rpn_cls: 0.0048, rpn_box: 0.0466, rcnn_cls: 0.0520, rcnn_box 0.0735
-[session 1][epoch 15][iter 1200/1589] loss: 0.1721, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 543.424729
-			rpn_cls: 0.0202, rpn_box: 0.0252, rcnn_cls: 0.1354, rcnn_box 0.0948
-[session 1][epoch 15][iter 1300/1589] loss: 0.1737, lr: 1.00e-05
-			fg/bg=(238/786), time cost: 547.214278
-			rpn_cls: 0.0044, rpn_box: 0.0061, rcnn_cls: 0.0300, rcnn_box 0.0593
-[session 1][epoch 15][iter 1400/1589] loss: 0.1822, lr: 1.00e-05
-			fg/bg=(239/785), time cost: 545.173785
-			rpn_cls: 0.0261, rpn_box: 0.1062, rcnn_cls: 0.0567, rcnn_box 0.0673
-[session 1][epoch 15][iter 1500/1589] loss: 0.1852, lr: 1.00e-05
-			fg/bg=(234/790), time cost: 545.145127
-			rpn_cls: 0.0378, rpn_box: 0.0729, rcnn_cls: 0.1551, rcnn_box 0.1970
-total training time: 123008.957362
-[session 1][epoch 16][iter    0/1589] loss: 0.1152, lr: 1.00e-05
-			fg/bg=(197/827), time cost: 6.635812
-			rpn_cls: 0.0129, rpn_box: 0.0230, rcnn_cls: 0.0306, rcnn_box 0.0487
-[session 1][epoch 16][iter  100/1589] loss: 0.1716, lr: 1.00e-05
-			fg/bg=(158/866), time cost: 570.023517
-			rpn_cls: 0.0157, rpn_box: 0.0096, rcnn_cls: 0.0371, rcnn_box 0.0442
-[session 1][epoch 16][iter  200/1589] loss: 0.1904, lr: 1.00e-05
-			fg/bg=(246/778), time cost: 568.432643
-			rpn_cls: 0.0058, rpn_box: 0.0506, rcnn_cls: 0.0620, rcnn_box 0.1009
-[session 1][epoch 16][iter  300/1589] loss: 0.1714, lr: 1.00e-05
-			fg/bg=(167/857), time cost: 570.982084
-			rpn_cls: 0.0059, rpn_box: 0.0137, rcnn_cls: 0.0391, rcnn_box 0.0529
-[session 1][epoch 16][iter  400/1589] loss: 0.1746, lr: 1.00e-05
-			fg/bg=(233/791), time cost: 568.996897
-			rpn_cls: 0.0212, rpn_box: 0.0642, rcnn_cls: 0.1439, rcnn_box 0.0789
-[session 1][epoch 16][iter  500/1589] loss: 0.1761, lr: 1.00e-05
-			fg/bg=(210/814), time cost: 571.708054
-			rpn_cls: 0.0030, rpn_box: 0.0040, rcnn_cls: 0.0577, rcnn_box 0.0591
-[session 1][epoch 16][iter  600/1589] loss: 0.1769, lr: 1.00e-05
-			fg/bg=(214/810), time cost: 570.306120
-			rpn_cls: 0.0135, rpn_box: 0.0384, rcnn_cls: 0.0632, rcnn_box 0.0693
-[session 1][epoch 16][iter  700/1589] loss: 0.1645, lr: 1.00e-05
-			fg/bg=(205/819), time cost: 570.755803
-			rpn_cls: 0.0083, rpn_box: 0.0218, rcnn_cls: 0.0465, rcnn_box 0.0657
-[session 1][epoch 16][iter  800/1589] loss: 0.1699, lr: 1.00e-05
-			fg/bg=(199/825), time cost: 568.754384
-			rpn_cls: 0.0024, rpn_box: 0.0023, rcnn_cls: 0.0503, rcnn_box 0.0409
-[session 1][epoch 16][iter  900/1589] loss: 0.1825, lr: 1.00e-05
-			fg/bg=(231/793), time cost: 566.894449
-			rpn_cls: 0.0210, rpn_box: 0.0100, rcnn_cls: 0.0923, rcnn_box 0.0721
-[session 1][epoch 16][iter 1000/1589] loss: 0.1815, lr: 1.00e-05
-			fg/bg=(198/826), time cost: 569.008584
-			rpn_cls: 0.0115, rpn_box: 0.0533, rcnn_cls: 0.0282, rcnn_box 0.0413
-[session 1][epoch 16][iter 1100/1589] loss: 0.1716, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 565.781655
-			rpn_cls: 0.0201, rpn_box: 0.1218, rcnn_cls: 0.0421, rcnn_box 0.0670
-[session 1][epoch 16][iter 1200/1589] loss: 0.1753, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 566.996501
-			rpn_cls: 0.0194, rpn_box: 0.0938, rcnn_cls: 0.1647, rcnn_box 0.0991
-[session 1][epoch 16][iter 1300/1589] loss: 0.1632, lr: 1.00e-05
-			fg/bg=(220/804), time cost: 567.882466
-			rpn_cls: 0.0058, rpn_box: 0.0266, rcnn_cls: 0.0549, rcnn_box 0.0424
-[session 1][epoch 16][iter 1400/1589] loss: 0.1784, lr: 1.00e-05
-			fg/bg=(194/830), time cost: 565.795098
-			rpn_cls: 0.0139, rpn_box: 0.0736, rcnn_cls: 0.0675, rcnn_box 0.0606
-[session 1][epoch 16][iter 1500/1589] loss: 0.1637, lr: 1.00e-05
-			fg/bg=(240/784), time cost: 569.502889
-			rpn_cls: 0.0276, rpn_box: 0.1250, rcnn_cls: 0.0738, rcnn_box 0.0930
-total training time: 131547.414318
-[session 1][epoch 17][iter    0/1589] loss: 0.1408, lr: 1.00e-05
-			fg/bg=(229/795), time cost: 6.550864
-			rpn_cls: 0.0073, rpn_box: 0.0280, rcnn_cls: 0.0376, rcnn_box 0.0679
-[session 1][epoch 17][iter  100/1589] loss: 0.1768, lr: 1.00e-05
-			fg/bg=(248/776), time cost: 562.554687
-			rpn_cls: 0.0043, rpn_box: 0.0170, rcnn_cls: 0.0508, rcnn_box 0.0524
-[session 1][epoch 17][iter  200/1589] loss: 0.1652, lr: 1.00e-05
-			fg/bg=(250/774), time cost: 563.894640
-			rpn_cls: 0.0295, rpn_box: 0.1269, rcnn_cls: 0.0516, rcnn_box 0.0789
-[session 1][epoch 17][iter  300/1589] loss: 0.1761, lr: 1.00e-05
-			fg/bg=(214/810), time cost: 545.758600
-			rpn_cls: 0.0071, rpn_box: 0.0110, rcnn_cls: 0.0486, rcnn_box 0.0505
-[session 1][epoch 17][iter  400/1589] loss: 0.1690, lr: 1.00e-05
-			fg/bg=(231/793), time cost: 540.747519
-			rpn_cls: 0.0150, rpn_box: 0.0221, rcnn_cls: 0.0509, rcnn_box 0.0530
-[session 1][epoch 17][iter  500/1589] loss: 0.1806, lr: 1.00e-05
-			fg/bg=(216/808), time cost: 539.187990
-			rpn_cls: 0.0079, rpn_box: 0.0299, rcnn_cls: 0.0405, rcnn_box 0.0455
-[session 1][epoch 17][iter  600/1589] loss: 0.1813, lr: 1.00e-05
-			fg/bg=(256/768), time cost: 539.357242
-			rpn_cls: 0.0148, rpn_box: 0.0714, rcnn_cls: 0.0707, rcnn_box 0.0944
-[session 1][epoch 17][iter  700/1589] loss: 0.1751, lr: 1.00e-05
-			fg/bg=(232/792), time cost: 541.942028
-			rpn_cls: 0.0082, rpn_box: 0.0446, rcnn_cls: 0.0495, rcnn_box 0.0531
-[session 1][epoch 17][iter  800/1589] loss: 0.1769, lr: 1.00e-05
-			fg/bg=(237/787), time cost: 539.815820
-			rpn_cls: 0.0056, rpn_box: 0.0213, rcnn_cls: 0.0691, rcnn_box 0.0686
-[session 1][epoch 17][iter  900/1589] loss: 0.1678, lr: 1.00e-05
-			fg/bg=(236/788), time cost: 540.557619
-			rpn_cls: 0.0021, rpn_box: 0.0289, rcnn_cls: 0.0206, rcnn_box 0.0485
-[session 1][epoch 17][iter 1000/1589] loss: 0.1816, lr: 1.00e-05
-			fg/bg=(224/800), time cost: 540.170857
-			rpn_cls: 0.0095, rpn_box: 0.0446, rcnn_cls: 0.0664, rcnn_box 0.0518
-[session 1][epoch 17][iter 1100/1589] loss: 0.1670, lr: 1.00e-05
-			fg/bg=(206/818), time cost: 542.218835
-			rpn_cls: 0.0059, rpn_box: 0.0470, rcnn_cls: 0.0522, rcnn_box 0.0779
-[session 1][epoch 17][iter 1200/1589] loss: 0.1795, lr: 1.00e-05
-			fg/bg=(223/801), time cost: 541.884079
-			rpn_cls: 0.0074, rpn_box: 0.0286, rcnn_cls: 0.0327, rcnn_box 0.0357
-[session 1][epoch 17][iter 1300/1589] loss: 0.1759, lr: 1.00e-05
-			fg/bg=(198/826), time cost: 539.632406
-			rpn_cls: 0.0148, rpn_box: 0.0516, rcnn_cls: 0.0382, rcnn_box 0.0697
-[session 1][epoch 17][iter 1400/1589] loss: 0.1701, lr: 1.00e-05
-			fg/bg=(217/807), time cost: 539.789894
-			rpn_cls: 0.0173, rpn_box: 0.0391, rcnn_cls: 0.0411, rcnn_box 0.0785
-[session 1][epoch 17][iter 1500/1589] loss: 0.1681, lr: 1.00e-05
-			fg/bg=(215/809), time cost: 540.208427
-			rpn_cls: 0.0044, rpn_box: 0.0029, rcnn_cls: 0.0527, rcnn_box 0.0499
-total training time: 139711.685827
-[session 1][epoch 18][iter    0/1589] loss: 0.1644, lr: 1.00e-06
-			fg/bg=(238/786), time cost: 6.470627
-			rpn_cls: 0.0063, rpn_box: 0.0368, rcnn_cls: 0.0751, rcnn_box 0.0463
-[session 1][epoch 18][iter  100/1589] loss: 0.1793, lr: 1.00e-06
-			fg/bg=(228/796), time cost: 544.617052
-			rpn_cls: 0.0041, rpn_box: 0.0178, rcnn_cls: 0.0523, rcnn_box 0.0529
-[session 1][epoch 18][iter  200/1589] loss: 0.1714, lr: 1.00e-06
-			fg/bg=(220/804), time cost: 546.479227
-			rpn_cls: 0.0038, rpn_box: 0.0129, rcnn_cls: 0.0334, rcnn_box 0.0373
-[session 1][epoch 18][iter  300/1589] loss: 0.1788, lr: 1.00e-06
-			fg/bg=(238/786), time cost: 545.185363
-			rpn_cls: 0.0272, rpn_box: 0.0729, rcnn_cls: 0.0522, rcnn_box 0.0594
-[session 1][epoch 18][iter  400/1589] loss: 0.1753, lr: 1.00e-06
-			fg/bg=(216/808), time cost: 545.273148
-			rpn_cls: 0.0066, rpn_box: 0.0266, rcnn_cls: 0.0257, rcnn_box 0.0410
-[session 1][epoch 18][iter  500/1589] loss: 0.1698, lr: 1.00e-06
-			fg/bg=(204/820), time cost: 544.491061
-			rpn_cls: 0.0079, rpn_box: 0.0266, rcnn_cls: 0.0885, rcnn_box 0.0679
-[session 1][epoch 18][iter  600/1589] loss: 0.1805, lr: 1.00e-06
-			fg/bg=(236/788), time cost: 564.578823
-			rpn_cls: 0.0085, rpn_box: 0.0441, rcnn_cls: 0.0436, rcnn_box 0.0919
-[session 1][epoch 18][iter  700/1589] loss: 0.1684, lr: 1.00e-06
-			fg/bg=(235/789), time cost: 572.594833
-			rpn_cls: 0.0133, rpn_box: 0.0573, rcnn_cls: 0.0628, rcnn_box 0.0704
-[session 1][epoch 18][iter  800/1589] loss: 0.1606, lr: 1.00e-06
-			fg/bg=(226/798), time cost: 574.230195
-			rpn_cls: 0.0255, rpn_box: 0.0820, rcnn_cls: 0.0743, rcnn_box 0.0849
-[session 1][epoch 18][iter  900/1589] loss: 0.1715, lr: 1.00e-06
-			fg/bg=(198/826), time cost: 571.985378
-			rpn_cls: 0.0066, rpn_box: 0.0324, rcnn_cls: 0.1121, rcnn_box 0.0521
-[session 1][epoch 18][iter 1000/1589] loss: 0.1755, lr: 1.00e-06
-			fg/bg=(226/798), time cost: 572.513607
-			rpn_cls: 0.0151, rpn_box: 0.0160, rcnn_cls: 0.0430, rcnn_box 0.0636
-[session 1][epoch 18][iter 1100/1589] loss: 0.1743, lr: 1.00e-06
-			fg/bg=(203/821), time cost: 576.947775
-			rpn_cls: 0.0365, rpn_box: 0.0467, rcnn_cls: 0.0602, rcnn_box 0.0943
-[session 1][epoch 18][iter 1200/1589] loss: 0.1774, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 573.248239
-			rpn_cls: 0.0170, rpn_box: 0.0651, rcnn_cls: 0.0444, rcnn_box 0.0733
-[session 1][epoch 18][iter 1300/1589] loss: 0.1697, lr: 1.00e-06
-			fg/bg=(240/784), time cost: 552.649667
-			rpn_cls: 0.0192, rpn_box: 0.0724, rcnn_cls: 0.0776, rcnn_box 0.0660
-[session 1][epoch 18][iter 1400/1589] loss: 0.1612, lr: 1.00e-06
-			fg/bg=(222/802), time cost: 547.455214
-			rpn_cls: 0.0118, rpn_box: 0.0361, rcnn_cls: 0.0904, rcnn_box 0.0576
-[session 1][epoch 18][iter 1500/1589] loss: 0.1746, lr: 1.00e-06
-			fg/bg=(224/800), time cost: 543.149001
-			rpn_cls: 0.0043, rpn_box: 0.0058, rcnn_cls: 0.0547, rcnn_box 0.0805
-total training time: 148093.555037
-[session 1][epoch 19][iter    0/1589] loss: 0.3165, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 6.107759
-			rpn_cls: 0.0136, rpn_box: 0.1963, rcnn_cls: 0.0673, rcnn_box 0.0394
-[session 1][epoch 19][iter  100/1589] loss: 0.1787, lr: 1.00e-06
-			fg/bg=(241/783), time cost: 543.669426
-			rpn_cls: 0.0112, rpn_box: 0.0516, rcnn_cls: 0.0666, rcnn_box 0.0645
-[session 1][epoch 19][iter  200/1589] loss: 0.1730, lr: 1.00e-06
-			fg/bg=(185/839), time cost: 542.190166
-			rpn_cls: 0.0085, rpn_box: 0.0365, rcnn_cls: 0.0426, rcnn_box 0.0811
-[session 1][epoch 19][iter  300/1589] loss: 0.1618, lr: 1.00e-06
-			fg/bg=(248/776), time cost: 549.868777
-			rpn_cls: 0.0064, rpn_box: 0.0311, rcnn_cls: 0.0369, rcnn_box 0.0517
-[session 1][epoch 19][iter  400/1589] loss: 0.1715, lr: 1.00e-06
-			fg/bg=(218/806), time cost: 560.793462
-			rpn_cls: 0.0056, rpn_box: 0.0115, rcnn_cls: 0.1539, rcnn_box 0.0617
-[session 1][epoch 19][iter  500/1589] loss: 0.1721, lr: 1.00e-06
-			fg/bg=(224/800), time cost: 540.703163
-			rpn_cls: 0.0105, rpn_box: 0.0216, rcnn_cls: 0.0543, rcnn_box 0.0767
-[session 1][epoch 19][iter  600/1589] loss: 0.1756, lr: 1.00e-06
-			fg/bg=(218/806), time cost: 548.557204
-			rpn_cls: 0.0052, rpn_box: 0.0054, rcnn_cls: 0.0367, rcnn_box 0.0342
-[session 1][epoch 19][iter  700/1589] loss: 0.1574, lr: 1.00e-06
-			fg/bg=(220/804), time cost: 542.864899
-			rpn_cls: 0.0100, rpn_box: 0.0272, rcnn_cls: 0.0476, rcnn_box 0.0754
-[session 1][epoch 19][iter  800/1589] loss: 0.1652, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 538.875031
-			rpn_cls: 0.0189, rpn_box: 0.0993, rcnn_cls: 0.0507, rcnn_box 0.0661
-[session 1][epoch 19][iter  900/1589] loss: 0.1866, lr: 1.00e-06
-			fg/bg=(227/797), time cost: 539.354078
-			rpn_cls: 0.0084, rpn_box: 0.0152, rcnn_cls: 0.0371, rcnn_box 0.0478
-[session 1][epoch 19][iter 1000/1589] loss: 0.1783, lr: 1.00e-06
-			fg/bg=(214/810), time cost: 539.425200
-			rpn_cls: 0.0022, rpn_box: 0.0021, rcnn_cls: 0.0346, rcnn_box 0.0607
-[session 1][epoch 19][iter 1100/1589] loss: 0.1745, lr: 1.00e-06
-			fg/bg=(218/806), time cost: 535.988677
-			rpn_cls: 0.0061, rpn_box: 0.0177, rcnn_cls: 0.0382, rcnn_box 0.0631
-[session 1][epoch 19][iter 1200/1589] loss: 0.1802, lr: 1.00e-06
-			fg/bg=(182/842), time cost: 535.218306
-			rpn_cls: 0.0011, rpn_box: 0.0015, rcnn_cls: 0.0195, rcnn_box 0.0232
-[session 1][epoch 19][iter 1300/1589] loss: 0.1704, lr: 1.00e-06
-			fg/bg=(210/814), time cost: 539.555046
-			rpn_cls: 0.0043, rpn_box: 0.0052, rcnn_cls: 0.0422, rcnn_box 0.0386
-[session 1][epoch 19][iter 1400/1589] loss: 0.1711, lr: 1.00e-06
-			fg/bg=(137/887), time cost: 538.075611
-			rpn_cls: 0.0066, rpn_box: 0.0330, rcnn_cls: 0.0287, rcnn_box 0.0320
-[session 1][epoch 19][iter 1500/1589] loss: 0.1749, lr: 1.00e-06
-			fg/bg=(217/807), time cost: 539.149295
-			rpn_cls: 0.0152, rpn_box: 0.0381, rcnn_cls: 0.0681, rcnn_box 0.0811
-total training time: 156233.951138
-[session 1][epoch 20][iter    0/1589] loss: 0.1829, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 6.184380
-			rpn_cls: 0.0216, rpn_box: 0.0307, rcnn_cls: 0.0738, rcnn_box 0.0568
-[session 1][epoch 20][iter  100/1589] loss: 0.1740, lr: 1.00e-06
-			fg/bg=(167/857), time cost: 543.960917
-			rpn_cls: 0.0060, rpn_box: 0.0329, rcnn_cls: 0.0242, rcnn_box 0.0333
-[session 1][epoch 20][iter  200/1589] loss: 0.1760, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 545.001297
-			rpn_cls: 0.0347, rpn_box: 0.0358, rcnn_cls: 0.1435, rcnn_box 0.1284
-[session 1][epoch 20][iter  300/1589] loss: 0.1672, lr: 1.00e-06
-			fg/bg=(244/780), time cost: 543.379268
-			rpn_cls: 0.0134, rpn_box: 0.0518, rcnn_cls: 0.0636, rcnn_box 0.0699
-[session 1][epoch 20][iter  400/1589] loss: 0.1730, lr: 1.00e-06
-			fg/bg=(231/793), time cost: 541.753524
-			rpn_cls: 0.0026, rpn_box: 0.0252, rcnn_cls: 0.0535, rcnn_box 0.0388
-[session 1][epoch 20][iter  500/1589] loss: 0.1671, lr: 1.00e-06
-			fg/bg=(248/776), time cost: 537.958862
-			rpn_cls: 0.0131, rpn_box: 0.0538, rcnn_cls: 0.0356, rcnn_box 0.0441
-[session 1][epoch 20][iter  600/1589] loss: 0.1863, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 541.101320
-			rpn_cls: 0.0294, rpn_box: 0.1126, rcnn_cls: 0.0513, rcnn_box 0.0832
-[session 1][epoch 20][iter  700/1589] loss: 0.1740, lr: 1.00e-06
-			fg/bg=(227/797), time cost: 540.395814
-			rpn_cls: 0.0202, rpn_box: 0.0857, rcnn_cls: 0.1207, rcnn_box 0.0670
-[session 1][epoch 20][iter  800/1589] loss: 0.1789, lr: 1.00e-06
-			fg/bg=(234/790), time cost: 539.457663
-			rpn_cls: 0.0050, rpn_box: 0.0170, rcnn_cls: 0.0387, rcnn_box 0.0763
-[session 1][epoch 20][iter  900/1589] loss: 0.1783, lr: 1.00e-06
-			fg/bg=(184/840), time cost: 541.046269
-			rpn_cls: 0.0222, rpn_box: 0.1223, rcnn_cls: 0.0729, rcnn_box 0.0664
-[session 1][epoch 20][iter 1000/1589] loss: 0.1768, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 541.654236
-			rpn_cls: 0.0462, rpn_box: 0.0815, rcnn_cls: 0.0574, rcnn_box 0.0772
-[session 1][epoch 20][iter 1100/1589] loss: 0.1672, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 541.890757
-			rpn_cls: 0.0133, rpn_box: 0.0575, rcnn_cls: 0.0779, rcnn_box 0.0858
-[session 1][epoch 20][iter 1200/1589] loss: 0.1699, lr: 1.00e-06
-			fg/bg=(208/816), time cost: 540.589551
-			rpn_cls: 0.0062, rpn_box: 0.0180, rcnn_cls: 0.0496, rcnn_box 0.0610
-[session 1][epoch 20][iter 1300/1589] loss: 0.1702, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 540.509295
-			rpn_cls: 0.0140, rpn_box: 0.0420, rcnn_cls: 0.0401, rcnn_box 0.0619
-[session 1][epoch 20][iter 1400/1589] loss: 0.1686, lr: 1.00e-06
-			fg/bg=(256/768), time cost: 541.294777
-			rpn_cls: 0.0242, rpn_box: 0.1035, rcnn_cls: 0.0633, rcnn_box 0.0808
-[session 1][epoch 20][iter 1500/1589] loss: 0.1692, lr: 1.00e-06
-			fg/bg=(229/795), time cost: 543.446883
-			rpn_cls: 0.0082, rpn_box: 0.0306, rcnn_cls: 0.0310, rcnn_box 0.0404
-total training time: 164363.575952
-save model: models/res101/pascal_voc/faster_rcnn_1_20_1588.pth
-Called with args:
-Namespace(cfg_file='cfgs/res101.yml', checkepoch=20, checkpoint=1588, checksession=1, class_agnostic=False, cuda=True, dataset='pascal_voc', large_scale=False, load_dir='models', mGPUs=False, net='res101', parallel_type=0, set_cfgs=None, vis=False)
-Using config:
-{'ANCHOR_RATIOS': [0.5, 1, 2],
- 'ANCHOR_SCALES': [8, 16, 32],
- 'CROP_RESIZE_WITH_MAX_POOL': False,
- 'CUDA': False,
- 'DATA_DIR': '/home/jason/faster-rcnn.pytorch-1.0/data',
- 'DEDUP_BOXES': 0.0625,
- 'EPS': 1e-14,
- 'EXP_DIR': 'res101',
- 'FEAT_STRIDE': [16],
- 'GPU_ID': 0,
- 'MATLAB': 'matlab',
- 'MAX_NUM_GT_BOXES': 20,
- 'MOBILENET': {'DEPTH_MULTIPLIER': 1.0,
-               'FIXED_LAYERS': 5,
-               'REGU_DEPTH': False,
-               'WEIGHT_DECAY': 4e-05},
- 'PIXEL_MEANS': array([[[102.9801, 115.9465, 122.7717]]]),
- 'POOLING_MODE': 'align',
- 'POOLING_SIZE': 7,
- 'RESNET': {'FIXED_BLOCKS': 1, 'MAX_POOL': False},
- 'RNG_SEED': 3,
- 'ROOT_DIR': '/home/jason/faster-rcnn.pytorch-1.0',
- 'TEST': {'BBOX_REG': True,
-          'HAS_RPN': True,
-          'MAX_SIZE': 1000,
-          'MODE': 'nms',
-          'NMS': 0.3,
-          'PROPOSAL_METHOD': 'gt',
-          'RPN_MIN_SIZE': 16,
-          'RPN_NMS_THRESH': 0.7,
-          'RPN_POST_NMS_TOP_N': 300,
-          'RPN_PRE_NMS_TOP_N': 6000,
-          'RPN_TOP_N': 5000,
-          'SCALES': [600],
-          'SVM': False},
- 'TRAIN': {'ASPECT_GROUPING': False,
-           'BATCH_SIZE': 128,
-           'BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
-           'BBOX_NORMALIZE_MEANS': [0.0, 0.0, 0.0, 0.0],
-           'BBOX_NORMALIZE_STDS': [0.1, 0.1, 0.2, 0.2],
-           'BBOX_NORMALIZE_TARGETS': True,
-           'BBOX_NORMALIZE_TARGETS_PRECOMPUTED': True,
-           'BBOX_REG': True,
-           'BBOX_THRESH': 0.5,
-           'BG_THRESH_HI': 0.5,
-           'BG_THRESH_LO': 0.0,
-           'BIAS_DECAY': False,
-           'BN_TRAIN': False,
-           'DISPLAY': 20,
-           'DOUBLE_BIAS': False,
-           'FG_FRACTION': 0.25,
-           'FG_THRESH': 0.5,
-           'GAMMA': 0.1,
-           'HAS_RPN': True,
-           'IMS_PER_BATCH': 1,
-           'LEARNING_RATE': 0.001,
-           'MAX_SIZE': 1000,
-           'MOMENTUM': 0.9,
-           'PROPOSAL_METHOD': 'gt',
-           'RPN_BATCHSIZE': 256,
-           'RPN_BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
-           'RPN_CLOBBER_POSITIVES': False,
-           'RPN_FG_FRACTION': 0.5,
-           'RPN_MIN_SIZE': 8,
-           'RPN_NEGATIVE_OVERLAP': 0.3,
-           'RPN_NMS_THRESH': 0.7,
-           'RPN_POSITIVE_OVERLAP': 0.7,
-           'RPN_POSITIVE_WEIGHT': -1.0,
-           'RPN_POST_NMS_TOP_N': 2000,
-           'RPN_PRE_NMS_TOP_N': 12000,
-           'SCALES': [600],
-           'SNAPSHOT_ITERS': 5000,
-           'SNAPSHOT_KEPT': 3,
-           'SNAPSHOT_PREFIX': 'res101_faster_rcnn',
-           'STEPSIZE': [30000],
-           'SUMMARY_INTERVAL': 180,
-           'TRIM_HEIGHT': 600,
-           'TRIM_WIDTH': 600,
-           'TRUNCATED': False,
-           'USE_ALL_GT': True,
-           'USE_FLIPPED': True,
-           'USE_GT': False,
-           'WEIGHT_DECAY': 0.0001},
- 'USE_GPU_NMS': True}
-['voc_2007_test']
-Loaded dataset `voc_2007_test` for training
-Set proposal method: gt
-Preparing training data...
-wrote gt roidb to /home/jason/faster-rcnn.pytorch-1.0/data/cache/voc_2007_test_gt_roidb.pkl
-done
-1585 roidb entries
-load checkpoint models/res101/pascal_voc/faster_rcnn_1_20_1588.pth
-load model successfully!
-im_detect: 1/1585 0.066s 0.012s   im_detect: 2/1585 0.067s 0.012s   im_detect: 3/1585 0.061s 0.011s   im_detect: 4/1585 0.061s 0.012s   im_detect: 5/1585 0.060s 0.012s   im_detect: 6/1585 0.061s 0.012s   im_detect: 7/1585 0.060s 0.012s   im_detect: 8/1585 0.060s 0.012s   im_detect: 9/1585 0.061s 0.012s   im_detect: 10/1585 0.061s 0.012s   im_detect: 11/1585 0.062s 0.012s   im_detect: 12/1585 0.061s 0.012s   im_detect: 13/1585 0.061s 0.012s   im_detect: 14/1585 0.062s 0.012s   im_detect: 15/1585 0.061s 0.012s   im_detect: 16/1585 0.060s 0.012s   im_detect: 17/1585 0.061s 0.012s   im_detect: 18/1585 0.060s 0.012s   im_detect: 19/1585 0.061s 0.012s   im_detect: 20/1585 0.061s 0.012s   im_detect: 21/1585 0.062s 0.012s   im_detect: 22/1585 0.063s 0.012s   im_detect: 23/1585 0.062s 0.013s   im_detect: 24/1585 0.063s 0.013s   im_detect: 25/1585 0.060s 0.012s   im_detect: 26/1585 0.060s 0.012s   im_detect: 27/1585 0.061s 0.012s   im_detect: 28/1585 0.061s 0.012s   im_detect: 29/1585 0.062s 0.012s   im_detect: 30/1585 0.062s 0.012s   im_detect: 31/1585 0.060s 0.012s   im_detect: 32/1585 0.062s 0.012s   im_detect: 33/1585 0.062s 0.012s   im_detect: 34/1585 0.060s 0.012s   im_detect: 35/1585 0.061s 0.012s   im_detect: 36/1585 0.062s 0.012s   im_detect: 37/1585 0.061s 0.012s   im_detect: 38/1585 0.061s 0.012s   im_detect: 39/1585 0.062s 0.012s   im_detect: 40/1585 0.060s 0.012s   im_detect: 41/1585 0.061s 0.012s   im_detect: 42/1585 0.063s 0.012s   im_detect: 43/1585 0.063s 0.012s   im_detect: 44/1585 0.065s 0.012s   im_detect: 45/1585 0.063s 0.012s   im_detect: 46/1585 0.063s 0.012s   im_detect: 47/1585 0.063s 0.012s   im_detect: 48/1585 0.063s 0.012s   im_detect: 49/1585 0.063s 0.012s   im_detect: 50/1585 0.063s 0.012s   im_detect: 51/1585 0.064s 0.012s   im_detect: 52/1585 0.063s 0.012s   im_detect: 53/1585 0.064s 0.012s   im_detect: 54/1585 0.064s 0.012s   im_detect: 55/1585 0.064s 0.012s   im_detect: 56/1585 0.064s 0.012s   im_detect: 57/1585 0.066s 0.012s   im_detect: 58/1585 0.062s 0.012s   im_detect: 59/1585 0.064s 0.012s   im_detect: 60/1585 0.062s 0.012s   im_detect: 61/1585 0.064s 0.012s   im_detect: 62/1585 0.062s 0.012s   im_detect: 63/1585 0.062s 0.012s   im_detect: 64/1585 0.062s 0.012s   im_detect: 65/1585 0.062s 0.012s   im_detect: 66/1585 0.062s 0.012s   im_detect: 67/1585 0.062s 0.012s   im_detect: 68/1585 0.063s 0.012s   im_detect: 69/1585 0.062s 0.012s   im_detect: 70/1585 0.061s 0.012s   im_detect: 71/1585 0.062s 0.012s   im_detect: 72/1585 0.063s 0.012s   im_detect: 73/1585 0.063s 0.013s   im_detect: 74/1585 0.062s 0.012s   im_detect: 75/1585 0.063s 0.012s   im_detect: 76/1585 0.062s 0.012s   im_detect: 77/1585 0.063s 0.012s   im_detect: 78/1585 0.062s 0.012s   im_detect: 79/1585 0.063s 0.012s   im_detect: 80/1585 0.063s 0.012s   im_detect: 81/1585 0.062s 0.012s   im_detect: 82/1585 0.062s 0.012s   im_detect: 83/1585 0.064s 0.012s   im_detect: 84/1585 0.063s 0.012s   im_detect: 85/1585 0.061s 0.012s   im_detect: 86/1585 0.063s 0.012s   im_detect: 87/1585 0.062s 0.012s   im_detect: 88/1585 0.063s 0.012s   im_detect: 89/1585 0.062s 0.012s   im_detect: 90/1585 0.062s 0.012s   im_detect: 91/1585 0.062s 0.012s   im_detect: 92/1585 0.062s 0.012s   im_detect: 93/1585 0.062s 0.012s   im_detect: 94/1585 0.065s 0.012s   im_detect: 95/1585 0.062s 0.012s   im_detect: 96/1585 0.061s 0.012s   im_detect: 97/1585 0.063s 0.013s   im_detect: 98/1585 0.061s 0.012s   im_detect: 99/1585 0.062s 0.012s   im_detect: 100/1585 0.063s 0.012s   im_detect: 101/1585 0.062s 0.012s   im_detect: 102/1585 0.063s 0.012s   im_detect: 103/1585 0.061s 0.012s   im_detect: 104/1585 0.061s 0.012s   im_detect: 105/1585 0.060s 0.012s   im_detect: 106/1585 0.061s 0.012s   im_detect: 107/1585 0.061s 0.012s   im_detect: 108/1585 0.060s 0.013s   im_detect: 109/1585 0.061s 0.012s   im_detect: 110/1585 0.062s 0.012s   im_detect: 111/1585 0.061s 0.012s   im_detect: 112/1585 0.060s 0.012s   im_detect: 113/1585 0.061s 0.012s   im_detect: 114/1585 0.062s 0.012s   im_detect: 115/1585 0.060s 0.012s   im_detect: 116/1585 0.061s 0.012s   im_detect: 117/1585 0.061s 0.012s   im_detect: 118/1585 0.060s 0.012s   im_detect: 119/1585 0.062s 0.012s   im_detect: 120/1585 0.062s 0.012s   im_detect: 121/1585 0.061s 0.012s   im_detect: 122/1585 0.061s 0.012s   im_detect: 123/1585 0.062s 0.012s   im_detect: 124/1585 0.060s 0.012s   im_detect: 125/1585 0.063s 0.012s   im_detect: 126/1585 0.061s 0.012s   im_detect: 127/1585 0.061s 0.012s   im_detect: 128/1585 0.062s 0.012s   im_detect: 129/1585 0.060s 0.012s   im_detect: 130/1585 0.061s 0.012s   im_detect: 131/1585 0.061s 0.012s   im_detect: 132/1585 0.065s 0.012s   im_detect: 133/1585 0.060s 0.012s   im_detect: 134/1585 0.062s 0.012s   im_detect: 135/1585 0.060s 0.012s   im_detect: 136/1585 0.060s 0.012s   im_detect: 137/1585 0.061s 0.012s   im_detect: 138/1585 0.061s 0.012s   im_detect: 139/1585 0.061s 0.012s   im_detect: 140/1585 0.061s 0.012s   im_detect: 141/1585 0.062s 0.012s   im_detect: 142/1585 0.062s 0.012s   im_detect: 143/1585 0.061s 0.012s   im_detect: 144/1585 0.061s 0.012s   im_detect: 145/1585 0.063s 0.012s   im_detect: 146/1585 0.064s 0.011s   im_detect: 147/1585 0.061s 0.013s   im_detect: 148/1585 0.060s 0.012s   im_detect: 149/1585 0.061s 0.012s   im_detect: 150/1585 0.061s 0.012s   im_detect: 151/1585 0.063s 0.012s   im_detect: 152/1585 0.060s 0.012s   im_detect: 153/1585 0.061s 0.012s   im_detect: 154/1585 0.061s 0.012s   im_detect: 155/1585 0.060s 0.012s   im_detect: 156/1585 0.060s 0.012s   im_detect: 157/1585 0.061s 0.012s   im_detect: 158/1585 0.061s 0.013s   im_detect: 159/1585 0.061s 0.013s   im_detect: 160/1585 0.062s 0.013s   im_detect: 161/1585 0.061s 0.013s   im_detect: 162/1585 0.061s 0.014s   im_detect: 163/1585 0.062s 0.013s   im_detect: 164/1585 0.061s 0.013s   im_detect: 165/1585 0.062s 0.012s   im_detect: 166/1585 0.062s 0.012s   im_detect: 167/1585 0.062s 0.012s   im_detect: 168/1585 0.061s 0.012s   im_detect: 169/1585 0.061s 0.012s   im_detect: 170/1585 0.061s 0.012s   im_detect: 171/1585 0.062s 0.012s   im_detect: 172/1585 0.060s 0.012s   im_detect: 173/1585 0.062s 0.012s   im_detect: 174/1585 0.064s 0.012s   im_detect: 175/1585 0.062s 0.012s   im_detect: 176/1585 0.061s 0.012s   im_detect: 177/1585 0.060s 0.012s   im_detect: 178/1585 0.060s 0.012s   im_detect: 179/1585 0.061s 0.012s   im_detect: 180/1585 0.062s 0.012s   im_detect: 181/1585 0.061s 0.012s   im_detect: 182/1585 0.061s 0.012s   im_detect: 183/1585 0.062s 0.012s   im_detect: 184/1585 0.061s 0.012s   im_detect: 185/1585 0.061s 0.012s   im_detect: 186/1585 0.062s 0.012s   im_detect: 187/1585 0.061s 0.012s   im_detect: 188/1585 0.062s 0.012s   im_detect: 189/1585 0.062s 0.012s   im_detect: 190/1585 0.061s 0.012s   im_detect: 191/1585 0.063s 0.012s   im_detect: 192/1585 0.060s 0.012s   im_detect: 193/1585 0.062s 0.012s   im_detect: 194/1585 0.062s 0.012s   im_detect: 195/1585 0.061s 0.012s   im_detect: 196/1585 0.061s 0.012s   im_detect: 197/1585 0.060s 0.012s   im_detect: 198/1585 0.061s 0.012s   im_detect: 199/1585 0.060s 0.012s   im_detect: 200/1585 0.061s 0.012s   im_detect: 201/1585 0.061s 0.012s   im_detect: 202/1585 0.061s 0.012s   im_detect: 203/1585 0.060s 0.012s   im_detect: 204/1585 0.061s 0.012s   im_detect: 205/1585 0.063s 0.012s   im_detect: 206/1585 0.062s 0.012s   im_detect: 207/1585 0.061s 0.012s   im_detect: 208/1585 0.062s 0.012s   im_detect: 209/1585 0.061s 0.012s   im_detect: 210/1585 0.062s 0.013s   im_detect: 211/1585 0.061s 0.012s   im_detect: 212/1585 0.061s 0.013s   im_detect: 213/1585 0.063s 0.013s   im_detect: 214/1585 0.062s 0.013s   im_detect: 215/1585 0.065s 0.013s   im_detect: 216/1585 0.064s 0.012s   im_detect: 217/1585 0.064s 0.012s   im_detect: 218/1585 0.065s 0.012s   im_detect: 219/1585 0.063s 0.012s   im_detect: 220/1585 0.065s 0.012s   im_detect: 221/1585 0.063s 0.012s   im_detect: 222/1585 0.064s 0.012s   im_detect: 223/1585 0.064s 0.012s   im_detect: 224/1585 0.064s 0.012s   im_detect: 225/1585 0.063s 0.012s   im_detect: 226/1585 0.063s 0.012s   im_detect: 227/1585 0.063s 0.012s   im_detect: 228/1585 0.063s 0.012s   im_detect: 229/1585 0.063s 0.012s   im_detect: 230/1585 0.063s 0.012s   im_detect: 231/1585 0.063s 0.012s   im_detect: 232/1585 0.064s 0.012s   im_detect: 233/1585 0.063s 0.012s   im_detect: 234/1585 0.064s 0.012s   im_detect: 235/1585 0.063s 0.012s   im_detect: 236/1585 0.064s 0.012s   im_detect: 237/1585 0.063s 0.012s   im_detect: 238/1585 0.063s 0.012s   im_detect: 239/1585 0.064s 0.012s   im_detect: 240/1585 0.065s 0.012s   im_detect: 241/1585 0.064s 0.012s   im_detect: 242/1585 0.061s 0.012s   im_detect: 243/1585 0.062s 0.012s   im_detect: 244/1585 0.062s 0.012s   im_detect: 245/1585 0.064s 0.012s   im_detect: 246/1585 0.062s 0.012s   im_detect: 247/1585 0.062s 0.012s   im_detect: 248/1585 0.062s 0.012s   im_detect: 249/1585 0.065s 0.012s   im_detect: 250/1585 0.061s 0.012s   im_detect: 251/1585 0.064s 0.012s   im_detect: 252/1585 0.061s 0.012s   im_detect: 253/1585 0.062s 0.012s   im_detect: 254/1585 0.060s 0.012s   im_detect: 255/1585 0.061s 0.012s   im_detect: 256/1585 0.061s 0.012s   im_detect: 257/1585 0.061s 0.012s   im_detect: 258/1585 0.061s 0.012s   im_detect: 259/1585 0.061s 0.012s   im_detect: 260/1585 0.062s 0.012s   im_detect: 261/1585 0.063s 0.012s   im_detect: 262/1585 0.061s 0.012s   im_detect: 263/1585 0.061s 0.012s   im_detect: 264/1585 0.061s 0.012s   im_detect: 265/1585 0.060s 0.012s   im_detect: 266/1585 0.060s 0.012s   im_detect: 267/1585 0.061s 0.012s   im_detect: 268/1585 0.061s 0.012s   im_detect: 269/1585 0.062s 0.012s   im_detect: 270/1585 0.062s 0.013s   im_detect: 271/1585 0.062s 0.013s   im_detect: 272/1585 0.062s 0.012s   im_detect: 273/1585 0.064s 0.012s   im_detect: 274/1585 0.061s 0.012s   im_detect: 275/1585 0.061s 0.012s   im_detect: 276/1585 0.061s 0.012s   im_detect: 277/1585 0.061s 0.012s   im_detect: 278/1585 0.062s 0.012s   im_detect: 279/1585 0.061s 0.012s   im_detect: 280/1585 0.063s 0.012s   im_detect: 281/1585 0.061s 0.012s   im_detect: 282/1585 0.060s 0.012s   im_detect: 283/1585 0.060s 0.012s   im_detect: 284/1585 0.062s 0.012s   im_detect: 285/1585 0.061s 0.012s   im_detect: 286/1585 0.061s 0.012s   im_detect: 287/1585 0.061s 0.012s   im_detect: 288/1585 0.062s 0.012s   im_detect: 289/1585 0.060s 0.012s   im_detect: 290/1585 0.061s 0.012s   im_detect: 291/1585 0.061s 0.012s   im_detect: 292/1585 0.060s 0.012s   im_detect: 293/1585 0.062s 0.012s   im_detect: 294/1585 0.061s 0.012s   im_detect: 295/1585 0.060s 0.012s   im_detect: 296/1585 0.063s 0.012s   im_detect: 297/1585 0.061s 0.012s   im_detect: 298/1585 0.061s 0.012s   im_detect: 299/1585 0.063s 0.012s   im_detect: 300/1585 0.062s 0.012s   im_detect: 301/1585 0.066s 0.012s   im_detect: 302/1585 0.062s 0.012s   im_detect: 303/1585 0.063s 0.012s   im_detect: 304/1585 0.062s 0.012s   im_detect: 305/1585 0.062s 0.012s   im_detect: 306/1585 0.063s 0.012s   im_detect: 307/1585 0.062s 0.012s   im_detect: 308/1585 0.061s 0.012s   im_detect: 309/1585 0.064s 0.012s   im_detect: 310/1585 0.063s 0.012s   im_detect: 311/1585 0.062s 0.012s   im_detect: 312/1585 0.063s 0.012s   im_detect: 313/1585 0.062s 0.012s   im_detect: 314/1585 0.065s 0.012s   im_detect: 315/1585 0.062s 0.012s   im_detect: 316/1585 0.061s 0.012s   im_detect: 317/1585 0.061s 0.012s   im_detect: 318/1585 0.062s 0.012s   im_detect: 319/1585 0.061s 0.012s   im_detect: 320/1585 0.062s 0.012s   im_detect: 321/1585 0.060s 0.012s   im_detect: 322/1585 0.062s 0.012s   im_detect: 323/1585 0.061s 0.012s   im_detect: 324/1585 0.060s 0.012s   im_detect: 325/1585 0.061s 0.012s   im_detect: 326/1585 0.062s 0.012s   im_detect: 327/1585 0.060s 0.012s   im_detect: 328/1585 0.061s 0.012s   im_detect: 329/1585 0.061s 0.012s   im_detect: 330/1585 0.061s 0.012s   im_detect: 331/1585 0.061s 0.012s   im_detect: 332/1585 0.060s 0.012s   im_detect: 333/1585 0.061s 0.012s   im_detect: 334/1585 0.061s 0.012s   im_detect: 335/1585 0.064s 0.012s   im_detect: 336/1585 0.062s 0.012s   im_detect: 337/1585 0.062s 0.012s   im_detect: 338/1585 0.062s 0.012s   im_detect: 339/1585 0.062s 0.012s   im_detect: 340/1585 0.061s 0.012s   im_detect: 341/1585 0.060s 0.012s   im_detect: 342/1585 0.061s 0.012s   im_detect: 343/1585 0.061s 0.012s   im_detect: 344/1585 0.061s 0.012s   im_detect: 345/1585 0.064s 0.013s   im_detect: 346/1585 0.060s 0.012s   im_detect: 347/1585 0.061s 0.012s   im_detect: 348/1585 0.060s 0.012s   im_detect: 349/1585 0.061s 0.012s   im_detect: 350/1585 0.061s 0.012s   im_detect: 351/1585 0.060s 0.012s   im_detect: 352/1585 0.061s 0.012s   im_detect: 353/1585 0.061s 0.012s   im_detect: 354/1585 0.061s 0.012s   im_detect: 355/1585 0.061s 0.013s   im_detect: 356/1585 0.061s 0.013s   im_detect: 357/1585 0.061s 0.012s   im_detect: 358/1585 0.061s 0.012s   im_detect: 359/1585 0.061s 0.012s   im_detect: 360/1585 0.066s 0.013s   im_detect: 361/1585 0.065s 0.012s   im_detect: 362/1585 0.062s 0.012s   im_detect: 363/1585 0.064s 0.012s   im_detect: 364/1585 0.065s 0.012s   im_detect: 365/1585 0.063s 0.012s   im_detect: 366/1585 0.066s 0.012s   im_detect: 367/1585 0.063s 0.012s   im_detect: 368/1585 0.065s 0.012s   im_detect: 369/1585 0.060s 0.012s   im_detect: 370/1585 0.063s 0.011s   im_detect: 371/1585 0.062s 0.012s   im_detect: 372/1585 0.062s 0.012s   im_detect: 373/1585 0.062s 0.012s   im_detect: 374/1585 0.063s 0.012s   im_detect: 375/1585 0.063s 0.012s   im_detect: 376/1585 0.064s 0.012s   im_detect: 377/1585 0.061s 0.012s   im_detect: 378/1585 0.061s 0.012s   im_detect: 379/1585 0.062s 0.012s   im_detect: 380/1585 0.064s 0.012s   im_detect: 381/1585 0.063s 0.012s   im_detect: 382/1585 0.064s 0.012s   im_detect: 383/1585 0.062s 0.012s   im_detect: 384/1585 0.064s 0.012s   im_detect: 385/1585 0.063s 0.012s   im_detect: 386/1585 0.060s 0.012s   im_detect: 387/1585 0.061s 0.012s   im_detect: 388/1585 0.063s 0.012s   im_detect: 389/1585 0.063s 0.012s   im_detect: 390/1585 0.063s 0.012s   im_detect: 391/1585 0.062s 0.012s   im_detect: 392/1585 0.063s 0.012s   im_detect: 393/1585 0.063s 0.012s   im_detect: 394/1585 0.063s 0.013s   im_detect: 395/1585 0.063s 0.012s   im_detect: 396/1585 0.064s 0.012s   im_detect: 397/1585 0.064s 0.012s   im_detect: 398/1585 0.061s 0.012s   im_detect: 399/1585 0.060s 0.012s   im_detect: 400/1585 0.063s 0.012s   im_detect: 401/1585 0.062s 0.012s   im_detect: 402/1585 0.061s 0.012s   im_detect: 403/1585 0.063s 0.012s   im_detect: 404/1585 0.062s 0.012s   im_detect: 405/1585 0.062s 0.012s   im_detect: 406/1585 0.064s 0.012s   im_detect: 407/1585 0.061s 0.013s   im_detect: 408/1585 0.063s 0.013s   im_detect: 409/1585 0.060s 0.012s   im_detect: 410/1585 0.060s 0.012s   im_detect: 411/1585 0.063s 0.012s   im_detect: 412/1585 0.062s 0.012s   im_detect: 413/1585 0.063s 0.012s   im_detect: 414/1585 0.060s 0.012s   im_detect: 415/1585 0.063s 0.012s   im_detect: 416/1585 0.062s 0.012s   im_detect: 417/1585 0.063s 0.012s   im_detect: 418/1585 0.064s 0.012s   im_detect: 419/1585 0.061s 0.012s   im_detect: 420/1585 0.062s 0.012s   im_detect: 421/1585 0.062s 0.012s   im_detect: 422/1585 0.063s 0.012s   im_detect: 423/1585 0.063s 0.012s   im_detect: 424/1585 0.064s 0.012s   im_detect: 425/1585 0.061s 0.012s   im_detect: 426/1585 0.061s 0.012s   im_detect: 427/1585 0.063s 0.012s   im_detect: 428/1585 0.064s 0.012s   im_detect: 429/1585 0.063s 0.012s   im_detect: 430/1585 0.062s 0.012s   im_detect: 431/1585 0.061s 0.012s   im_detect: 432/1585 0.060s 0.012s   im_detect: 433/1585 0.062s 0.012s   im_detect: 434/1585 0.062s 0.012s   im_detect: 435/1585 0.064s 0.012s   im_detect: 436/1585 0.061s 0.012s   im_detect: 437/1585 0.062s 0.012s   im_detect: 438/1585 0.063s 0.012s   im_detect: 439/1585 0.063s 0.012s   im_detect: 440/1585 0.064s 0.012s   im_detect: 441/1585 0.062s 0.012s   im_detect: 442/1585 0.063s 0.012s   im_detect: 443/1585 0.063s 0.013s   im_detect: 444/1585 0.064s 0.017s   im_detect: 445/1585 0.063s 0.013s   im_detect: 446/1585 0.063s 0.013s   im_detect: 447/1585 0.061s 0.013s   im_detect: 448/1585 0.062s 0.012s   im_detect: 449/1585 0.062s 0.012s   im_detect: 450/1585 0.062s 0.012s   im_detect: 451/1585 0.060s 0.012s   im_detect: 452/1585 0.061s 0.012s   im_detect: 453/1585 0.063s 0.012s   im_detect: 454/1585 0.062s 0.012s   im_detect: 455/1585 0.061s 0.012s   im_detect: 456/1585 0.063s 0.012s   im_detect: 457/1585 0.063s 0.012s   im_detect: 458/1585 0.060s 0.012s   im_detect: 459/1585 0.063s 0.012s   im_detect: 460/1585 0.064s 0.012s   im_detect: 461/1585 0.063s 0.012s   im_detect: 462/1585 0.061s 0.012s   im_detect: 463/1585 0.063s 0.012s   im_detect: 464/1585 0.061s 0.012s   im_detect: 465/1585 0.064s 0.012s   im_detect: 466/1585 0.062s 0.012s   im_detect: 467/1585 0.060s 0.012s   im_detect: 468/1585 0.062s 0.012s   im_detect: 469/1585 0.064s 0.012s   im_detect: 470/1585 0.064s 0.012s   im_detect: 471/1585 0.060s 0.012s   im_detect: 472/1585 0.063s 0.012s   im_detect: 473/1585 0.062s 0.012s   im_detect: 474/1585 0.063s 0.012s   im_detect: 475/1585 0.062s 0.012s   im_detect: 476/1585 0.064s 0.012s   im_detect: 477/1585 0.064s 0.012s   im_detect: 478/1585 0.063s 0.012s   im_detect: 479/1585 0.063s 0.012s   im_detect: 480/1585 0.061s 0.012s   im_detect: 481/1585 0.061s 0.012s   im_detect: 482/1585 0.061s 0.012s   im_detect: 483/1585 0.060s 0.012s   im_detect: 484/1585 0.060s 0.012s   im_detect: 485/1585 0.061s 0.012s   im_detect: 486/1585 0.060s 0.013s   im_detect: 487/1585 0.062s 0.013s   im_detect: 488/1585 0.060s 0.012s   im_detect: 489/1585 0.060s 0.012s   im_detect: 490/1585 0.060s 0.012s   im_detect: 491/1585 0.060s 0.012s   im_detect: 492/1585 0.061s 0.012s   im_detect: 493/1585 0.061s 0.012s   im_detect: 494/1585 0.060s 0.012s   im_detect: 495/1585 0.060s 0.012s   im_detect: 496/1585 0.063s 0.012s   im_detect: 497/1585 0.060s 0.012s   im_detect: 498/1585 0.060s 0.012s   im_detect: 499/1585 0.062s 0.012s   im_detect: 500/1585 0.062s 0.012s   im_detect: 501/1585 0.060s 0.012s   im_detect: 502/1585 0.061s 0.012s   im_detect: 503/1585 0.060s 0.012s   im_detect: 504/1585 0.062s 0.012s   im_detect: 505/1585 0.060s 0.012s   im_detect: 506/1585 0.061s 0.012s   im_detect: 507/1585 0.060s 0.012s   im_detect: 508/1585 0.061s 0.012s   im_detect: 509/1585 0.062s 0.012s   im_detect: 510/1585 0.061s 0.012s   im_detect: 511/1585 0.061s 0.012s   im_detect: 512/1585 0.060s 0.012s   im_detect: 513/1585 0.061s 0.012s   im_detect: 514/1585 0.060s 0.012s   im_detect: 515/1585 0.061s 0.012s   im_detect: 516/1585 0.060s 0.012s   im_detect: 517/1585 0.060s 0.012s   im_detect: 518/1585 0.060s 0.012s   im_detect: 519/1585 0.061s 0.012s   im_detect: 520/1585 0.061s 0.013s   im_detect: 521/1585 0.060s 0.012s   im_detect: 522/1585 0.061s 0.012s   im_detect: 523/1585 0.062s 0.012s   im_detect: 524/1585 0.060s 0.012s   im_detect: 525/1585 0.061s 0.012s   im_detect: 526/1585 0.061s 0.012s   im_detect: 527/1585 0.063s 0.012s   im_detect: 528/1585 0.061s 0.012s   im_detect: 529/1585 0.061s 0.012s   im_detect: 530/1585 0.060s 0.012s   im_detect: 531/1585 0.061s 0.012s   im_detect: 532/1585 0.060s 0.012s   im_detect: 533/1585 0.061s 0.012s   im_detect: 534/1585 0.060s 0.012s   im_detect: 535/1585 0.061s 0.012s   im_detect: 536/1585 0.062s 0.012s   im_detect: 537/1585 0.060s 0.012s   im_detect: 538/1585 0.060s 0.012s   im_detect: 539/1585 0.060s 0.012s   im_detect: 540/1585 0.061s 0.012s   im_detect: 541/1585 0.060s 0.012s   im_detect: 542/1585 0.061s 0.012s   im_detect: 543/1585 0.060s 0.012s   im_detect: 544/1585 0.060s 0.012s   im_detect: 545/1585 0.060s 0.012s   im_detect: 546/1585 0.060s 0.012s   im_detect: 547/1585 0.062s 0.012s   im_detect: 548/1585 0.061s 0.012s   im_detect: 549/1585 0.060s 0.012s   im_detect: 550/1585 0.061s 0.012s   im_detect: 551/1585 0.062s 0.012s   im_detect: 552/1585 0.060s 0.012s   im_detect: 553/1585 0.060s 0.012s   im_detect: 554/1585 0.061s 0.012s   im_detect: 555/1585 0.061s 0.012s   im_detect: 556/1585 0.061s 0.012s   im_detect: 557/1585 0.061s 0.012s   im_detect: 558/1585 0.061s 0.014s   im_detect: 559/1585 0.062s 0.012s   im_detect: 560/1585 0.061s 0.012s   im_detect: 561/1585 0.061s 0.012s   im_detect: 562/1585 0.060s 0.012s   im_detect: 563/1585 0.062s 0.012s   im_detect: 564/1585 0.061s 0.013s   im_detect: 565/1585 0.062s 0.012s   im_detect: 566/1585 0.062s 0.012s   im_detect: 567/1585 0.061s 0.012s   im_detect: 568/1585 0.064s 0.012s   im_detect: 569/1585 0.061s 0.013s   im_detect: 570/1585 0.060s 0.012s   im_detect: 571/1585 0.062s 0.012s   im_detect: 572/1585 0.060s 0.012s   im_detect: 573/1585 0.061s 0.012s   im_detect: 574/1585 0.061s 0.012s   im_detect: 575/1585 0.062s 0.012s   im_detect: 576/1585 0.061s 0.012s   im_detect: 577/1585 0.061s 0.012s   im_detect: 578/1585 0.060s 0.013s   im_detect: 579/1585 0.061s 0.013s   im_detect: 580/1585 0.061s 0.013s   im_detect: 581/1585 0.062s 0.013s   im_detect: 582/1585 0.060s 0.012s   im_detect: 583/1585 0.060s 0.012s   im_detect: 584/1585 0.061s 0.012s   im_detect: 585/1585 0.062s 0.012s   im_detect: 586/1585 0.061s 0.012s   im_detect: 587/1585 0.060s 0.012s   im_detect: 588/1585 0.063s 0.012s   im_detect: 589/1585 0.063s 0.012s   im_detect: 590/1585 0.061s 0.012s   im_detect: 591/1585 0.060s 0.012s   im_detect: 592/1585 0.061s 0.012s   im_detect: 593/1585 0.061s 0.012s   im_detect: 594/1585 0.061s 0.012s   im_detect: 595/1585 0.060s 0.012s   im_detect: 596/1585 0.060s 0.012s   im_detect: 597/1585 0.061s 0.012s   im_detect: 598/1585 0.061s 0.012s   im_detect: 599/1585 0.061s 0.012s   im_detect: 600/1585 0.062s 0.012s   im_detect: 601/1585 0.063s 0.012s   im_detect: 602/1585 0.063s 0.012s   im_detect: 603/1585 0.060s 0.012s   im_detect: 604/1585 0.061s 0.012s   im_detect: 605/1585 0.062s 0.012s   im_detect: 606/1585 0.061s 0.012s   im_detect: 607/1585 0.063s 0.012s   im_detect: 608/1585 0.060s 0.012s   im_detect: 609/1585 0.060s 0.012s   im_detect: 610/1585 0.064s 0.012s   im_detect: 611/1585 0.061s 0.012s   im_detect: 612/1585 0.060s 0.012s   im_detect: 613/1585 0.061s 0.012s   im_detect: 614/1585 0.062s 0.012s   im_detect: 615/1585 0.061s 0.012s   im_detect: 616/1585 0.060s 0.012s   im_detect: 617/1585 0.062s 0.012s   im_detect: 618/1585 0.061s 0.013s   im_detect: 619/1585 0.061s 0.013s   im_detect: 620/1585 0.061s 0.012s   im_detect: 621/1585 0.062s 0.012s   im_detect: 622/1585 0.060s 0.012s   im_detect: 623/1585 0.062s 0.012s   im_detect: 624/1585 0.060s 0.011s   im_detect: 625/1585 0.062s 0.012s   im_detect: 626/1585 0.061s 0.012s   im_detect: 627/1585 0.060s 0.012s   im_detect: 628/1585 0.062s 0.012s   im_detect: 629/1585 0.061s 0.012s   im_detect: 630/1585 0.064s 0.012s   im_detect: 631/1585 0.064s 0.012s   im_detect: 632/1585 0.063s 0.012s   im_detect: 633/1585 0.065s 0.012s   im_detect: 634/1585 0.065s 0.012s   im_detect: 635/1585 0.063s 0.012s   im_detect: 636/1585 0.063s 0.012s   im_detect: 637/1585 0.063s 0.012s   im_detect: 638/1585 0.065s 0.012s   im_detect: 639/1585 0.064s 0.012s   im_detect: 640/1585 0.064s 0.012s   im_detect: 641/1585 0.064s 0.012s   im_detect: 642/1585 0.061s 0.012s   im_detect: 643/1585 0.063s 0.012s   im_detect: 644/1585 0.062s 0.012s   im_detect: 645/1585 0.062s 0.012s   im_detect: 646/1585 0.061s 0.012s   im_detect: 647/1585 0.061s 0.012s   im_detect: 648/1585 0.063s 0.012s   im_detect: 649/1585 0.062s 0.012s   im_detect: 650/1585 0.063s 0.012s   im_detect: 651/1585 0.062s 0.013s   im_detect: 652/1585 0.062s 0.012s   im_detect: 653/1585 0.063s 0.012s   im_detect: 654/1585 0.064s 0.012s   im_detect: 655/1585 0.061s 0.012s   im_detect: 656/1585 0.063s 0.012s   im_detect: 657/1585 0.063s 0.012s   im_detect: 658/1585 0.062s 0.012s   im_detect: 659/1585 0.064s 0.012s   im_detect: 660/1585 0.063s 0.012s   im_detect: 661/1585 0.062s 0.012s   im_detect: 662/1585 0.061s 0.012s   im_detect: 663/1585 0.062s 0.012s   im_detect: 664/1585 0.061s 0.012s   im_detect: 665/1585 0.063s 0.012s   im_detect: 666/1585 0.061s 0.012s   im_detect: 667/1585 0.063s 0.012s   im_detect: 668/1585 0.062s 0.012s   im_detect: 669/1585 0.062s 0.012s   im_detect: 670/1585 0.062s 0.012s   im_detect: 671/1585 0.062s 0.012s   im_detect: 672/1585 0.061s 0.012s   im_detect: 673/1585 0.063s 0.012s   im_detect: 674/1585 0.061s 0.012s   im_detect: 675/1585 0.062s 0.012s   im_detect: 676/1585 0.061s 0.012s   im_detect: 677/1585 0.062s 0.012s   im_detect: 678/1585 0.061s 0.012s   im_detect: 679/1585 0.063s 0.012s   im_detect: 680/1585 0.061s 0.012s   im_detect: 681/1585 0.063s 0.012s   im_detect: 682/1585 0.063s 0.012s   im_detect: 683/1585 0.063s 0.012s   im_detect: 684/1585 0.062s 0.012s   im_detect: 685/1585 0.063s 0.012s   im_detect: 686/1585 0.062s 0.012s   im_detect: 687/1585 0.063s 0.012s   im_detect: 688/1585 0.061s 0.012s   im_detect: 689/1585 0.063s 0.012s   im_detect: 690/1585 0.062s 0.012s   im_detect: 691/1585 0.062s 0.012s   im_detect: 692/1585 0.061s 0.012s   im_detect: 693/1585 0.062s 0.012s   im_detect: 694/1585 0.063s 0.012s   im_detect: 695/1585 0.062s 0.012s   im_detect: 696/1585 0.063s 0.012s   im_detect: 697/1585 0.062s 0.012s   im_detect: 698/1585 0.063s 0.012s   im_detect: 699/1585 0.062s 0.012s   im_detect: 700/1585 0.063s 0.012s   im_detect: 701/1585 0.063s 0.012s   im_detect: 702/1585 0.062s 0.012s   im_detect: 703/1585 0.063s 0.012s   im_detect: 704/1585 0.061s 0.012s   im_detect: 705/1585 0.061s 0.012s   im_detect: 706/1585 0.063s 0.012s   im_detect: 707/1585 0.063s 0.012s   im_detect: 708/1585 0.061s 0.012s   im_detect: 709/1585 0.065s 0.012s   im_detect: 710/1585 0.062s 0.012s   im_detect: 711/1585 0.063s 0.012s   im_detect: 712/1585 0.062s 0.012s   im_detect: 713/1585 0.064s 0.012s   im_detect: 714/1585 0.063s 0.012s   im_detect: 715/1585 0.063s 0.013s   im_detect: 716/1585 0.063s 0.012s   im_detect: 717/1585 0.064s 0.012s   im_detect: 718/1585 0.063s 0.012s   im_detect: 719/1585 0.063s 0.012s   im_detect: 720/1585 0.062s 0.012s   im_detect: 721/1585 0.063s 0.012s   im_detect: 722/1585 0.061s 0.012s   im_detect: 723/1585 0.062s 0.012s   im_detect: 724/1585 0.062s 0.012s   im_detect: 725/1585 0.063s 0.012s   im_detect: 726/1585 0.061s 0.012s   im_detect: 727/1585 0.061s 0.012s   im_detect: 728/1585 0.063s 0.012s   im_detect: 729/1585 0.063s 0.012s   im_detect: 730/1585 0.062s 0.012s   im_detect: 731/1585 0.063s 0.012s   im_detect: 732/1585 0.062s 0.012s   im_detect: 733/1585 0.063s 0.012s   im_detect: 734/1585 0.063s 0.012s   im_detect: 735/1585 0.064s 0.012s   im_detect: 736/1585 0.063s 0.012s   im_detect: 737/1585 0.061s 0.012s   im_detect: 738/1585 0.064s 0.012s   im_detect: 739/1585 0.062s 0.012s   im_detect: 740/1585 0.061s 0.012s   im_detect: 741/1585 0.062s 0.012s   im_detect: 742/1585 0.064s 0.012s   im_detect: 743/1585 0.062s 0.012s   im_detect: 744/1585 0.063s 0.012s   im_detect: 745/1585 0.063s 0.012s   im_detect: 746/1585 0.061s 0.012s   im_detect: 747/1585 0.062s 0.012s   im_detect: 748/1585 0.062s 0.012s   im_detect: 749/1585 0.062s 0.012s   im_detect: 750/1585 0.063s 0.012s   im_detect: 751/1585 0.063s 0.013s   im_detect: 752/1585 0.062s 0.012s   im_detect: 753/1585 0.064s 0.013s   im_detect: 754/1585 0.061s 0.013s   im_detect: 755/1585 0.063s 0.012s   im_detect: 756/1585 0.063s 0.013s   im_detect: 757/1585 0.064s 0.012s   im_detect: 758/1585 0.064s 0.012s   im_detect: 759/1585 0.064s 0.012s   im_detect: 760/1585 0.065s 0.012s   im_detect: 761/1585 0.065s 0.012s   im_detect: 762/1585 0.064s 0.012s   im_detect: 763/1585 0.063s 0.012s   im_detect: 764/1585 0.064s 0.012s   im_detect: 765/1585 0.064s 0.013s   im_detect: 766/1585 0.063s 0.012s   im_detect: 767/1585 0.063s 0.012s   im_detect: 768/1585 0.064s 0.012s   im_detect: 769/1585 0.064s 0.012s   im_detect: 770/1585 0.063s 0.012s   im_detect: 771/1585 0.066s 0.012s   im_detect: 772/1585 0.063s 0.012s   im_detect: 773/1585 0.063s 0.012s   im_detect: 774/1585 0.064s 0.012s   im_detect: 775/1585 0.063s 0.012s   im_detect: 776/1585 0.065s 0.012s   im_detect: 777/1585 0.063s 0.012s   im_detect: 778/1585 0.063s 0.012s   im_detect: 779/1585 0.065s 0.012s   im_detect: 780/1585 0.063s 0.012s   im_detect: 781/1585 0.065s 0.012s   im_detect: 782/1585 0.063s 0.012s   im_detect: 783/1585 0.064s 0.012s   im_detect: 784/1585 0.063s 0.012s   im_detect: 785/1585 0.065s 0.012s   im_detect: 786/1585 0.061s 0.012s   im_detect: 787/1585 0.064s 0.012s   im_detect: 788/1585 0.063s 0.012s   im_detect: 789/1585 0.062s 0.012s   im_detect: 790/1585 0.063s 0.013s   im_detect: 791/1585 0.063s 0.012s   im_detect: 792/1585 0.062s 0.012s   im_detect: 793/1585 0.062s 0.012s   im_detect: 794/1585 0.063s 0.012s   im_detect: 795/1585 0.063s 0.012s   im_detect: 796/1585 0.063s 0.012s   im_detect: 797/1585 0.062s 0.013s   im_detect: 798/1585 0.061s 0.012s   im_detect: 799/1585 0.064s 0.013s   im_detect: 800/1585 0.063s 0.013s   im_detect: 801/1585 0.062s 0.013s   im_detect: 802/1585 0.064s 0.012s   im_detect: 803/1585 0.063s 0.012s   im_detect: 804/1585 0.063s 0.012s   im_detect: 805/1585 0.062s 0.012s   im_detect: 806/1585 0.061s 0.012s   im_detect: 807/1585 0.063s 0.012s   im_detect: 808/1585 0.063s 0.012s   im_detect: 809/1585 0.066s 0.012s   im_detect: 810/1585 0.061s 0.012s   im_detect: 811/1585 0.063s 0.012s   im_detect: 812/1585 0.062s 0.012s   im_detect: 813/1585 0.063s 0.012s   im_detect: 814/1585 0.061s 0.012s   im_detect: 815/1585 0.065s 0.012s   im_detect: 816/1585 0.062s 0.012s   im_detect: 817/1585 0.061s 0.012s   im_detect: 818/1585 0.062s 0.012s   im_detect: 819/1585 0.062s 0.012s   im_detect: 820/1585 0.062s 0.012s   im_detect: 821/1585 0.061s 0.012s   im_detect: 822/1585 0.061s 0.012s   im_detect: 823/1585 0.064s 0.012s   im_detect: 824/1585 0.064s 0.012s   im_detect: 825/1585 0.063s 0.012s   im_detect: 826/1585 0.063s 0.012s   im_detect: 827/1585 0.064s 0.012s   im_detect: 828/1585 0.064s 0.012s   im_detect: 829/1585 0.063s 0.012s   im_detect: 830/1585 0.063s 0.012s   im_detect: 831/1585 0.065s 0.012s   im_detect: 832/1585 0.063s 0.012s   im_detect: 833/1585 0.064s 0.012s   im_detect: 834/1585 0.062s 0.012s   im_detect: 835/1585 0.064s 0.012s   im_detect: 836/1585 0.063s 0.012s   im_detect: 837/1585 0.064s 0.012s   im_detect: 838/1585 0.063s 0.012s   im_detect: 839/1585 0.065s 0.012s   im_detect: 840/1585 0.062s 0.012s   im_detect: 841/1585 0.062s 0.012s   im_detect: 842/1585 0.062s 0.012s   im_detect: 843/1585 0.062s 0.012s   im_detect: 844/1585 0.063s 0.012s   im_detect: 845/1585 0.062s 0.012s   im_detect: 846/1585 0.061s 0.012s   im_detect: 847/1585 0.061s 0.012s   im_detect: 848/1585 0.062s 0.012s   im_detect: 849/1585 0.063s 0.013s   im_detect: 850/1585 0.061s 0.012s   im_detect: 851/1585 0.063s 0.013s   im_detect: 852/1585 0.063s 0.013s   im_detect: 853/1585 0.062s 0.013s   im_detect: 854/1585 0.062s 0.013s   im_detect: 855/1585 0.062s 0.012s   im_detect: 856/1585 0.062s 0.012s   im_detect: 857/1585 0.063s 0.012s   im_detect: 858/1585 0.065s 0.012s   im_detect: 859/1585 0.062s 0.012s   im_detect: 860/1585 0.061s 0.012s   im_detect: 861/1585 0.062s 0.013s   im_detect: 862/1585 0.062s 0.012s   im_detect: 863/1585 0.062s 0.012s   im_detect: 864/1585 0.062s 0.012s   im_detect: 865/1585 0.062s 0.012s   im_detect: 866/1585 0.061s 0.012s   im_detect: 867/1585 0.062s 0.012s   im_detect: 868/1585 0.063s 0.012s   im_detect: 869/1585 0.062s 0.012s   im_detect: 870/1585 0.062s 0.012s   im_detect: 871/1585 0.063s 0.012s   im_detect: 872/1585 0.062s 0.012s   im_detect: 873/1585 0.061s 0.012s   im_detect: 874/1585 0.062s 0.012s   im_detect: 875/1585 0.065s 0.012s   im_detect: 876/1585 0.062s 0.012s   im_detect: 877/1585 0.063s 0.012s   im_detect: 878/1585 0.063s 0.012s   im_detect: 879/1585 0.062s 0.012s   im_detect: 880/1585 0.062s 0.012s   im_detect: 881/1585 0.063s 0.012s   im_detect: 882/1585 0.061s 0.012s   im_detect: 883/1585 0.062s 0.012s   im_detect: 884/1585 0.064s 0.012s   im_detect: 885/1585 0.061s 0.012s   im_detect: 886/1585 0.062s 0.012s   im_detect: 887/1585 0.064s 0.012s   im_detect: 888/1585 0.063s 0.012s   im_detect: 889/1585 0.063s 0.012s   im_detect: 890/1585 0.063s 0.012s   im_detect: 891/1585 0.063s 0.012s   im_detect: 892/1585 0.066s 0.012s   im_detect: 893/1585 0.063s 0.012s   im_detect: 894/1585 0.062s 0.012s   im_detect: 895/1585 0.062s 0.012s   im_detect: 896/1585 0.061s 0.012s   im_detect: 897/1585 0.063s 0.012s   im_detect: 898/1585 0.061s 0.012s   im_detect: 899/1585 0.061s 0.012s   im_detect: 900/1585 0.063s 0.012s   im_detect: 901/1585 0.062s 0.012s   im_detect: 902/1585 0.063s 0.012s   im_detect: 903/1585 0.062s 0.012s   im_detect: 904/1585 0.062s 0.012s   im_detect: 905/1585 0.062s 0.012s   im_detect: 906/1585 0.062s 0.012s   im_detect: 907/1585 0.062s 0.012s   im_detect: 908/1585 0.061s 0.012s   im_detect: 909/1585 0.062s 0.012s   im_detect: 910/1585 0.061s 0.012s   im_detect: 911/1585 0.062s 0.012s   im_detect: 912/1585 0.064s 0.012s   im_detect: 913/1585 0.062s 0.012s   im_detect: 914/1585 0.062s 0.012s   im_detect: 915/1585 0.063s 0.012s   im_detect: 916/1585 0.066s 0.012s   im_detect: 917/1585 0.062s 0.012s   im_detect: 918/1585 0.065s 0.012s   im_detect: 919/1585 0.062s 0.013s   im_detect: 920/1585 0.061s 0.012s   im_detect: 921/1585 0.063s 0.012s   im_detect: 922/1585 0.064s 0.013s   im_detect: 923/1585 0.062s 0.012s   im_detect: 924/1585 0.062s 0.012s   im_detect: 925/1585 0.061s 0.012s   im_detect: 926/1585 0.062s 0.012s   im_detect: 927/1585 0.063s 0.012s   im_detect: 928/1585 0.062s 0.012s   im_detect: 929/1585 0.062s 0.012s   im_detect: 930/1585 0.062s 0.012s   im_detect: 931/1585 0.063s 0.012s   im_detect: 932/1585 0.064s 0.012s   im_detect: 933/1585 0.063s 0.012s   im_detect: 934/1585 0.062s 0.012s   im_detect: 935/1585 0.063s 0.013s   im_detect: 936/1585 0.064s 0.012s   im_detect: 937/1585 0.062s 0.013s   im_detect: 938/1585 0.063s 0.013s   im_detect: 939/1585 0.061s 0.013s   im_detect: 940/1585 0.062s 0.013s   im_detect: 941/1585 0.063s 0.013s   im_detect: 942/1585 0.063s 0.012s   im_detect: 943/1585 0.064s 0.012s   im_detect: 944/1585 0.063s 0.012s   im_detect: 945/1585 0.062s 0.012s   im_detect: 946/1585 0.063s 0.012s   im_detect: 947/1585 0.065s 0.012s   im_detect: 948/1585 0.063s 0.012s   im_detect: 949/1585 0.064s 0.012s   im_detect: 950/1585 0.064s 0.012s   im_detect: 951/1585 0.064s 0.012s   im_detect: 952/1585 0.064s 0.012s   im_detect: 953/1585 0.064s 0.012s   im_detect: 954/1585 0.067s 0.012s   im_detect: 955/1585 0.060s 0.012s   im_detect: 956/1585 0.061s 0.013s   im_detect: 957/1585 0.061s 0.012s   im_detect: 958/1585 0.062s 0.012s   im_detect: 959/1585 0.061s 0.012s   im_detect: 960/1585 0.061s 0.012s   im_detect: 961/1585 0.061s 0.012s   im_detect: 962/1585 0.062s 0.012s   im_detect: 963/1585 0.061s 0.012s   im_detect: 964/1585 0.063s 0.012s   im_detect: 965/1585 0.060s 0.012s   im_detect: 966/1585 0.061s 0.012s   im_detect: 967/1585 0.062s 0.012s   im_detect: 968/1585 0.061s 0.012s   im_detect: 969/1585 0.062s 0.012s   im_detect: 970/1585 0.060s 0.012s   im_detect: 971/1585 0.062s 0.012s   im_detect: 972/1585 0.061s 0.012s   im_detect: 973/1585 0.061s 0.012s   im_detect: 974/1585 0.063s 0.012s   im_detect: 975/1585 0.061s 0.012s   im_detect: 976/1585 0.062s 0.011s   im_detect: 977/1585 0.063s 0.012s   im_detect: 978/1585 0.061s 0.012s   im_detect: 979/1585 0.061s 0.012s   im_detect: 980/1585 0.061s 0.012s   im_detect: 981/1585 0.065s 0.012s   im_detect: 982/1585 0.061s 0.012s   im_detect: 983/1585 0.064s 0.012s   im_detect: 984/1585 0.063s 0.012s   im_detect: 985/1585 0.061s 0.012s   im_detect: 986/1585 0.061s 0.012s   im_detect: 987/1585 0.063s 0.012s   im_detect: 988/1585 0.061s 0.012s   im_detect: 989/1585 0.061s 0.012s   im_detect: 990/1585 0.062s 0.012s   im_detect: 991/1585 0.062s 0.012s   im_detect: 992/1585 0.061s 0.012s   im_detect: 993/1585 0.063s 0.012s   im_detect: 994/1585 0.061s 0.012s   im_detect: 995/1585 0.062s 0.012s   im_detect: 996/1585 0.062s 0.012s   im_detect: 997/1585 0.060s 0.012s   im_detect: 998/1585 0.061s 0.012s   im_detect: 999/1585 0.060s 0.012s   im_detect: 1000/1585 0.061s 0.012s   im_detect: 1001/1585 0.062s 0.012s   im_detect: 1002/1585 0.062s 0.012s   im_detect: 1003/1585 0.061s 0.012s   im_detect: 1004/1585 0.063s 0.012s   im_detect: 1005/1585 0.061s 0.013s   im_detect: 1006/1585 0.061s 0.013s   im_detect: 1007/1585 0.062s 0.013s   im_detect: 1008/1585 0.061s 0.013s   im_detect: 1009/1585 0.062s 0.013s   im_detect: 1010/1585 0.062s 0.013s   im_detect: 1011/1585 0.062s 0.013s   im_detect: 1012/1585 0.062s 0.012s   im_detect: 1013/1585 0.062s 0.012s   im_detect: 1014/1585 0.062s 0.012s   im_detect: 1015/1585 0.060s 0.012s   im_detect: 1016/1585 0.061s 0.012s   im_detect: 1017/1585 0.061s 0.012s   im_detect: 1018/1585 0.061s 0.012s   im_detect: 1019/1585 0.065s 0.012s   im_detect: 1020/1585 0.063s 0.012s   im_detect: 1021/1585 0.065s 0.012s   im_detect: 1022/1585 0.063s 0.012s   im_detect: 1023/1585 0.063s 0.012s   im_detect: 1024/1585 0.066s 0.012s   im_detect: 1025/1585 0.062s 0.012s   im_detect: 1026/1585 0.064s 0.012s   im_detect: 1027/1585 0.062s 0.012s   im_detect: 1028/1585 0.062s 0.012s   im_detect: 1029/1585 0.062s 0.012s   im_detect: 1030/1585 0.063s 0.013s   im_detect: 1031/1585 0.066s 0.013s   im_detect: 1032/1585 0.063s 0.012s   im_detect: 1033/1585 0.063s 0.012s   im_detect: 1034/1585 0.063s 0.012s   im_detect: 1035/1585 0.063s 0.012s   im_detect: 1036/1585 0.061s 0.012s   im_detect: 1037/1585 0.063s 0.012s   im_detect: 1038/1585 0.063s 0.012s   im_detect: 1039/1585 0.063s 0.012s   im_detect: 1040/1585 0.063s 0.012s   im_detect: 1041/1585 0.061s 0.012s   im_detect: 1042/1585 0.061s 0.012s   im_detect: 1043/1585 0.062s 0.012s   im_detect: 1044/1585 0.062s 0.012s   im_detect: 1045/1585 0.063s 0.012s   im_detect: 1046/1585 0.062s 0.012s   im_detect: 1047/1585 0.062s 0.012s   im_detect: 1048/1585 0.062s 0.012s   im_detect: 1049/1585 0.061s 0.012s   im_detect: 1050/1585 0.064s 0.012s   im_detect: 1051/1585 0.064s 0.012s   im_detect: 1052/1585 0.062s 0.012s   im_detect: 1053/1585 0.062s 0.012s   im_detect: 1054/1585 0.063s 0.012s   im_detect: 1055/1585 0.063s 0.012s   im_detect: 1056/1585 0.061s 0.012s   im_detect: 1057/1585 0.062s 0.012s   im_detect: 1058/1585 0.063s 0.012s   im_detect: 1059/1585 0.064s 0.012s   im_detect: 1060/1585 0.063s 0.012s   im_detect: 1061/1585 0.064s 0.013s   im_detect: 1062/1585 0.062s 0.013s   im_detect: 1063/1585 0.063s 0.013s   im_detect: 1064/1585 0.062s 0.012s   im_detect: 1065/1585 0.064s 0.012s   im_detect: 1066/1585 0.063s 0.012s   im_detect: 1067/1585 0.063s 0.012s   im_detect: 1068/1585 0.062s 0.012s   im_detect: 1069/1585 0.065s 0.012s   im_detect: 1070/1585 0.062s 0.012s   im_detect: 1071/1585 0.062s 0.012s   im_detect: 1072/1585 0.064s 0.012s   im_detect: 1073/1585 0.065s 0.012s   im_detect: 1074/1585 0.062s 0.012s   im_detect: 1075/1585 0.063s 0.012s   im_detect: 1076/1585 0.064s 0.012s   im_detect: 1077/1585 0.063s 0.012s   im_detect: 1078/1585 0.062s 0.012s   im_detect: 1079/1585 0.064s 0.012s   im_detect: 1080/1585 0.063s 0.012s   im_detect: 1081/1585 0.062s 0.012s   im_detect: 1082/1585 0.064s 0.012s   im_detect: 1083/1585 0.062s 0.012s   im_detect: 1084/1585 0.064s 0.012s   im_detect: 1085/1585 0.061s 0.012s   im_detect: 1086/1585 0.061s 0.012s   im_detect: 1087/1585 0.063s 0.012s   im_detect: 1088/1585 0.061s 0.012s   im_detect: 1089/1585 0.061s 0.012s   im_detect: 1090/1585 0.062s 0.012s   im_detect: 1091/1585 0.063s 0.012s   im_detect: 1092/1585 0.065s 0.012s   im_detect: 1093/1585 0.063s 0.012s   im_detect: 1094/1585 0.062s 0.012s   im_detect: 1095/1585 0.063s 0.012s   im_detect: 1096/1585 0.061s 0.012s   im_detect: 1097/1585 0.063s 0.012s   im_detect: 1098/1585 0.061s 0.012s   im_detect: 1099/1585 0.064s 0.012s   im_detect: 1100/1585 0.063s 0.012s   im_detect: 1101/1585 0.062s 0.012s   im_detect: 1102/1585 0.062s 0.012s   im_detect: 1103/1585 0.062s 0.012s   im_detect: 1104/1585 0.062s 0.012s   im_detect: 1105/1585 0.063s 0.012s   im_detect: 1106/1585 0.062s 0.012s   im_detect: 1107/1585 0.064s 0.013s   im_detect: 1108/1585 0.065s 0.013s   im_detect: 1109/1585 0.063s 0.013s   im_detect: 1110/1585 0.065s 0.013s   im_detect: 1111/1585 0.063s 0.013s   im_detect: 1112/1585 0.063s 0.012s   im_detect: 1113/1585 0.064s 0.012s   im_detect: 1114/1585 0.063s 0.012s   im_detect: 1115/1585 0.063s 0.012s   im_detect: 1116/1585 0.063s 0.012s   im_detect: 1117/1585 0.064s 0.012s   im_detect: 1118/1585 0.063s 0.012s   im_detect: 1119/1585 0.064s 0.012s   im_detect: 1120/1585 0.064s 0.012s   im_detect: 1121/1585 0.065s 0.012s   im_detect: 1122/1585 0.063s 0.012s   im_detect: 1123/1585 0.064s 0.012s   im_detect: 1124/1585 0.064s 0.012s   im_detect: 1125/1585 0.063s 0.012s   im_detect: 1126/1585 0.063s 0.013s   im_detect: 1127/1585 0.065s 0.012s   im_detect: 1128/1585 0.063s 0.012s   im_detect: 1129/1585 0.065s 0.012s   im_detect: 1130/1585 0.064s 0.012s   im_detect: 1131/1585 0.066s 0.012s   im_detect: 1132/1585 0.065s 0.012s   im_detect: 1133/1585 0.063s 0.012s   im_detect: 1134/1585 0.063s 0.012s   im_detect: 1135/1585 0.066s 0.011s   im_detect: 1136/1585 0.064s 0.012s   im_detect: 1137/1585 0.063s 0.012s   im_detect: 1138/1585 0.063s 0.012s   im_detect: 1139/1585 0.064s 0.012s   im_detect: 1140/1585 0.064s 0.012s   im_detect: 1141/1585 0.063s 0.012s   im_detect: 1142/1585 0.063s 0.012s   im_detect: 1143/1585 0.066s 0.012s   im_detect: 1144/1585 0.063s 0.012s   im_detect: 1145/1585 0.063s 0.012s   im_detect: 1146/1585 0.063s 0.012s   im_detect: 1147/1585 0.063s 0.012s   im_detect: 1148/1585 0.065s 0.012s   im_detect: 1149/1585 0.065s 0.012s   im_detect: 1150/1585 0.061s 0.012s   im_detect: 1151/1585 0.062s 0.012s   im_detect: 1152/1585 0.063s 0.012s   im_detect: 1153/1585 0.061s 0.012s   im_detect: 1154/1585 0.061s 0.012s   im_detect: 1155/1585 0.062s 0.012s   im_detect: 1156/1585 0.063s 0.012s   im_detect: 1157/1585 0.062s 0.012s   im_detect: 1158/1585 0.062s 0.012s   im_detect: 1159/1585 0.062s 0.012s   im_detect: 1160/1585 0.063s 0.012s   im_detect: 1161/1585 0.064s 0.012s   im_detect: 1162/1585 0.063s 0.012s   im_detect: 1163/1585 0.064s 0.012s   im_detect: 1164/1585 0.062s 0.012s   im_detect: 1165/1585 0.062s 0.012s   im_detect: 1166/1585 0.062s 0.012s   im_detect: 1167/1585 0.062s 0.012s   im_detect: 1168/1585 0.062s 0.012s   im_detect: 1169/1585 0.063s 0.012s   im_detect: 1170/1585 0.062s 0.012s   im_detect: 1171/1585 0.062s 0.012s   im_detect: 1172/1585 0.062s 0.012s   im_detect: 1173/1585 0.064s 0.012s   im_detect: 1174/1585 0.062s 0.012s   im_detect: 1175/1585 0.063s 0.012s   im_detect: 1176/1585 0.062s 0.012s   im_detect: 1177/1585 0.061s 0.012s   im_detect: 1178/1585 0.061s 0.012s   im_detect: 1179/1585 0.062s 0.012s   im_detect: 1180/1585 0.065s 0.012s   im_detect: 1181/1585 0.063s 0.012s   im_detect: 1182/1585 0.064s 0.012s   im_detect: 1183/1585 0.065s 0.012s   im_detect: 1184/1585 0.063s 0.013s   im_detect: 1185/1585 0.064s 0.013s   im_detect: 1186/1585 0.063s 0.012s   im_detect: 1187/1585 0.067s 0.013s   im_detect: 1188/1585 0.064s 0.013s   im_detect: 1189/1585 0.065s 0.013s   im_detect: 1190/1585 0.066s 0.012s   im_detect: 1191/1585 0.064s 0.012s   im_detect: 1192/1585 0.065s 0.012s   im_detect: 1193/1585 0.063s 0.012s   im_detect: 1194/1585 0.063s 0.012s   im_detect: 1195/1585 0.064s 0.012s   im_detect: 1196/1585 0.063s 0.012s   im_detect: 1197/1585 0.064s 0.013s   im_detect: 1198/1585 0.064s 0.012s   im_detect: 1199/1585 0.063s 0.012s   im_detect: 1200/1585 0.064s 0.012s   im_detect: 1201/1585 0.063s 0.012s   im_detect: 1202/1585 0.066s 0.012s   im_detect: 1203/1585 0.062s 0.012s   im_detect: 1204/1585 0.065s 0.012s   im_detect: 1205/1585 0.062s 0.012s   im_detect: 1206/1585 0.064s 0.012s   im_detect: 1207/1585 0.064s 0.013s   im_detect: 1208/1585 0.063s 0.012s   im_detect: 1209/1585 0.062s 0.012s   im_detect: 1210/1585 0.064s 0.012s   im_detect: 1211/1585 0.065s 0.012s   im_detect: 1212/1585 0.063s 0.012s   im_detect: 1213/1585 0.063s 0.012s   im_detect: 1214/1585 0.063s 0.012s   im_detect: 1215/1585 0.064s 0.012s   im_detect: 1216/1585 0.062s 0.012s   im_detect: 1217/1585 0.062s 0.012s   im_detect: 1218/1585 0.062s 0.012s   im_detect: 1219/1585 0.064s 0.012s   im_detect: 1220/1585 0.064s 0.012s   im_detect: 1221/1585 0.064s 0.012s   im_detect: 1222/1585 0.061s 0.012s   im_detect: 1223/1585 0.063s 0.012s   im_detect: 1224/1585 0.062s 0.012s   im_detect: 1225/1585 0.062s 0.012s   im_detect: 1226/1585 0.063s 0.012s   im_detect: 1227/1585 0.064s 0.012s   im_detect: 1228/1585 0.062s 0.012s   im_detect: 1229/1585 0.064s 0.012s   im_detect: 1230/1585 0.062s 0.012s   im_detect: 1231/1585 0.062s 0.012s   im_detect: 1232/1585 0.061s 0.012s   im_detect: 1233/1585 0.064s 0.012s   im_detect: 1234/1585 0.062s 0.012s   im_detect: 1235/1585 0.061s 0.012s   im_detect: 1236/1585 0.063s 0.012s   im_detect: 1237/1585 0.062s 0.012s   im_detect: 1238/1585 0.063s 0.012s   im_detect: 1239/1585 0.063s 0.012s   im_detect: 1240/1585 0.063s 0.012s   im_detect: 1241/1585 0.064s 0.012s   im_detect: 1242/1585 0.065s 0.012s   im_detect: 1243/1585 0.063s 0.012s   im_detect: 1244/1585 0.063s 0.012s   im_detect: 1245/1585 0.065s 0.012s   im_detect: 1246/1585 0.064s 0.013s   im_detect: 1247/1585 0.064s 0.012s   im_detect: 1248/1585 0.063s 0.013s   im_detect: 1249/1585 0.066s 0.013s   im_detect: 1250/1585 0.062s 0.013s   im_detect: 1251/1585 0.062s 0.012s   im_detect: 1252/1585 0.062s 0.013s   im_detect: 1253/1585 0.064s 0.012s   im_detect: 1254/1585 0.063s 0.012s   im_detect: 1255/1585 0.066s 0.012s   im_detect: 1256/1585 0.062s 0.012s   im_detect: 1257/1585 0.062s 0.012s   im_detect: 1258/1585 0.062s 0.012s   im_detect: 1259/1585 0.061s 0.012s   im_detect: 1260/1585 0.064s 0.012s   im_detect: 1261/1585 0.063s 0.012s   im_detect: 1262/1585 0.063s 0.013s   im_detect: 1263/1585 0.063s 0.012s   im_detect: 1264/1585 0.064s 0.012s   im_detect: 1265/1585 0.064s 0.012s   im_detect: 1266/1585 0.061s 0.012s   im_detect: 1267/1585 0.062s 0.012s   im_detect: 1268/1585 0.062s 0.012s   im_detect: 1269/1585 0.062s 0.012s   im_detect: 1270/1585 0.062s 0.012s   im_detect: 1271/1585 0.062s 0.012s   im_detect: 1272/1585 0.062s 0.012s   im_detect: 1273/1585 0.061s 0.012s   im_detect: 1274/1585 0.061s 0.012s   im_detect: 1275/1585 0.061s 0.012s   im_detect: 1276/1585 0.062s 0.012s   im_detect: 1277/1585 0.062s 0.012s   im_detect: 1278/1585 0.062s 0.012s   im_detect: 1279/1585 0.061s 0.012s   im_detect: 1280/1585 0.062s 0.012s   im_detect: 1281/1585 0.063s 0.012s   im_detect: 1282/1585 0.062s 0.012s   im_detect: 1283/1585 0.064s 0.012s   im_detect: 1284/1585 0.064s 0.012s   im_detect: 1285/1585 0.062s 0.012s   im_detect: 1286/1585 0.064s 0.012s   im_detect: 1287/1585 0.062s 0.012s   im_detect: 1288/1585 0.062s 0.012s   im_detect: 1289/1585 0.062s 0.012s   im_detect: 1290/1585 0.062s 0.012s   im_detect: 1291/1585 0.062s 0.012s   im_detect: 1292/1585 0.062s 0.012s   im_detect: 1293/1585 0.062s 0.012s   im_detect: 1294/1585 0.062s 0.012s   im_detect: 1295/1585 0.063s 0.013s   im_detect: 1296/1585 0.062s 0.012s   im_detect: 1297/1585 0.062s 0.013s   im_detect: 1298/1585 0.063s 0.013s   im_detect: 1299/1585 0.062s 0.013s   im_detect: 1300/1585 0.062s 0.013s   im_detect: 1301/1585 0.062s 0.012s   im_detect: 1302/1585 0.064s 0.012s   im_detect: 1303/1585 0.064s 0.013s   im_detect: 1304/1585 0.063s 0.012s   im_detect: 1305/1585 0.063s 0.012s   im_detect: 1306/1585 0.064s 0.012s   im_detect: 1307/1585 0.064s 0.012s   im_detect: 1308/1585 0.063s 0.012s   im_detect: 1309/1585 0.063s 0.012s   im_detect: 1310/1585 0.063s 0.012s   im_detect: 1311/1585 0.064s 0.012s   im_detect: 1312/1585 0.063s 0.012s   im_detect: 1313/1585 0.064s 0.012s   im_detect: 1314/1585 0.063s 0.012s   im_detect: 1315/1585 0.063s 0.012s   im_detect: 1316/1585 0.064s 0.012s   im_detect: 1317/1585 0.063s 0.012s   im_detect: 1318/1585 0.064s 0.012s   im_detect: 1319/1585 0.064s 0.013s   im_detect: 1320/1585 0.063s 0.012s   im_detect: 1321/1585 0.065s 0.012s   im_detect: 1322/1585 0.065s 0.012s   im_detect: 1323/1585 0.063s 0.012s   im_detect: 1324/1585 0.063s 0.012s   im_detect: 1325/1585 0.063s 0.012s   im_detect: 1326/1585 0.064s 0.012s   im_detect: 1327/1585 0.065s 0.013s   im_detect: 1328/1585 0.066s 0.012s   im_detect: 1329/1585 0.062s 0.012s   im_detect: 1330/1585 0.063s 0.012s   im_detect: 1331/1585 0.063s 0.012s   im_detect: 1332/1585 0.063s 0.012s   im_detect: 1333/1585 0.066s 0.012s   im_detect: 1334/1585 0.061s 0.012s   im_detect: 1335/1585 0.063s 0.012s   im_detect: 1336/1585 0.061s 0.012s   im_detect: 1337/1585 0.063s 0.012s   im_detect: 1338/1585 0.064s 0.012s   im_detect: 1339/1585 0.063s 0.012s   im_detect: 1340/1585 0.062s 0.012s   im_detect: 1341/1585 0.063s 0.012s   im_detect: 1342/1585 0.062s 0.012s   im_detect: 1343/1585 0.062s 0.013s   im_detect: 1344/1585 0.062s 0.012s   im_detect: 1345/1585 0.063s 0.012s   im_detect: 1346/1585 0.063s 0.013s   im_detect: 1347/1585 0.063s 0.012s   im_detect: 1348/1585 0.062s 0.012s   im_detect: 1349/1585 0.062s 0.012s   im_detect: 1350/1585 0.061s 0.012s   im_detect: 1351/1585 0.063s 0.012s   im_detect: 1352/1585 0.062s 0.012s   im_detect: 1353/1585 0.065s 0.012s   im_detect: 1354/1585 0.064s 0.012s   im_detect: 1355/1585 0.064s 0.012s   im_detect: 1356/1585 0.063s 0.012s   im_detect: 1357/1585 0.062s 0.012s   im_detect: 1358/1585 0.062s 0.012s   im_detect: 1359/1585 0.062s 0.012s   im_detect: 1360/1585 0.062s 0.012s   im_detect: 1361/1585 0.061s 0.012s   im_detect: 1362/1585 0.062s 0.012s   im_detect: 1363/1585 0.062s 0.012s   im_detect: 1364/1585 0.062s 0.012s   im_detect: 1365/1585 0.062s 0.012s   im_detect: 1366/1585 0.062s 0.012s   im_detect: 1367/1585 0.064s 0.012s   im_detect: 1368/1585 0.063s 0.012s   im_detect: 1369/1585 0.063s 0.012s   im_detect: 1370/1585 0.063s 0.012s   im_detect: 1371/1585 0.063s 0.012s   im_detect: 1372/1585 0.063s 0.012s   im_detect: 1373/1585 0.063s 0.012s   im_detect: 1374/1585 0.063s 0.012s   im_detect: 1375/1585 0.063s 0.012s   im_detect: 1376/1585 0.064s 0.013s   im_detect: 1377/1585 0.062s 0.012s   im_detect: 1378/1585 0.064s 0.012s   im_detect: 1379/1585 0.066s 0.012s   im_detect: 1380/1585 0.063s 0.012s   im_detect: 1381/1585 0.065s 0.012s   im_detect: 1382/1585 0.063s 0.012s   im_detect: 1383/1585 0.063s 0.012s   im_detect: 1384/1585 0.063s 0.012s   im_detect: 1385/1585 0.064s 0.012s   im_detect: 1386/1585 0.064s 0.012s   im_detect: 1387/1585 0.064s 0.012s   im_detect: 1388/1585 0.063s 0.012s   im_detect: 1389/1585 0.063s 0.012s   im_detect: 1390/1585 0.065s 0.012s   im_detect: 1391/1585 0.063s 0.012s   im_detect: 1392/1585 0.063s 0.012s   im_detect: 1393/1585 0.064s 0.012s   im_detect: 1394/1585 0.063s 0.012s   im_detect: 1395/1585 0.063s 0.012s   im_detect: 1396/1585 0.063s 0.012s   im_detect: 1397/1585 0.063s 0.012s   im_detect: 1398/1585 0.064s 0.012s   im_detect: 1399/1585 0.065s 0.012s   im_detect: 1400/1585 0.061s 0.012s   im_detect: 1401/1585 0.065s 0.012s   im_detect: 1402/1585 0.063s 0.012s   im_detect: 1403/1585 0.061s 0.012s   im_detect: 1404/1585 0.063s 0.013s   im_detect: 1405/1585 0.062s 0.013s   im_detect: 1406/1585 0.061s 0.012s   im_detect: 1407/1585 0.063s 0.013s   im_detect: 1408/1585 0.065s 0.013s   im_detect: 1409/1585 0.062s 0.013s   im_detect: 1410/1585 0.063s 0.012s   im_detect: 1411/1585 0.065s 0.012s   im_detect: 1412/1585 0.062s 0.012s   im_detect: 1413/1585 0.062s 0.012s   im_detect: 1414/1585 0.063s 0.013s   im_detect: 1415/1585 0.063s 0.012s   im_detect: 1416/1585 0.064s 0.012s   im_detect: 1417/1585 0.064s 0.012s   im_detect: 1418/1585 0.062s 0.012s   im_detect: 1419/1585 0.062s 0.012s   im_detect: 1420/1585 0.061s 0.012s   im_detect: 1421/1585 0.061s 0.012s   im_detect: 1422/1585 0.062s 0.012s   im_detect: 1423/1585 0.063s 0.012s   im_detect: 1424/1585 0.063s 0.012s   im_detect: 1425/1585 0.067s 0.012s   im_detect: 1426/1585 0.065s 0.013s   im_detect: 1427/1585 0.063s 0.012s   im_detect: 1428/1585 0.064s 0.012s   im_detect: 1429/1585 0.060s 0.012s   im_detect: 1430/1585 0.064s 0.012s   im_detect: 1431/1585 0.062s 0.012s   im_detect: 1432/1585 0.064s 0.012s   im_detect: 1433/1585 0.064s 0.012s   im_detect: 1434/1585 0.064s 0.012s   im_detect: 1435/1585 0.064s 0.012s   im_detect: 1436/1585 0.063s 0.012s   im_detect: 1437/1585 0.063s 0.012s   im_detect: 1438/1585 0.064s 0.012s   im_detect: 1439/1585 0.064s 0.012s   im_detect: 1440/1585 0.063s 0.012s   im_detect: 1441/1585 0.063s 0.012s   im_detect: 1442/1585 0.063s 0.012s   im_detect: 1443/1585 0.063s 0.012s   im_detect: 1444/1585 0.063s 0.012s   im_detect: 1445/1585 0.064s 0.012s   im_detect: 1446/1585 0.065s 0.012s   im_detect: 1447/1585 0.065s 0.012s   im_detect: 1448/1585 0.064s 0.012s   im_detect: 1449/1585 0.065s 0.012s   im_detect: 1450/1585 0.063s 0.012s   im_detect: 1451/1585 0.065s 0.013s   im_detect: 1452/1585 0.065s 0.012s   im_detect: 1453/1585 0.062s 0.012s   im_detect: 1454/1585 0.063s 0.012s   im_detect: 1455/1585 0.063s 0.012s   im_detect: 1456/1585 0.061s 0.012s   im_detect: 1457/1585 0.062s 0.012s   im_detect: 1458/1585 0.062s 0.012s   im_detect: 1459/1585 0.061s 0.012s   im_detect: 1460/1585 0.063s 0.012s   im_detect: 1461/1585 0.062s 0.012s   im_detect: 1462/1585 0.062s 0.012s   im_detect: 1463/1585 0.062s 0.012s   im_detect: 1464/1585 0.064s 0.012s   im_detect: 1465/1585 0.064s 0.012s   im_detect: 1466/1585 0.063s 0.012s   im_detect: 1467/1585 0.062s 0.012s   im_detect: 1468/1585 0.062s 0.012s   im_detect: 1469/1585 0.063s 0.012s   im_detect: 1470/1585 0.063s 0.012s   im_detect: 1471/1585 0.062s 0.012s   im_detect: 1472/1585 0.062s 0.012s   im_detect: 1473/1585 0.062s 0.012s   im_detect: 1474/1585 0.062s 0.012s   im_detect: 1475/1585 0.064s 0.012s   im_detect: 1476/1585 0.063s 0.012s   im_detect: 1477/1585 0.061s 0.012s   im_detect: 1478/1585 0.062s 0.012s   im_detect: 1479/1585 0.063s 0.012s   im_detect: 1480/1585 0.062s 0.012s   im_detect: 1481/1585 0.063s 0.012s   im_detect: 1482/1585 0.062s 0.012s   im_detect: 1483/1585 0.062s 0.012s   im_detect: 1484/1585 0.062s 0.012s   im_detect: 1485/1585 0.062s 0.012s   im_detect: 1486/1585 0.061s 0.012s   im_detect: 1487/1585 0.063s 0.012s   im_detect: 1488/1585 0.061s 0.012s   im_detect: 1489/1585 0.063s 0.012s   im_detect: 1490/1585 0.063s 0.012s   im_detect: 1491/1585 0.064s 0.012s   im_detect: 1492/1585 0.064s 0.012s   im_detect: 1493/1585 0.063s 0.012s   im_detect: 1494/1585 0.064s 0.012s   im_detect: 1495/1585 0.063s 0.012s   im_detect: 1496/1585 0.064s 0.012s   im_detect: 1497/1585 0.063s 0.012s   im_detect: 1498/1585 0.065s 0.013s   im_detect: 1499/1585 0.063s 0.013s   im_detect: 1500/1585 0.066s 0.013s   im_detect: 1501/1585 0.062s 0.013s   im_detect: 1502/1585 0.063s 0.013s   im_detect: 1503/1585 0.064s 0.012s   im_detect: 1504/1585 0.063s 0.012s   im_detect: 1505/1585 0.063s 0.012s   im_detect: 1506/1585 0.062s 0.012s   im_detect: 1507/1585 0.061s 0.012s   im_detect: 1508/1585 0.062s 0.012s   im_detect: 1509/1585 0.061s 0.012s   im_detect: 1510/1585 0.064s 0.012s   im_detect: 1511/1585 0.062s 0.012s   im_detect: 1512/1585 0.062s 0.013s   im_detect: 1513/1585 0.064s 0.012s   im_detect: 1514/1585 0.062s 0.012s   im_detect: 1515/1585 0.062s 0.012s   im_detect: 1516/1585 0.063s 0.012s   im_detect: 1517/1585 0.063s 0.012s   im_detect: 1518/1585 0.062s 0.012s   im_detect: 1519/1585 0.062s 0.012s   im_detect: 1520/1585 0.062s 0.012s   im_detect: 1521/1585 0.063s 0.012s   im_detect: 1522/1585 0.062s 0.012s   im_detect: 1523/1585 0.063s 0.012s   im_detect: 1524/1585 0.063s 0.012s   im_detect: 1525/1585 0.061s 0.012s   im_detect: 1526/1585 0.063s 0.012s   im_detect: 1527/1585 0.062s 0.012s   im_detect: 1528/1585 0.062s 0.012s   im_detect: 1529/1585 0.063s 0.012s   im_detect: 1530/1585 0.062s 0.012s   im_detect: 1531/1585 0.062s 0.012s   im_detect: 1532/1585 0.063s 0.012s   im_detect: 1533/1585 0.062s 0.012s   im_detect: 1534/1585 0.062s 0.012s   im_detect: 1535/1585 0.063s 0.012s   im_detect: 1536/1585 0.063s 0.012s   im_detect: 1537/1585 0.064s 0.012s   im_detect: 1538/1585 0.063s 0.012s   im_detect: 1539/1585 0.062s 0.012s   im_detect: 1540/1585 0.062s 0.012s   im_detect: 1541/1585 0.061s 0.012s   im_detect: 1542/1585 0.063s 0.012s   im_detect: 1543/1585 0.063s 0.012s   im_detect: 1544/1585 0.063s 0.012s   im_detect: 1545/1585 0.062s 0.012s   im_detect: 1546/1585 0.062s 0.012s   im_detect: 1547/1585 0.063s 0.012s   im_detect: 1548/1585 0.062s 0.012s   im_detect: 1549/1585 0.062s 0.013s   im_detect: 1550/1585 0.063s 0.013s   im_detect: 1551/1585 0.064s 0.012s   im_detect: 1552/1585 0.063s 0.012s   im_detect: 1553/1585 0.063s 0.013s   im_detect: 1554/1585 0.064s 0.013s   im_detect: 1555/1585 0.065s 0.012s   im_detect: 1556/1585 0.064s 0.012s   im_detect: 1557/1585 0.064s 0.012s   im_detect: 1558/1585 0.063s 0.012s   im_detect: 1559/1585 0.065s 0.013s   im_detect: 1560/1585 0.064s 0.013s   im_detect: 1561/1585 0.063s 0.012s   im_detect: 1562/1585 0.064s 0.012s   im_detect: 1563/1585 0.063s 0.012s   im_detect: 1564/1585 0.064s 0.012s   im_detect: 1565/1585 0.066s 0.012s   im_detect: 1566/1585 0.065s 0.012s   im_detect: 1567/1585 0.065s 0.012s   im_detect: 1568/1585 0.064s 0.012s   im_detect: 1569/1585 0.063s 0.012s   im_detect: 1570/1585 0.064s 0.012s   im_detect: 1571/1585 0.064s 0.012s   im_detect: 1572/1585 0.063s 0.012s   im_detect: 1573/1585 0.063s 0.012s   im_detect: 1574/1585 0.064s 0.012s   im_detect: 1575/1585 0.065s 0.012s   im_detect: 1576/1585 0.063s 0.012s   im_detect: 1577/1585 0.064s 0.012s   im_detect: 1578/1585 0.065s 0.012s   im_detect: 1579/1585 0.063s 0.012s   im_detect: 1580/1585 0.063s 0.012s   im_detect: 1581/1585 0.064s 0.012s   im_detect: 1582/1585 0.063s 0.012s   im_detect: 1583/1585 0.064s 0.012s   im_detect: 1584/1585 0.065s 0.012s   im_detect: 1585/1585 0.064s 0.012s   Gdk-Message: 18:53:01.780: test_net.py: Fatal IO error 0 (Success) on X server localhost:13.0.
-
