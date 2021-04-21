@@ -11,8 +11,10 @@ def voc_eval(detpath,
              imagesetfile,
              classname,
              cachefile,
+             same,
              ovthresh=0.5,
-             csthresh=0.05):
+             csthresh=0.05
+             ):
   """rec, prec, ap = voc_eval(detpath,
                               imagesetfile,
                               classname,
@@ -72,8 +74,8 @@ def voc_eval(detpath,
     # sort by confidence
     sorted_ind = np.argsort(-confidence)
     sorted_scores = np.sort(-confidence)
-    keep_score = [sorted_scores < -csthresh]
-    sorted_ind = sorted_ind[keep_score]
+    #keep_score = [sorted_scores < -csthresh]
+    #sorted_ind = sorted_ind[keep_score]
 #    for sc in sorted_scores:
 #        print(sorted_scores.shape)
     BB = BB[sorted_ind, :]
@@ -111,16 +113,48 @@ def voc_eval(detpath,
         ovmax = np.max(overlaps)
         jmax = np.argmax(overlaps)
 
+      # if ovmax > ovthresh:
+      #   if not R['difficult'][jmax]:
+      #     if not R['det'][jmax]:
+      #       count +=1
+      #       R['det'][jmax] = 1
+      #       #print(image_ids[d])
+
       if ovmax > ovthresh:
         if not R['difficult'][jmax]:
           if not R['det'][jmax]:
-            count +=1
+            tp[d] = 1.
             R['det'][jmax] = 1
-            #print(image_ids[d])
-    
+            if abs(sorted_scores[d]) >= 0.8:
+              count +=1
+          else:
+            fp[d] = 1.
+      else:
+        fp[d] = 1.
+  prec_9 =  []   
+  rec_9 = []
+  if same:
+    fp = np.cumsum(fp)
+    tp = np.cumsum(tp)
+    rec = tp / float(npos)
+    # avoid divide by zero in case the first detection matches a difficult
+    # ground truth
+    prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
+    j =0.1
+    while j < 1.0:
+      for i in range(len(sorted_scores)):
+        if abs(sorted_scores[i]) < j:# csthreshold
+          f1 = (2*prec[i]*rec[i])/(prec[i]+rec[i])
+          #print("class: %s, precision: %f, recall: %f, f1-score(thresh= %f): %f"%(classname, prec[i], rec[i], j, f1))
+          prec_9.append(prec[i])
+          rec_9.append(rec[i])
+          j+=0.1
+          j = round(j,1)
+
+          break
 
 
-  return count
+  return count, prec_9, rec_9
 
 
 
@@ -264,7 +298,7 @@ def parse_args():
                       default=0.5, type=float) 
   parser.add_argument('--csthr', dest='csthr',
                       help='confidence score threshold',
-                      default=0.8, type=float) 
+                      default=0.1, type=float) 
   parser.add_argument('--out', dest='out_file',
                       help='save cfmap file',
                       default='cfmap.csv', type=str)
@@ -292,26 +326,37 @@ def main(classes, ignore_cls, args):
     result_path = args.result_path
     test_file = args.test_file
     gt_file = args.gt_file
-    
+    same = False
     cfmap = np.zeros((len(classes),len(classes)))
-
+    prec_9_all = [0]*9
+    rec_9_all = [0]*9
     for i, detcls in enumerate(classes):
         if detcls == '__background__' or detcls in ignore_cls:
             continue
         det_file = result_path  +"comp4_det_"+ 'test_{}.txt'.format(detcls)
         for j, cls in enumerate(classes):
             if cls == '__background__' :
-                continue     
-            num = voc_eval(
-              det_file, test_file, cls, gt_file,
+                continue
+            if detcls == cls:
+                same = True
+            num, prec_9, rec_9 = voc_eval(
+              det_file, test_file, cls, gt_file, same,
               ovthresh=args.ovthr, csthresh=args.csthr)
-            #print(num)
+            if detcls == cls:
+                #(rec_9)
+                prec_9_all = [prec_9_all[i]+prec_9[i] for i in range(9)]
+                rec_9_all = [rec_9_all[i]+rec_9[i] for i in range(9)]
             cfmap[j][i] = num
+    prec_9_all = [x/len(classes) for x in prec_9_all]
+    rec_9_all = [x/len(classes) for x in rec_9_all]
+    print(prec_9_all)
+    print(rec_9_all)
+
     cfmap = np.delete(cfmap, 0, axis=0)
     cfmap = np.delete(cfmap, 0, axis=1)
     
     sum_of_col = np.sum(cfmap,axis = 0)
-    print(sum_of_col)
+    #print(sum_of_col)
     for i in range(len(classes)-1):
       for j in range(len(classes)-1):
         cfmap[j][i] = round(cfmap[j][i] / sum_of_col[i], 2)
@@ -334,7 +379,7 @@ if __name__ == '__main__':
     args.gt_file = './data/VOCdevkit2007/VOC2007/ImageSets/Main/test.txt_annots.pkl'
     args.test_file = './data/VOCdevkit2007/VOC2007/ImageSets/Main/test.txt'
     args.result_path = './data/VOCdevkit2007/results/VOC2007/Main/'
-    '''
+    
     classes = ('__background__',  # always index 0
                 'A.bes(H)','A.bes(T)','A.bes','A.bic(H)','A.bic(T)','A.bic',
                  'A.fuj(H)','A.fuj(T)','A.fuj','B.xyl(H)','B.xyl(T)','B.xyl',
@@ -343,12 +388,12 @@ if __name__ == '__main__':
                  'P.cof(H)','P.cof(T)','P.cof','P.vul(H)','P.vul(T)','P.vul',
                  'P.spe(H)','P.spe(T)','P.spe','H.sp(H)','H.sp(T)','H.sp',
                  'M.ams(H)' ,'M.ams(T)','M.ams')###################
-    '''
-    classes = ('__background__',  # always index 0
-                'A.bes(T)','A.bic(T)','A.fuj(T)','B.xyl(T)',
-                'C.ele(T)','M.ent(T)','M.gra(T)','M.inc(T)',
-                'P.cof(T)','P.vul(T)','P.spe(T)','H.sp(T)',
-                'M.ams(T)')###################
+    
+    # classes = ('__background__',  # always index 0
+    #             'A.bes(T)','A.bic(T)','A.fuj(T)','B.xyl(T)',
+    #             'C.ele(T)','M.ent(T)','M.gra(T)','M.inc(T)',
+    #             'P.cof(T)','P.vul(T)','P.spe(T)','H.sp(T)',
+    #             'M.ams(T)')###################
                          
     ignore_cls = []
     
