@@ -250,7 +250,7 @@ def voc_eval(detpath,
         if abs(sorted_scores[d]) >= 0.8:
           nfp+=1
   else:
-    return 0, 0, 0, 0
+    return 0, 0, 0, 0, 0, 0, 0
 
   # compute precision recall
 

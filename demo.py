@@ -184,7 +184,7 @@ def cal_accuracy(data, img_name, mode = "all", partial_flag = False):
   TP_FP_FN = 0
   count_all_pdt = 0
   counter = 0
-  path_of_xml = "/home/jason/Faster-R-CNN/data/VOCdevkit2007/VOC2007/Annotations/"
+  path_of_xml = "/home/ubuntu/Faster-R-CNN/data/VOCdevkit2007/VOC2007/Annotations/"
   filename = os.path.join(path_of_xml, img_name + '.xml')
   tree = ET.parse(filename)
   objs = tree.findall('object')
@@ -538,7 +538,7 @@ if __name__ == '__main__':
       #TP1s +=TP1 
       #TP_FP_FN1s += TP_FP_FN1
       # initial voting_results
-      #print("vdata: "+ str(voting_data))
+      print("vdata: "+ str(voting_data))
       voting_results = {}
       list_of_keys = list(voting_data.keys())
       list_of_values = list(voting_data.values())

@@ -106,7 +106,7 @@ class GradCAM(object):
           
           inds = torch.nonzero(scores[:,j]>thresh).view(-1)
           # if there is det
-          if inds.numel() > 0 and imdb.classes[j][-1] !=")":
+          if inds.numel() > 0 :
             cls_scores = scores[:,j][inds]
             _, order = torch.sort(cls_scores, 0, True)
             if args.class_agnostic:

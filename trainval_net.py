@@ -33,6 +33,8 @@ from model.utils.net_utils import weights_normal_init, save_net, load_net, \
 from model.faster_rcnn.vgg16 import vgg16
 from model.faster_rcnn.resnet import resnet
 
+import cv2
+
 def parse_args():
   """
   Parse input arguments
@@ -192,7 +194,7 @@ if __name__ == '__main__':
 
   # train set
   # -- Note: Use validation set and disable the flipped to enable faster loading.
-  cfg.TRAIN.USE_FLIPPED = True
+  cfg.TRAIN.USE_FLIPPED = False
   cfg.TRAIN.USE_VERTICAL_FLIPPED = False
   cfg.TRAIN.BRIGHTNESS_CHANGE = False
   cfg.TRAIN.ROTATE_90 = False
@@ -360,19 +362,35 @@ if __name__ == '__main__':
           gt_boxes.resize_(data[2].size()).copy_(data[2])
           num_boxes.resize_(data[3].size()).copy_(data[3])
       #print(im_data.shape, im_info.shape, gt_boxes.shape, num_boxes.shape)
+      # im = im_data[0].cpu().numpy().copy()
+      # im = np.transpose(im,(1,2,0))
+      # #print(im.shape, type(im))
+      # #print(gt_boxes[0][0], tuple(gt_boxes[0][0][0:2]))
+      # im = cv2.UMat(im).get()
+      # print(im)
+      # im = cv2.normalize(im, None, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_32F)
+      # print(im)
+      # for j in range(gt_boxes.shape[1]):
+      ##   cv2.rectangle(im,tuple(gt_boxes[0][j][0:2]),tuple(gt_boxes[0][j][2:4]),(255,0,0),2)
+      # cv2.imwrite('test_img/test_%d.jpg'%(step),im)
+      # exit()
       fasterRCNN.zero_grad()
       rois, cls_prob, bbox_pred, \
       rpn_loss_cls, rpn_loss_box, \
       RCNN_loss_cls, RCNN_loss_bbox, \
       rois_label = fasterRCNN(im_data, im_info, gt_boxes, num_boxes)
-      
-      #print(rpn_loss_cls, rpn_loss_box, RCNN_loss_cls, RCNN_loss_bbox)
+      #print(rois_label)
+      #print(rpn_loss_cls.item(), rpn_loss_box.item(), RCNN_loss_cls.item(), RCNN_loss_bbox.item())
       loss = rpn_loss_cls.mean() + rpn_loss_box.mean() \
            + RCNN_loss_cls.mean() + RCNN_loss_bbox.mean()
       training_loss += loss.item()
       training_loss_total += loss.item()
       
-      
+
+
+      # backward
+      optimizer.zero_grad()
+      loss.backward()
       #print(im_data2.shape, im_info2.shape, gt_boxes2.shape, num_boxes2.shape)
       if step == iters_per_epoch-1:        
         for step_test in range(iters_per_epoch_test):
@@ -391,16 +409,15 @@ if __name__ == '__main__':
               RCNN_loss_cls2, RCNN_loss_bbox2, \
               rois_label2 = fasterRCNN(im_data2, im_info2, gt_boxes2, num_boxes2)
               #print(rpn_loss_cls2, rpn_loss_box2, RCNN_loss_cls2, RCNN_loss_bbox2)
-              loss2 = rpn_loss_cls.mean() + rpn_loss_box.mean() \
-                     +RCNN_loss_cls2.mean() + RCNN_loss_bbox2.mean()
-              testing_loss_total += loss2.item()
+              loss2 = rpn_loss_cls.cpu().detach().mean() + rpn_loss_box.cpu().detach().mean() \
+                     +RCNN_loss_cls2.cpu().detach().mean() + RCNN_loss_bbox2.cpu().detach().mean()
+              testing_loss_total += loss2
       
       
       
 
-      # backward
-      optimizer.zero_grad()
-      loss.backward()
+      
+      
       if args.net == "vgg16":
           clip_gradient(fasterRCNN, 10.)
       optimizer.step()
@@ -450,16 +467,27 @@ if __name__ == '__main__':
 
       
     print("total training time: %f" % total_time)
-    #if epoch == args.max_epochs or epoch == args.max_epochs/2:
-    save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
-    save_checkpoint({
-      'session': args.session,
-      'epoch': epoch + 1,
-      'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
-      'optimizer': optimizer.state_dict(),
-      'pooling_mode': cfg.POOLING_MODE,
-      'class_agnostic': args.class_agnostic,
-    }, save_name)
+    if epoch == args.max_epochs:
+      save_name = os.path.join(output_dir, 'faster_rcnn_{}_{}_{}.pth'.format(args.session, epoch, step))
+      save_checkpoint({
+        'session': args.session,
+        'epoch': epoch + 1,
+        'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
+        'optimizer': optimizer.state_dict(),
+        'pooling_mode': cfg.POOLING_MODE,
+        'class_agnostic': args.class_agnostic,
+      }, save_name)
+    if testing_loss_total < min_testing_loss:
+      min_testing_loss = testing_loss_total
+      save_name = os.path.join(output_dir, 'faster_rcnn_{}_min_{}.pth'.format(args.session, step))
+      save_checkpoint({
+        'session': args.session,
+        'epoch': epoch + 1,
+        'model': fasterRCNN.module.state_dict() if args.mGPUs else fasterRCNN.state_dict(),
+        'optimizer': optimizer.state_dict(),
+        'pooling_mode': cfg.POOLING_MODE,
+        'class_agnostic': args.class_agnostic,
+      }, save_name)
     print('save model: {}'.format(save_name))
 
   if args.use_tfboard:

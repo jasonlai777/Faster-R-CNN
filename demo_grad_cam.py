@@ -263,6 +263,9 @@ def main(args):
     pprint.pprint(cfg)
     
     cfg.TRAIN.USE_FLIPPED = False
+    cfg.TRAIN.USE_VERTICAL_FLIPPED = False
+    cfg.TRAIN.BRIGHTNESS_CHANGE = False
+    cfg.TRAIN.ROTATE_90 = False
     imdb, roidb, ratio_list, ratio_index = combined_roidb(args.imdbval_name, False)
     imdb.competition_mode(on=True)
   
@@ -387,7 +390,7 @@ def main(args):
         if isinstance(module, nn.Conv2d) and layer_name[-5:-1] =="conv":
           #print(layer_name)
         
-        #if isinstance(module, nn.Conv2d) and layer_name =="RCNN_base.6.21.conv2":
+        #if isinstance(module, nn.Conv2d) and layer_name =="RCNN_base.6.22.conv2":
           #Grad-CAM
           #get_last_conv_name(fasterRCNN)
           #layer_name = "RCNN_base.6.15.conv3"

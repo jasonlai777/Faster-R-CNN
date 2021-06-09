@@ -54,16 +54,16 @@ class _fasterRCNN(nn.Module):
         rois, rpn_loss_cls, rpn_loss_bbox = self.RCNN_rpn(base_feat, im_info, gt_boxes, num_boxes)
 
         # if it is training phrase, then use ground trubut bboxes for refining
-        #if self.training:
-        #print(rois.shape, gt_boxes.shape)
-        roi_data = self.RCNN_proposal_target(rois, gt_boxes, num_boxes)
-        rois, rois_label, rois_target, rois_inside_ws, rois_outside_ws = roi_data
+        if self.training:
+            #print(rois.shape, gt_boxes.shape)
+            roi_data = self.RCNN_proposal_target(rois, gt_boxes, num_boxes)
+            rois, rois_label, rois_target, rois_inside_ws, rois_outside_ws = roi_data
 
-        rois_label = Variable(rois_label.view(-1).long())
-        rois_target = Variable(rois_target.view(-1, rois_target.size(2)))
-        rois_inside_ws = Variable(rois_inside_ws.view(-1, rois_inside_ws.size(2)))
-        rois_outside_ws = Variable(rois_outside_ws.view(-1, rois_outside_ws.size(2)))
-        '''    
+            rois_label = Variable(rois_label.view(-1).long())
+            rois_target = Variable(rois_target.view(-1, rois_target.size(2)))
+            rois_inside_ws = Variable(rois_inside_ws.view(-1, rois_inside_ws.size(2)))
+            rois_outside_ws = Variable(rois_outside_ws.view(-1, rois_outside_ws.size(2)))
+            
         else:
             rois_label = None
             rois_target = None
@@ -71,7 +71,7 @@ class _fasterRCNN(nn.Module):
             rois_outside_ws = None
             rpn_loss_cls = 0
             rpn_loss_bbox = 0
-        '''    
+            
         rois = Variable(rois)
         # do roi pooling based on predicted rois
         cfg.POOLING_MODE = 'align'############for grad cam
@@ -85,8 +85,8 @@ class _fasterRCNN(nn.Module):
 
         # compute bbox offset
         bbox_pred = self.RCNN_bbox_pred(pooled_feat)
-        #if self.training and not self.class_agnostic:
-        if not self.class_agnostic:
+        if self.training and not self.class_agnostic:
+        # if not self.class_agnostic:
             # select the corresponding columns according to roi labels
             bbox_pred_view = bbox_pred.view(bbox_pred.size(0), int(bbox_pred.size(1) / 4), 4)
             bbox_pred_select = torch.gather(bbox_pred_view, 1, rois_label.view(rois_label.size(0), 1, 1).expand(rois_label.size(0), 1, 4))
@@ -99,16 +99,16 @@ class _fasterRCNN(nn.Module):
         RCNN_loss_cls = 0
         RCNN_loss_bbox = 0
 
-        #if self.training:
-        # classification loss
-        RCNN_loss_cls = F.cross_entropy(cls_score, rois_label)
+        if self.training:
+            # classification loss
+            RCNN_loss_cls = F.cross_entropy(cls_score, rois_label)
 
-        # bounding box regression L1 loss
-        RCNN_loss_bbox = _smooth_l1_loss(bbox_pred, rois_target, rois_inside_ws, rois_outside_ws)
+            # bounding box regression L1 loss
+            RCNN_loss_bbox = _smooth_l1_loss(bbox_pred, rois_target, rois_inside_ws, rois_outside_ws)
 
 
-        cls_prob = cls_prob.view(batch_size, rois.size(1), -1)
-        bbox_pred = bbox_pred.view(batch_size, rois.size(1), -1)
+            cls_prob = cls_prob.view(batch_size, rois.size(1), -1)
+            bbox_pred = bbox_pred.view(batch_size, rois.size(1), -1)
 
         return rois, cls_prob, bbox_pred, rpn_loss_cls, rpn_loss_bbox, RCNN_loss_cls, RCNN_loss_bbox, rois_label
 
